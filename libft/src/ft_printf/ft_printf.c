@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 16:46:10 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/19 14:27:38 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/19 14:27:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
 
-int	main(void)
+int	ft_printf(const char *format, ...)
 {
-	char	**user_input;
+	va_list	args;
+	t_inc	increment;
 
-	while (TRUE)
+	if (format == NULL)
+		return (-1);
+	va_start(args, format);
+	increment.written = 0;
+	increment.i = 0;
+	while (format[increment.i] != '\0')
 	{
-		ft_printf("minishell ~%s $ ", ft_strnstr(getenv("PWD"), getenv("HOME"),
-				ft_strlen(getenv("PWD"))) + ft_strlen(getenv("HOME")));
-		user_input = ft_split(ft_get_next_line(0), ' ');
+		if (format[increment.i] == '%')
+			action(format, &args, &increment);
+		else
+		{
+			increment.written += write (1, &format[increment.i], 1);
+			increment.i++;
+		}
 	}
+	return (increment.written);
 }

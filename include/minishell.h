@@ -13,4 +13,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_env
+{
+	char	*pwd;
+	char	*oldpwd;
+	char	*home;
+	char	*user;
+}	t_env;
+
 #endif /* MINISHELL_H */

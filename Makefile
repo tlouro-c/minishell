@@ -9,7 +9,8 @@ SRC_DIR = ./src
 OBJ_DIR = ./obj
 LIBFT_DIR = ./libft
 
-SRC_FILES =  $(SRC_DIR)/main.c
+SRC_FILES =  $(SRC_DIR)/main.c \
+			 $(SRC_DIR)/built_ins.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 

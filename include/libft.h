@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/18 23:38:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/19 14:50:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,90 @@
 # define TRUE 1
 
 typedef int	t_bool;
+
+/* -------------------------------------------------------------------------- */
+/*                            FT_PRINTF_STRUCTURES                            */
+/* -------------------------------------------------------------------------- */
+
+typedef struct s_inc
+{
+	size_t	i;
+	size_t	written;
+}	t_inc;
+
+typedef struct s_flags_c_p
+{
+	int		width;
+	t_bool	hifen;
+	t_bool	zero;
+}	t_flags_c_p;
+
+typedef struct s_flags_s
+{
+	int		width;
+	int		precision;
+	t_bool	precision_on;
+	t_bool	hifen;
+	t_bool	zero;
+}	t_flags_s;
+
+typedef struct s_flags_x
+{
+	int		width;
+	int		precision;
+	t_bool	precision_on;
+	t_bool	hifen;
+	t_bool	zero;
+	t_bool	hash;
+	t_bool	upper_case;
+}	t_flags_x;
+
+typedef struct s_flags_i_d
+{
+	int		width;
+	int		precision;
+	t_bool	precision_on;
+	t_bool	hifen;
+	t_bool	zero;
+	t_bool	plus;
+	t_bool	space;
+	t_bool	written_minus;
+}	t_flags_i_d;
+
+typedef struct s_flags_u
+{
+	int		width;
+	int		precision;
+	t_bool	precision_on;
+	t_bool	hifen;
+	t_bool	zero;
+}	t_flags_u;
+
+/* -------------------------------------------------------------------------- */
+/*                            "ft_print" functions                            */
+/* -------------------------------------------------------------------------- */
+
+int				ft_printf(const char *format, ...);
+
+void			action(const char *format, va_list *args, t_inc *incrementors);
+char			find_specifier(const char *format, t_inc *incrementors);
+t_bool			isflag(char c);
+int				apply_c(const char *format, va_list *args, int pos);
+int				apply_s(const char *format, va_list *args, int pos);
+int				apply_p(const char *format, va_list *args, int pos);
+int				apply_x(const char *format, va_list *args, int pos,
+					char specifier);
+int				apply_i_d(const char *format, va_list *args, int pos);
+int				apply_u(const char *format, va_list *args, int pos);
+int				write_c_x_times(char c, int x);
+void			alloc_error_exit(int error_value, va_list *args);
+int				number_len(int number);
+int				number_len_u(unsigned int number);
+int				hexa_len(unsigned long n, int base_size, char *base);
+int				ft_putnbr_bases(unsigned long n, int base_size, char *base);
+int				invalid_specifier_or_special(char specifier, va_list *args);
+void			putnbr_d_i(long n);
+int				quick_edge(int n, t_flags_i_d flags);
 
 /* -------------------------------------------------------------------------- */
 /*                               "is" functions                               */
@@ -83,6 +167,8 @@ char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strdup(const char *s1);
+char			*ft_strnstr(const char *haystack, const char *needle,
+					size_t len);
 
 /* -------------------------------------------------------------------------- */
 /*                              "free" functions                              */

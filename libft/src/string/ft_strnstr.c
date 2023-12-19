@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 16:46:10 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/19 14:50:17 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/19 14:50:18 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
 
-int	main(void)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	**user_input;
+	size_t	i;
+	size_t	j;
+	size_t	k;
 
-	while (TRUE)
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	else if (len == 0)
+		return (NULL);
+	i = 0;
+	while (haystack[i] != '\0' && i < len)
 	{
-		ft_printf("minishell ~%s $ ", ft_strnstr(getenv("PWD"), getenv("HOME"),
-				ft_strlen(getenv("PWD"))) + ft_strlen(getenv("HOME")));
-		user_input = ft_split(ft_get_next_line(0), ' ');
+		j = 0;
+		k = i;
+		while (needle[j] == haystack[k] && needle[j] != '\0' && k < len)
+		{
+			j++;
+			k++;
+		}
+		if (needle[j] == '\0')
+			return ((char *)&haystack[i]);
+		i++;
 	}
+	return (NULL);
 }
