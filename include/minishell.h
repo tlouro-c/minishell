@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/18 23:39:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/20 23:13:09 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define MINISHELL_H
 
 # include <readline/readline.h>
+# include <readline/history.h>
+
+typedef struct s_shell_enviroment
+{
+	char	**variables;
+	char	*prompt;
+	int		last_exit_status;
+}			t_shell_enviroment;
 
 /* -------------------------------------------------------------------------- */
 /*                                  built_ins                                 */
@@ -40,7 +48,7 @@ void	error_allocating_memory(void);
 /* -------------------------------------------------------------------------- */
 
 int		ft_str_arr_size(char **strarr);
-void	user_prompt(char **env_var);
+char	*user_prompt(char **env_var);
 
 /* -------------------------------------------------------------------------- */
 /*                              manage_user_input                             */
