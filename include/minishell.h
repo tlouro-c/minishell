@@ -17,7 +17,7 @@
 /*                                  built_ins                                 */
 /* -------------------------------------------------------------------------- */
 
-void	pwd(void);
+void	pwd(char **enviroment_variables);
 void	env(char **enviroment_variables);
 
 /* -------------------------------------------------------------------------- */
@@ -44,6 +44,6 @@ void	user_prompt(char **env_var);
 /*                              manage_user_input                             */
 /* -------------------------------------------------------------------------- */
 
-char	*find_env_in_input(char *input, char **env_var, int last_exit_status);
+char	*swap_env_in_input(char *input, char **env_var, int last_exit_status);
 
 #endif /* MINISHELL_H */
