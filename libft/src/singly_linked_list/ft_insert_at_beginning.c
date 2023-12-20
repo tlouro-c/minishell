@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   ft_insert_at_beginning.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 22:50:36 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/19 17:45:01 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/19 17:57:55 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
 
-void	pwd(void)
+t_node	*ft_insert_at_beginning(t_node *list, void *content)
 {
-	ft_printf("%s\n", getenv("PWD"));
-}
+	t_node	*new;
 
-void	env(char **enviroment_variables)
-{
-	int	i;
-
-	i = 0;
-	while (enviroment_variables[i] != NULL)
-		ft_printf("%s\n", enviroment_variables[i++]);
+	new = ft_create_node(content);
+	if (new == NULL)
+		return (NULL);
+	new -> next = list;
+	list = new;
+	return (new);
 }

@@ -10,7 +10,11 @@ OBJ_DIR = ./obj
 LIBFT_DIR = ./libft
 
 SRC_FILES =  $(SRC_DIR)/main.c \
-			 $(SRC_DIR)/built_ins.c
+			 $(SRC_DIR)/built_ins.c \
+			 $(SRC_DIR)/manage_env.c \
+			 $(SRC_DIR)/manage_user_input.c \
+			 $(SRC_DIR)/error_msg.c \
+			 $(SRC_DIR)/utils.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 

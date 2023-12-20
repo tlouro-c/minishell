@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 22:50:36 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/19 22:50:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	pwd(void)
+int	ft_str_arr_size(char **strarr)
 {
-	ft_printf("%s\n", getenv("PWD"));
+	int	size;
+
+	if (strarr == NULL)
+		return (0);
+	size = 0;
+	while (strarr[size] != NULL)
+		size++;
+	return (size);
 }
 
-void	env(char **enviroment_variables)
+void	user_prompt(char **env_var)
 {
-	int	i;
-
-	i = 0;
-	while (enviroment_variables[i] != NULL)
-		ft_printf("%s\n", enviroment_variables[i++]);
+	ft_printf("minishell ~%s $ ", ft_strnstr(ft_getenv("PWD", env_var),
+			ft_getenv("HOME", env_var), ft_strlen(ft_getenv("PWD", env_var)))
+		+ ft_strlen(ft_getenv("HOME", env_var)));
 }

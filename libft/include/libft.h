@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 14:50:58 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/20 00:47:44 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # define TRUE 1
 
 typedef int	t_bool;
+
+typedef struct s_node
+{
+	void			*content;
+	struct s_node	*next;
+}	t_node;
 
 /* -------------------------------------------------------------------------- */
 /*                            FT_PRINTF_STRUCTURES                            */
@@ -169,6 +175,7 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strdup(const char *s1);
 char			*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
 
 /* -------------------------------------------------------------------------- */
 /*                              "free" functions                              */
@@ -182,6 +189,7 @@ char			*ft_free_str_return(char *s);
 /* -------------------------------------------------------------------------- */
 
 char			*ft_get_next_line(int fd);
+char			*ft_get_next_line_v2(int fd);
 
 /* -------------------------------------------------------------------------- */
 /*                               "mem" functions                              */
@@ -195,5 +203,12 @@ void			*ft_memset(void *b, int c, size_t len);
 /* -------------------------------------------------------------------------- */
 
 float			ft_rad(float deg);
+
+/* -------------------------------------------------------------------------- */
+/*                       "singly_linked_list" functions                       */
+/* -------------------------------------------------------------------------- */
+
+t_node			*ft_create_node(void *content);
+t_node			*ft_insert_at_beginning(t_node *list, void *content);
 
 #endif /* LIBFT_H */

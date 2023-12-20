@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   error_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/19 22:50:36 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/19 21:56:21 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
-void	pwd(void)
+void	error_allocating_memory(void)
 {
-	ft_printf("%s\n", getenv("PWD"));
-}
-
-void	env(char **enviroment_variables)
-{
-	int	i;
-
-	i = 0;
-	while (enviroment_variables[i] != NULL)
-		ft_printf("%s\n", enviroment_variables[i++]);
+	ft_putstr_fd("Error: memory allocation failed\n", 2);
+	exit(10);
 }

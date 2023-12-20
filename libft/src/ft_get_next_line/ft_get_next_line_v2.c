@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_next_line.c                                 :+:      :+:    :+:   */
+/*   ft_get_next_line_v2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:01:27 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/20 00:39:54 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/20 00:48:15 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	ft_strlenm(char const *s1)
 	while (s1[i] != '\0')
 	{
 		if (s1[i] == '\n')
-			return (i + 1);
+			return (i);
 		i++;
 	}
 	return (i);
 }
 
-static char	*ft_strjoinm(char const *s1, char const *s2)
+static char	*ft_strjoinm(char const *s1, char const *s2, int *flag)
 {
 	char	*s3;
 	int		j;
@@ -44,9 +44,12 @@ static char	*ft_strjoinm(char const *s1, char const *s2)
 	i = 0;
 	while (s2 != NULL && s2[i] != '\0')
 	{
-		s3[j++] = s2[i++];
-		if (s2[i - 1] == '\n')
+		if (s2[i] == '\n')
+		{
+			*flag = 1;
 			break ;
+		}
+		s3[j++] = s2[i++];
 	}
 	s3[j] = '\0';
 	return (s3);
@@ -72,24 +75,18 @@ static void	buffer_clear(char *buffer)
 static int	line_updater(char **line, char buffer[])
 {
 	char	*join;
-	int		i;
+	int		flag;
 
-	join = ft_strjoinm(*line, buffer);
+	flag = 0;
+	join = ft_strjoinm(*line, buffer, &flag);
 	free(*line);
 	*line = join;
 	if (*line == NULL)
 		return (-1);
-	i = 0;
-	while ((*line)[i] != '\0')
-	{
-		if ((*line)[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
+	return (flag);
 }
 
-char	*ft_get_next_line(int fd)
+char	*ft_get_next_line_v2(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
