@@ -24,7 +24,7 @@ libft:
 	cd $(LIBFT_DIR) && make
 
 $(NAME): $(OBJ_FILES)
-	$(CC) $^ -o $@ $(LIBFT)
+	$(CC) $^ -o $@ $(LIBFT) -lreadline
 
 # Make sure dir exists
 $(OBJ_FILES): | $(OBJ_DIR)
