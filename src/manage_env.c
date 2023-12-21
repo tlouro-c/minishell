@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/20 23:19:01 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:59:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_strncmp_env(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-char	**get_all_env(void)
+char	**ft_get_all_env(void)
 {
 	extern char	**environ;
 	char		**env_var;
@@ -40,10 +40,7 @@ char	**get_all_env(void)
 		error_allocating_memory();
 	while (environ[i] != NULL)
 	{
-		if (ft_strncmp_env(environ[i], "SHELL", 5) == 0)
-			env_var[i] = ft_strdup("SHELL=/bin/minishell");
-		else
-			env_var[i] = ft_strdup(environ[i]);
+		env_var[i] = ft_strdup(environ[i]);
 		if (env_var[i] == NULL)
 		{
 			ft_free_str_arr(env_var, i);
@@ -71,4 +68,22 @@ char	*ft_getenv(char *key, char **env_var)
 		i++;
 	}
 	return ("");
+}
+
+int	ft_get_indexenv(char *key, char **env_var)
+{
+	int	index;
+	int	key_len;
+
+	if (key == NULL || env_var == NULL)
+		return (-1);
+	key_len = ft_strlen(key);
+	index = 0;
+	while (env_var[index] != NULL)
+	{
+		if (ft_strncmp_env(env_var[index], key, key_len) == 0)
+			return (index);
+		index++;
+	}
+	return (-1);
 }

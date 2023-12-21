@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/20 23:13:09 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:22:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ typedef struct s_shell_enviroment
 /*                                  built_ins                                 */
 /* -------------------------------------------------------------------------- */
 
-void	pwd(char **enviroment_variables);
-void	env(char **enviroment_variables);
+void	pwd(t_shell_enviroment *shell_enviroment);
+void	env(t_shell_enviroment *shell_enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                 manage_env                                 */
 /* -------------------------------------------------------------------------- */
 
-char	**get_all_env(void);
+char	**ft_get_all_env(void);
 char	*ft_getenv(char *key, char **env_var);
+int		ft_get_indexenv(char *key, char **env_var);
 
 /* -------------------------------------------------------------------------- */
 /*                                  error_msg                                 */

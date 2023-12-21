@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/20 17:27:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/20 23:27:20 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static char	*swap_enviroment_variable(char *input, char **env_var, int index)
 	return (input);
 }
 
-/*
-	* Finds a $ sign in the input and swaps it for the 
+/*@brief
+	Finds a $ sign in the input and swaps it for the 
 	respective enviroment variable (it exists) or the last exit status
 */
 char	*swap_env_in_input(char *input, char **env_var, int last_exit_status)
