@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/21 15:22:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:01:19 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,45 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "libft.h"
 
-typedef struct s_shell_enviroment
+typedef struct s_enviroment
 {
-	char	**variables;
-	char	*prompt;
-	int		last_exit_status;
-}			t_shell_enviroment;
+	t_node	*variables;
+	char		*prompt;
+	int			last_exit_status;
+}	t_enviroment;
 
 /* -------------------------------------------------------------------------- */
 /*                                  built_ins                                 */
 /* -------------------------------------------------------------------------- */
 
-void	pwd(t_shell_enviroment *shell_enviroment);
-void	env(t_shell_enviroment *shell_enviroment);
+void	pwd(void);
+void	env(t_node *enviroment_variables);
 
 /* -------------------------------------------------------------------------- */
 /*                                 manage_env                                 */
 /* -------------------------------------------------------------------------- */
 
-char	**ft_get_all_env(void);
-char	*ft_getenv(char *key, char **env_var);
-int		ft_get_indexenv(char *key, char **env_var);
+t_node	*load_enviroment_variables(void);
+char	*ft_getenv(char *key, t_node *enviroment_variables);
 
 /* -------------------------------------------------------------------------- */
 /*                                  error_msg                                 */
 /* -------------------------------------------------------------------------- */
 
-void	error_allocating_memory(void);
+void	error_allocating_memory(t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                    utils                                   */
 /* -------------------------------------------------------------------------- */
 
-int		ft_str_arr_size(char **strarr);
-char	*user_prompt(char **env_var);
+char	*user_prompt(t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                              manage_user_input                             */
 /* -------------------------------------------------------------------------- */
 
-char	*swap_env_in_input(char *input, char **env_var, int last_exit_status);
+char	*swap_env_in_input(char *input, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */

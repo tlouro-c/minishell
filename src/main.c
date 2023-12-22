@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/21 15:20:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:02:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,15 @@
 
 int	main(void) 
 {
-	t_shell_enviroment	shell_enviroment;
+	t_enviroment	enviroment;
 	char				*user_input;
-	
-	shell_enviroment.last_exit_status = 0;
-	shell_enviroment.variables = ft_get_all_env();
+
+	enviroment.variables = load_enviroment_variables();
 	while (TRUE)
 	{
-		shell_enviroment.prompt = user_prompt(shell_enviroment.variables);
-		user_input = readline(shell_enviroment.prompt);
+		enviroment.prompt = user_prompt(&enviroment);
+		user_input = readline(enviroment.prompt);
 		add_history(user_input);
-		// ft_printf("%s\n", swap_env_in_input(user_input, shell_enviroment.variables, shell_enviroment.last_exit_status));
-		// if (ft_strcmp(user_input, "env") == 0)
-		// 	env(shell_enviroment.variables);
-
-		// ft_free_str_arr(shell_enviroment.variables, ft_str_arr_size(shell_enviroment.variables));
-		// free(shell_enviroment.prompt);
-		// exit(1);
+		
 	}
 }

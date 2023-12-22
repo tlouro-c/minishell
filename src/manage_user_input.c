@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/20 23:27:20 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/21 22:47:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static char	*swap_exit_status(char *input, int last_exit_status, int index)
 	return (input);
 }
 
-static char	*swap_enviroment_variable(char *input, char **env_var, int index)
+static char	*swap_enviroment_variable(char *input, t_node *variables, int index)
 {
 	char	*trimmed_input;
 	char	*env_value;
 
 	trimmed_input = ft_substr(input, 0, index);
-	env_value = ft_getenv(&input[index + 1], env_var);
+	env_value = ft_getenv(&input[index + 1], variables);
 	free(input);
 	input = ft_strjoin(trimmed_input, env_value);
 	free(trimmed_input);
@@ -59,7 +59,7 @@ static char	*swap_enviroment_variable(char *input, char **env_var, int index)
 	Finds a $ sign in the input and swaps it for the 
 	respective enviroment variable (it exists) or the last exit status
 */
-char	*swap_env_in_input(char *input, char **env_var, int last_exit_status)
+char	*swap_env_in_input(char *input, t_enviroment *enviroment)
 {
 	int		i;
 
@@ -70,13 +70,13 @@ char	*swap_env_in_input(char *input, char **env_var, int last_exit_status)
 		{
 			if (input[i + 1] == '?')
 			{
-				input = swap_exit_status(input, last_exit_status, i);
+				input = swap_exit_status(input, enviroment->last_exit_status, i);
 				if (input == NULL)
 					return (NULL);
 			}
 			else
 			{
-				input = swap_enviroment_variable(input, env_var, i);
+				input = swap_enviroment_variable(input, enviroment->variables, i);
 				return (input);
 			}
 		}
