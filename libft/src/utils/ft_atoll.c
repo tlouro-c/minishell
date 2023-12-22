@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 14:49:00 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 17:06:07 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/22 17:01:09 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/22 17:06:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long	ft_atol(const char *s)
+long long	ft_atoll(const char *s)
 {
-	long	n;
-	int		i;
-	int		negative;
+	long long	n;
+	int			i;
+	int			negative;
 
 	if (s == NULL)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 15:36:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:02:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int				ft_abs(int n);
 char			*ft_itoa(int value, char *buffer, int base);
 int				ft_atoi(const char *s);
 long			ft_atol(const char *s);
+long long		ft_atoll(const char *s);
 
 /* -------------------------------------------------------------------------- */
 /*                             "sorting" functions                            */
