@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/21 23:19:44 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:36:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,9 @@ float			ft_rad(float deg);
 
 t_node			*ft_insert_at_beginning(t_node **list, void *content);
 void			ft_print_list(t_node *list, char format_specifier);
+void			ft_remove_at_beggining(t_node **list);
+void			ft_remove_if(t_node **list, void *ref,
+					int (*cmp)(void *content, void *ref));
+size_t			ft_list_size(t_node *list);
 
 #endif /* LIBFT_H */

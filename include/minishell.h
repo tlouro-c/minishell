@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 14:01:19 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:53:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef struct s_enviroment
 {
 	t_node	*variables;
+	char	**variables_array;
 	char		*prompt;
 	int			last_exit_status;
 }	t_enviroment;
@@ -37,6 +38,9 @@ void	env(t_node *enviroment_variables);
 
 t_node	*load_enviroment_variables(void);
 char	*ft_getenv(char *key, t_node *enviroment_variables);
+char	**create_enviroment_variables_array(t_enviroment *enviroment);
+char	**updated_enviroment_variables_array(t_enviroment *enviroment);
+int		ft_keycmp(char *keyvalue, char *key);
 
 /* -------------------------------------------------------------------------- */
 /*                                  error_msg                                 */

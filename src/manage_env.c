@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 13:32:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:53:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,34 @@ t_node	*load_enviroment_variables(void)
 	return (variables);
 }
 
-static int	ft_foundpair(char *keyvalue, char *key)
+char	**create_enviroment_variables_array(t_enviroment *enviroment)
+{
+	t_node	*tmp;
+	char	**enviroment_variables_array;
+	int		i;
+
+	enviroment_variables_array = (char **)ft_calloc(
+		ft_list_size(enviroment -> variables), sizeof(char *));
+	if (enviroment_variables_array == NULL)
+		error_allocating_memory(enviroment);
+	tmp = enviroment -> variables;
+	i = 0;
+	while (tmp != NULL)
+	{
+		enviroment_variables_array[i] = tmp -> content;
+		i++;
+		tmp = tmp -> content;
+	}
+	return (enviroment_variables_array);
+}
+
+char	**updated_enviroment_variables_array(t_enviroment *enviroment)
+{
+	free(enviroment -> variables_array);
+	return (create_enviroment_variables_array(enviroment));
+}
+
+int	ft_keycmp(char *keyvalue, char *key)
 {
 	int	i;
 
@@ -48,7 +75,7 @@ char	*ft_getenv(char *key, t_node *enviroment_variables)
 	tmp = enviroment_variables;
 	while (tmp != NULL)
 	{
-		if (ft_foundpair(tmp->content, key))
+		if (ft_keycmp(tmp->content, key))
 			return (tmp->content + ft_strlen(key) + 1);
 		tmp = tmp->next;
 	}
