@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 13:04:52 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 14:21:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 		i++;
 	}
 	enviroment->variables = variables;
-	enviroment->variables_array = create_enviroment_variables_array(enviroment);
+	enviroment->variables_array = NULL;
 }
 
-char	**create_enviroment_variables_array(t_enviroment *enviroment)
+static char	**create_enviroment_variables_array(t_enviroment *enviroment)
 {
 	t_node	*tmp;
 	char	**enviroment_variables_array;

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 13:12:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 14:23:20 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(void)
 		enviroment.prompt = user_prompt(&enviroment);
 		user_input = readline(enviroment.prompt);
 		add_history(user_input);
-		
+		free_enviroment(&enviroment);
+		exit(0);
 	}
 }
