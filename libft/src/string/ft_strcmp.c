@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:31:03 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 16:35:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 14:31:46 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
-	if (s1 == NULL & s2 == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (0);
 	else if (s1 == NULL && s2 != NULL)
 		return (-*s2);
