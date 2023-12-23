@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 12:58:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:30:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 	else
 	{
-		free(enviroment);
-		//! LACKING COMMANDS STRUCTURE TO BE FREED
+		free_enviroment(enviroment);
 		exit (exit_status % 256);
 	}
 }

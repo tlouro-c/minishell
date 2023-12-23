@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 12:57:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 20:30:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	free_enviroment(t_enviroment *enviroment)
 			ft_strarr_size(enviroment->variables_array));
 	if (enviroment->prompt != NULL)
 		free(enviroment->prompt);
+	//! LACKING COMMANDS STRUCTURE TO BE FREED
 }
 
-//! THIS FUNCTION HAS TO BE CHANGED FOR VERSATILITY
 void	error_allocating_memory(t_enviroment *enviroment)
 {
 	free_enviroment(enviroment);
