@@ -14,7 +14,7 @@ SRC_FILES =  $(SRC_DIR)/main.c \
 			 $(SRC_DIR)/manage_env.c \
 			 $(SRC_DIR)/manage_env2.c \
 			 $(SRC_DIR)/manage_user_input.c \
-			 $(SRC_DIR)/error_msg.c \
+			 $(SRC_DIR)/exit_utils.c \
 			 $(SRC_DIR)/utils.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))

@@ -6,14 +6,14 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 15:53:34 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 13:04:52 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-t_node	*load_enviroment_variables(void)
+void	load_enviroment_variables(t_enviroment *enviroment)
 {
 	t_node		*variables;
 	extern char	**environ;
@@ -23,10 +23,12 @@ t_node	*load_enviroment_variables(void)
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		ft_insert_at_beginning(&variables, (char *)ft_strdup(environ[i]));
+		if (ft_insert_at_beginning(&variables, ft_strdup(environ[i])) == NULL)
+			error_allocating_memory(enviroment);
 		i++;
 	}
-	return (variables);
+	enviroment->variables = variables;
+	enviroment->variables_array = create_enviroment_variables_array(enviroment);
 }
 
 char	**create_enviroment_variables_array(t_enviroment *enviroment)
@@ -36,7 +38,7 @@ char	**create_enviroment_variables_array(t_enviroment *enviroment)
 	int		i;
 
 	enviroment_variables_array = (char **)ft_calloc(
-		ft_list_size(enviroment -> variables), sizeof(char *));
+			ft_list_size(enviroment -> variables) + 1, sizeof(char *));
 	if (enviroment_variables_array == NULL)
 		error_allocating_memory(enviroment);
 	tmp = enviroment -> variables;
@@ -45,8 +47,9 @@ char	**create_enviroment_variables_array(t_enviroment *enviroment)
 	{
 		enviroment_variables_array[i] = tmp -> content;
 		i++;
-		tmp = tmp -> content;
+		tmp = tmp -> next;
 	}
+	enviroment_variables_array[i] = NULL;
 	return (enviroment_variables_array);
 }
 
@@ -61,6 +64,8 @@ int	ft_keycmp(char *keyvalue, char *key)
 	int	i;
 
 	i = 0;
+	if (keyvalue == NULL || key == NULL)	
+		return (0);
 	while (keyvalue[i] != '\0' && key[i] != '\0' && keyvalue[i] == key[i])
 		i++;
 	return (keyvalue[i] == '=');
@@ -69,7 +74,7 @@ int	ft_keycmp(char *keyvalue, char *key)
 char	*ft_getenv(char *key, t_node *enviroment_variables)
 {
 	t_node	*tmp;
-	
+
 	if (key == NULL || enviroment_variables == NULL)
 		return ("");
 	tmp = enviroment_variables;

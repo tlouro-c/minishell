@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 17:34:05 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:58:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,6 @@ void	cmd_echo(char **args)
 		ft_putchar_fd('\n', 1);
 }
 
-static int	ft_atoi_exit(char *s)
-{
-	int	n;
-	int	i;
-	int	negative;
-
-	if (s == NULL)
-		return (0);
-	n = 0;
-	i = 0;
-	while (ft_isspace(s[i]))
-		i++;
-	negative = s[i] == '-';
-	if (s[i] == '-' || s[i] == '+')
-		i++;
-	while (s[i] != '\0' && ft_isdigit(s[i]))
-	{
-		n = n * 10 + (s[i++] - '0');
-		if (n >= 256)
-			n = 0 + (n - 256);
-	}
-	if (negative)
-		return (n * -1);
-	return (n);
-}
-
 void	cmd_exit(char **args, t_enviroment *enviroment)
 {
 	long long	exit_status;
@@ -88,8 +62,8 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 	else
 	{
-		(void)enviroment;
-		//! FREE EVERYTHING BEFORE EXTING
-		exit (ft_atoi_exit(args[1]));
+		free(enviroment);
+		//! LACKING COMMANDS STRUCTURE TO BE FREED
+		exit (exit_status % 256);
 	}
 }

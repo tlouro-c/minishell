@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 17:02:06 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/23 12:05:56 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,6 @@ void			ft_remove_at_beggining(t_node **list);
 void			ft_remove_if(t_node **list, void *ref,
 					int (*cmp)(void *content, void *ref));
 size_t			ft_list_size(t_node *list);
+void			ft_clear_list(t_node **list);
 
 #endif /* LIBFT_H */
