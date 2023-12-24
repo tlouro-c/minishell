@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 14:21:45 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/24 12:33:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,20 @@ char	**updated_enviroment_variables_array(t_enviroment *enviroment)
 	return (create_enviroment_variables_array(enviroment));
 }
 
-int	ft_keycmp(char *keyvalue, char *key)
+int	ft_keycmp(void *keyvalue, void *key)
 {
+	char	*char_keyvalue;
+	char 	*char_key;
 	int	i;
 
+	char_keyvalue = (char *)keyvalue;
+	char_key = (char *)key;
 	i = 0;
-	if (keyvalue == NULL || key == NULL)	
+	if (char_keyvalue == NULL || char_key == NULL)	
 		return (0);
-	while (keyvalue[i] != '\0' && key[i] != '\0' && keyvalue[i] == key[i])
+	while (char_keyvalue[i] != '\0' && char_key[i] != '\0' && char_keyvalue[i] == char_key[i])
 		i++;
-	return (keyvalue[i] == '=');
+	return (char_keyvalue[i] != '=');
 }
 
 char	*ft_getenv(char *key, t_node *enviroment_variables)
@@ -80,7 +84,7 @@ char	*ft_getenv(char *key, t_node *enviroment_variables)
 	tmp = enviroment_variables;
 	while (tmp != NULL)
 	{
-		if (ft_keycmp(tmp->content, key))
+		if (ft_keycmp(tmp->content, key) == 0)
 			return (tmp->content + ft_strlen(key) + 1);
 		tmp = tmp->next;
 	}

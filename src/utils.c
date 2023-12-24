@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 17:27:19 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/24 11:14:43 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,10 @@ size_t ft_strarr_size(char **strarr)
 	return (size);
 }
 
+// void	execute_cmd(t_enviroment *enviroment)
+// {
+// 	//!TODO
+// 	enviroment -> variables_array
+// 		= updated_enviroment_variables_array(enviroment);
+// 	execve("path", a, enviroment -> variables_array);
+// }
