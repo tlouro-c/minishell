@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 20:30:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/25 01:01:47 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,4 @@ void	error_allocating_memory(t_enviroment *enviroment)
 	ft_putstr_fd("Error: memory allocation failed\n", 2);
 	exit(10);
 }
+

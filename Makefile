@@ -11,11 +11,13 @@ LIBFT_DIR = ./libft
 
 SRC_FILES =  $(SRC_DIR)/main.c \
 			 $(SRC_DIR)/built_ins.c \
+			 $(SRC_DIR)/built_ins2.c \
 			 $(SRC_DIR)/manage_env.c \
 			 $(SRC_DIR)/manage_env2.c \
 			 $(SRC_DIR)/manage_user_input.c \
 			 $(SRC_DIR)/exit_utils.c \
-			 $(SRC_DIR)/utils.c
+			 $(SRC_DIR)/utils.c \
+			 $(SRC_DIR)/error_messages.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 

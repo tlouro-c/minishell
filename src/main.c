@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/24 12:31:32 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/25 01:19:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@ int	main(void)
 	char				*user_input;
 
 	load_enviroment_variables(&enviroment);
-	ft_print_list(enviroment.variables, 's');
 	while (TRUE)
 	{
 		enviroment.prompt = user_prompt(&enviroment);
 		user_input = readline(enviroment.prompt);
 		add_history(user_input);
-		if (ft_strcmp(user_input, "unset") == 0)
-			cmd_unset("test", &enviroment);
-		ft_print_list(enviroment.variables, 's');
+		char	**test = ft_split(user_input, ' ');
+		if (ft_strcmp(test[0], "export") == 0)
+			cmd_export(test, &enviroment);
+		if (ft_strcmp(test[0], "unset") == 0)
+			cmd_unset(test, &enviroment);
 		// free_enviroment(&enviroment);
 		// exit(0);
 	}
