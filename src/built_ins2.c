@@ -6,35 +6,80 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/25 01:28:03 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:36:16 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	ft_print_list_exported(t_node *list, char format_specifier)
+static void	swap_strings(char **s1, char **s2)
+{
+	char	*tmp;
+
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
+}
+
+static void	bubble_sort(char **arr, int size)
+{
+	int	i;
+	int	j;
+	int	swap_count;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		j = 0;
+		swap_count = 0;
+		while (j < size - i - 1)
+		{
+			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
+			{
+				swap_count++;
+				swap_strings(&arr[j], &arr[j + 1]);
+			}
+			j++;
+		}
+		if (swap_count == 0)
+			return ;
+		i++;
+	}
+}
+
+static void	ft_print_list_exported(t_enviroment *enviroment)
 {
 	t_node	*tmp;
+	char	**arr;
+	int		i;
 
-	tmp = list;
-	while (tmp != NULL)
+	arr = (char **)ft_calloc(enviroment->variables->size + 1, sizeof(char *));
+	if (!arr)
+		error_allocating_memory(enviroment);
+	tmp = enviroment->variables->begin;
+	i = 0;
+	while (tmp)
 	{
-		ft_printf("declare -x ");
-		if (format_specifier == 'i' || format_specifier == 'd')
-			ft_printf("%i\n", tmp->content);
-		else if (format_specifier == 's')
-			ft_printf("%s\n", tmp->content);
+		arr[i++] = ft_strdup((const char *)tmp -> value);
 		tmp = tmp -> next;
 	}
+	bubble_sort(arr, enviroment->variables->size);
+	i = 0;
+	while (arr[i])
+	{
+		ft_printf("declare -x ");
+		ft_printf("%s\n", arr[i++]);
+	}
+	ft_free_arr((void **)arr);
 }
 
 void	cmd_export(char **cmd, t_enviroment *enviroment)
 {
 	int	i;
-	
+
 	if (cmd[1] == NULL)
-		ft_print_list_exported(enviroment -> variables, 's');
+		ft_print_list_exported(enviroment);
 	else
 	{
 		if (cmd[1][0] == '-')
@@ -50,10 +95,14 @@ void	cmd_export(char **cmd, t_enviroment *enviroment)
 				invalid_identifier(cmd[0], cmd[i]);
 				continue ;
 			}
-			if (ft_exists_in_list(&enviroment -> variables, cmd[i], ft_keycmp))
-				ft_remove_if(&enviroment -> variables, cmd[i], ft_keycmp);
-			ft_insert_at_beginning(&enviroment -> variables, cmd[i]);
+			enviroment->variables->removeif
+				(enviroment->variables, cmd[i], ft_keycmp);
+			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);
 		}
-		return ;
 	}
+}
+
+void	cmd_cmd(t_enviroment *enviroment)
+{
+	
 }

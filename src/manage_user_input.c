@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/21 22:47:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:24:07 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*swap_exit_status(char *input, int last_exit_status, int index)
 	return (input);
 }
 
-static char	*swap_enviroment_variable(char *input, t_node *variables, int index)
+static char	*swap_enviroment_variable(char *input, t_list *variables, int index)
 {
 	char	*trimmed_input;
 	char	*env_value;
@@ -70,13 +70,15 @@ char	*swap_env_in_input(char *input, t_enviroment *enviroment)
 		{
 			if (input[i + 1] == '?')
 			{
-				input = swap_exit_status(input, enviroment->last_exit_status, i);
+				input = swap_exit_status(
+						input, enviroment->last_exit_status, i);
 				if (input == NULL)
 					return (NULL);
 			}
 			else
 			{
-				input = swap_enviroment_variable(input, enviroment->variables, i);
+				input = swap_enviroment_variable(
+						input, enviroment->variables, i);
 				return (input);
 			}
 		}

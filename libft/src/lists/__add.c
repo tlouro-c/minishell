@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_utils.c                                       :+:      :+:    :+:   */
+/*   __add.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:23:34 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/26 23:22:59 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:15:03 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
-void	free_enviroment(t_enviroment *enviroment)
+t_node	*__add(t_list *this, void *value)
 {
-	enviroment->variables->destroy(enviroment->variables);
-	if (enviroment->prompt != NULL)
-		free(enviroment->prompt);
-	//! LACKING COMMANDS STRUCTURE TO BE FREED
-}
+	t_node	*new;
 
-void	error_allocating_memory(t_enviroment *enviroment)
-{
-	free_enviroment(enviroment);
-	ft_putstr_fd("Error: memory allocation failed\n", 2);
-	exit(10);
+	new = node_innit();
+	if (!new)
+		return (NULL);
+	new -> value = value;
+	if (this -> begin == NULL)
+		this -> begin = new;
+	else
+		this -> end -> next = new;
+	this -> end = new;
+	this -> size++;
+	((t_list_private *)this)-> needs_update = 1;
+	return (new);
 }

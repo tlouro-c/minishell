@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_utils.c                                       :+:      :+:    :+:   */
+/*   __print_node.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:23:34 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/27 16:09:54 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:15:43 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
-void	free_enviroment(t_enviroment *enviroment)
+void	__print_node(t_node *this, char specifier)
 {
-	enviroment->variables->destroy(enviroment->variables);
-	if (enviroment->prompt != NULL)
-		free(enviroment->prompt);
-	//! LACKING COMMANDS STRUCTURE TO BE FREED
-}
-
-void	error_allocating_memory(t_enviroment *enviroment)
-{
-	free_enviroment(enviroment);
-	ft_putstr_fd("Error: memory allocation failed\n", 2);
-	exit(10);
+	if (specifier != 'i' && specifier != 'd' && specifier != 's')
+	{
+		ft_putstr_fd("Invalid specifier in the print function\n", 2);
+		return ;
+	}
+	if (specifier == 'i' || specifier == 'd')
+		ft_printf("%i\n", (int *)this -> value);
+	else 
+		ft_printf("%s\n", (char *)this -> value);
 }

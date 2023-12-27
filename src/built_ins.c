@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/24 21:45:19 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:42:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,24 @@ void	cmd_pwd(void)
 	free(pwd);
 }
 
-void	cmd_env(t_node *enviroment_variables)
+void	cmd_env(t_list *variables)
 {
-	ft_print_list(enviroment_variables, 's');
+	t_node	*tmp;
+
+	tmp = variables -> begin;
+	while (tmp)
+	{
+		if (ft_strrchr((char *)tmp -> value, '='))
+			ft_printf("%s\n", tmp -> value);
+		tmp = tmp -> next;
+	}
 }
 
 void	cmd_echo(char **args)
 {
 	int	option;
 	int	i;
-	
+
 	option = ft_strcmp(args[1], "-n") == 0;
 	i = 1 + option;
 	while (args[i] != NULL)
@@ -71,18 +79,18 @@ void	cmd_unset(char **cmd, t_enviroment *enviroment)
 {
 	char	*key;
 	int		i;
-	
+
 	if (cmd[1] != NULL && cmd[1][0] == '-')
 	{
 		invalid_option(cmd[0], cmd[1]);
-		return ;		
+		return ;
 	}
 	i = 1;
 	while (cmd[i] != NULL)
 	{
-		key = cmd[i];			
-		ft_remove_if(&enviroment -> variables, (void *)key, ft_keycmp);
+		key = cmd[i];
+		enviroment->variables->removeif(
+			enviroment->variables, (void *)key, ft_keycmp);
 		i++;
 	}
 }
-

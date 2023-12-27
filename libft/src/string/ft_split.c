@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 16:12:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/04 19:16:41 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 00:12:46 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**ft_split(char const *s, int sep)
 		{
 			sarray[j] = mod_strdup(&s[i], sep);
 			if (!sarray[j])
-				return (ft_free_str_arr(sarray, j));
+				return ((char **)ft_free_arr((void **)sarray));
 			j++;
 		}
 		i++;

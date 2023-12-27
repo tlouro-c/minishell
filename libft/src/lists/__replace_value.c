@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_utils.c                                       :+:      :+:    :+:   */
+/*   __replace_value.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:23:34 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/27 16:37:24 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:47:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
-void	free_enviroment(t_enviroment *enviroment)
+void	__replace(t_list *this, void *data_ref, void *new_value,
+			int (*cmp)(void *value, void *data_ref))
 {
-	enviroment->variables->destroy(enviroment->variables);
-	if (enviroment->prompt != NULL)
-		free(enviroment->prompt);
-	//! LACKING COMMANDS STRUCTURE TO BE FREED
-}
+	t_node	*tmp;
 
-void	error_allocating_memory(t_enviroment *enviroment)
-{
-	free_enviroment(enviroment);
-	ft_putstr_fd("Error: memory allocation failed\n", 2);
-	exit(10);
+	tmp = this -> begin;
+	while (tmp)
+	{
+		if (cmp(tmp -> value, data_ref) == 0)
+		{
+			free(tmp -> value);
+			tmp -> value = new_value;
+		}
+		tmp = tmp -> next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/24 11:14:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:22:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*path_for_prompt(t_enviroment *enviroment)
 {
-	char *path;
+	char	*path;
 
 	path = ft_getenv("PWD", enviroment->variables)
 		+ ft_strlen(ft_getenv("HOME", enviroment->variables));
@@ -48,14 +48,14 @@ char	*user_prompt(t_enviroment *enviroment)
 	return (prompt);
 }
 
-size_t ft_strarr_size(char **strarr)
+size_t	ft_strarr_size(char **strarr)
 {
 	int	size;
 
 	if (strarr == NULL)
 		return (0);
 	size = 0;
-	while(strarr[size] != NULL)
+	while (strarr[size] != NULL)
 		size++;
 	return (size);
 }
@@ -63,7 +63,5 @@ size_t ft_strarr_size(char **strarr)
 // void	execute_cmd(t_enviroment *enviroment)
 // {
 // 	//!TODO
-// 	enviroment -> variables_array
-// 		= updated_enviroment_variables_array(enviroment);
-// 	execve("path", a, enviroment -> variables_array);
+// 	execve("path", a, enviroment->variables->arr);
 // }

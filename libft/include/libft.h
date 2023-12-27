@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/24 14:36:23 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:47:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,51 @@
 # define FALSE 0
 # define TRUE 1
 
-typedef int	t_bool;
+typedef int						t_bool;
+typedef struct s_node			t_node;
+typedef struct s_list			t_list;
+typedef struct s_list_private	t_list_private;
 
-typedef struct s_node
+struct s_node
 {
-	void			*content;
-	struct s_node	*next;
-}	t_node;
+	void	*value;
+	t_node	*next;
+	void	(*destroy)(t_node *this);
+	void	(*print)(t_node *this, char specifier);
+};
+
+struct s_list
+{
+	t_node	*begin;
+	t_node	*end;
+	size_t	size;
+	void	**arr;
+	t_node	*(*add)(t_list *this, void *value);
+	void	(*print)(t_list *this, char specifier);
+	void	(*destroy)(t_list *this);
+	void	(*removeif)(t_list *this, void *data_ref,
+			int (*cmp)(void *value, void *data_ref));
+	void	(*replace)(t_list *this, void *data_ref, void *new_value,
+			int (*cmp)(void *value, void *data_ref));
+	void	**(*toarray)(t_list *this);
+};
+
+struct s_list_private
+{
+	t_node	*begin;
+	t_node	*end;
+	size_t	size;
+	void	**arr;
+	t_node	*(*add)(t_list *this, void *value);
+	void	(*print)(t_list *this, char specifier);
+	void	(*destroy)(t_list *this);
+	void	(*removeif)(t_list *this, void *data_ref,
+			int (*cmp)(void *value, void *data_ref));
+	void	(*replace)(t_list *this, void *data_ref, void *new_value,
+			int (*cmp)(void *value, void *data_ref));
+	void	**(*toarray)(t_list *this);
+	size_t	needs_update;
+};
 
 /* -------------------------------------------------------------------------- */
 /*                            FT_PRINTF_STRUCTURES                            */
@@ -182,7 +220,7 @@ char			*ft_substr(char const *s, unsigned int start, size_t len);
 /*                              "free" functions                              */
 /* -------------------------------------------------------------------------- */
 
-char			**ft_free_str_arr(char **array, int size);
+void			**ft_free_arr(void **array);
 char			*ft_free_str_return(char *s);
 
 /* -------------------------------------------------------------------------- */
@@ -206,17 +244,25 @@ void			*ft_memset(void *b, int c, size_t len);
 float			ft_rad(float deg);
 
 /* -------------------------------------------------------------------------- */
-/*                       "singly_linked_list" functions                       */
+/*                              "lists" functions                             */
 /* -------------------------------------------------------------------------- */
 
-t_node			*ft_insert_at_beginning(t_node **list, void *content);
-void			ft_print_list(t_node *list, char format_specifier);
-void			ft_remove_at_beggining(t_node **list);
-void			ft_remove_if(t_node **list, void *ref,
-					int (*cmp)(void *content, void *ref));
-int				ft_exists_in_list(t_node **list, void *ref,
-					int (*cmp)(void *content, void *ref));
-size_t			ft_list_size(t_node *list);
-void			ft_clear_list(t_node **list);
+t_list			*list_innit(void);
+t_node			*__add(t_list *this, void *value);
+void			__print(t_list *this, char specifier);
+void			__destroy(t_list *this);
+void			**__toarray(t_list *this);
+void			__removeif(t_list *this, void *data_ref,
+					int (*cmp)(void *value, void *data_ref));
+void			__replace(t_list *this, void *data_ref, void *new_value,
+					int (*cmp)(void *value, void *data_ref));
+
+/* -------------------------------------------------------------------------- */
+/*                              "node" functions                              */
+/* -------------------------------------------------------------------------- */
+
+t_node			*node_innit(void);
+void			__destroy_node(t_node *this);
+void			__print_node(t_node *this, char specifier);
 
 #endif /* LIBFT_H */

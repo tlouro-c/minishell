@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_string_arr.c                               :+:      :+:    :+:   */
+/*   __print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/26 15:52:34 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/23 12:54:54 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/26 23:32:16 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:12:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_free_str_arr(char **array, int size)
+void	__print(t_list *this, char specifier)
 {
-	int	i;
+	t_node	*tmp;
 
-	i = 0;
-	while (i < size)
-		free(array[i++]);
-	free(array);
-	return (NULL);
+	tmp = this -> begin;
+	while (tmp)
+	{
+		tmp -> print(tmp, specifier);
+		tmp = tmp -> next;
+	}
 }

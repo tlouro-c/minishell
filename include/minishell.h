@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/25 01:17:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:54:20 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 
 typedef struct s_enviroment
 {
-	t_node			*variables;
-	char			**variables_array;
+	t_list			*variables;
 	char			*prompt;
 	unsigned int	last_exit_status;
 	int				stdin_fd;
@@ -32,7 +31,7 @@ typedef struct s_enviroment
 /* -------------------------------------------------------------------------- */
 
 void		cmd_pwd(void);
-void		cmd_env(t_node *enviroment_variables);
+void		cmd_env(t_list *variables);
 void		cmd_echo(char **args);
 void		cmd_exit(char **args, t_enviroment *enviroment);
 void		cmd_export(char **cmd, t_enviroment *enviroment);
@@ -43,8 +42,7 @@ void		cmd_unset(char **cmd, t_enviroment *enviroment);
 /* -------------------------------------------------------------------------- */
 
 void		load_enviroment_variables(t_enviroment *enviroment);
-char		*ft_getenv(char *key, t_node *enviroment_variables);
-char		**updated_enviroment_variables_array(t_enviroment *enviroment);
+char		*ft_getenv(const char *key, t_list *variables);
 int			ft_keycmp(void *keyvalue, void *key);
 char		*ft_getkey(char *buffer, char *s);
 

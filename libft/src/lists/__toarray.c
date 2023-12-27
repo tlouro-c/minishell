@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_size.c                                     :+:      :+:    :+:   */
+/*   __toarray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/22 15:34:46 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/22 15:36:31 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/26 23:54:28 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 00:21:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_list_size(t_node *list)
+void	**__toarray(t_list *this)
 {
+	void	**arr;
 	t_node	*tmp;
-	size_t	size;
+	int		i;
 
-	size = 0;
-	tmp = list;
-	while (tmp != NULL)
+	if (((t_list_private *)this)-> needs_update == 0)
+		return (((t_list_private *)this)-> arr);
+	free(((t_list_private *)this)-> arr);
+	arr = (void **)ft_calloc(this -> size + 1, sizeof(void *));
+	if (!arr)
+		return (NULL);
+	i = 0;
+	tmp = this -> begin;
+	while (tmp)
 	{
-		size++;
+		arr[i++] = tmp -> value;
 		tmp = tmp -> next;
 	}
-	return (size);
+	((t_list_private *)this)-> needs_update = 0;
+	((t_list_private *)this)-> arr = arr;
+	return (arr);
 }

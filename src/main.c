@@ -6,14 +6,14 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/25 01:19:34 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:26:32 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-int	main(void) 
+int	main(void)
 {
 	t_enviroment		enviroment;
 	char				*user_input;
@@ -29,7 +29,9 @@ int	main(void)
 			cmd_export(test, &enviroment);
 		if (ft_strcmp(test[0], "unset") == 0)
 			cmd_unset(test, &enviroment);
-		// free_enviroment(&enviroment);
-		// exit(0);
+		if (ft_strcmp(test[0], "env") == 0)
+			cmd_env(enviroment.variables);
+		free_enviroment(&enviroment);
+		exit(0);
 	}
 }

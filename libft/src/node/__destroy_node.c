@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_insert_at_beginning.c                           :+:      :+:    :+:   */
+/*   __destroy_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 17:45:01 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/21 23:19:28 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/27 13:59:07 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:07:35 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_node	*ft_insert_at_beginning(t_node **list, void *content)
+void	__destroy_node(t_node *this)
 {
-	t_node	*new;
-
-	new = (t_node *)ft_calloc(1, sizeof(t_node));
-	if (new == NULL)
-		return (NULL);
-	new -> content = content;
-	new -> next = *list;
-	*list = new;
-	return (new);
+	free(this -> value);
+	free(this);
 }

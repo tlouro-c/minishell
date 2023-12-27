@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exists_in_list.c                                :+:      :+:    :+:   */
+/*   innit_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 14:20:30 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/24 14:36:35 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/26 22:54:23 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/27 16:44:07 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_exists_in_list(t_node **list, void *ref,
-			int (*cmp)(void *content, void *ref))
+t_list	*list_innit(void)
 {
-	t_node	*tmp;
+	t_list	*new_list;
 
-	if (list == NULL || *list == NULL)
-		return (0);
-	tmp = *list;
-	while (tmp != NULL)
-	{
-		if (cmp(tmp -> content, ref) == 0)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
+	new_list = (t_list *)ft_calloc(1, sizeof(t_list_private));
+	if (!new_list)
+		return (NULL);
+	new_list -> add = __add;
+	new_list -> print = __print;
+	new_list -> destroy = __destroy;
+	new_list -> toarray = __toarray;
+	new_list -> removeif = __removeif;
+	new_list -> replace = __replace;
+	return (new_list);
 }
