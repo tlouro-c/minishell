@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:21:16 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:59:07 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 	int			i;
 
 	variables = list_innit();
+	if (!variables)
+		error_allocating_memory(enviroment);
 	i = 0;
 	while (environ[i] != NULL)
 	{

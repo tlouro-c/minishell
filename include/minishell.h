@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 12:54:20 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:13:59 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void		cmd_echo(char **args);
 void		cmd_exit(char **args, t_enviroment *enviroment);
 void		cmd_export(char **cmd, t_enviroment *enviroment);
 void		cmd_unset(char **cmd, t_enviroment *enviroment);
+void		cmd_cd(t_enviroment *enviroment, char *path);
 
 /* -------------------------------------------------------------------------- */
 /*                                 manage_env                                 */

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 16:36:16 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:15:22 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,20 @@ void	cmd_export(char **cmd, t_enviroment *enviroment)
 	}
 }
 
-void	cmd_cmd(t_enviroment *enviroment)
+void	cmd_cd(t_enviroment *enviroment, char *path)
 {
-	
+	char	*new_oldpwd;
+	char	*new_pwd;
+
+	chdir(path);
+	new_oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
+	if (!new_oldpwd)
+		error_allocating_memory(enviroment);
+	new_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	if (!new_pwd)
+		error_allocating_memory(enviroment);
+	enviroment->variables->replace(enviroment->variables, "OLDPWD",
+		new_oldpwd, ft_keycmp);
+	enviroment->variables->replace(enviroment->variables, "PWD",
+		new_pwd, ft_keycmp);
 }
