@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   innit_list.c                                       :+:      :+:    :+:   */
+/*   __set.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 22:54:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 16:44:07 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/27 16:37:24 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/28 18:09:07 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*list_innit(void)
+void	__set(t_list *this, void *data_ref, void *new_value,
+			int (*cmp)(void *value, void *data_ref))
 {
-	t_list	*new_list;
+	t_node	*tmp;
 
-	new_list = (t_list *)ft_calloc(1, sizeof(t_list_private));
-	if (!new_list)
-		return (NULL);
-	new_list -> add = __add;
-	new_list -> print = __print;
-	new_list -> destroy = __destroy;
-	new_list -> toarray = __toarray;
-	new_list -> removeif = __removeif;
-	new_list -> replace = __replace;
-	return (new_list);
+	tmp = this -> begin;
+	while (tmp)
+	{
+		if (cmp(tmp -> value, data_ref) == 0)
+		{
+			free(tmp -> value);
+			tmp -> value = new_value;
+		}
+		tmp = tmp -> next;
+	}
 }

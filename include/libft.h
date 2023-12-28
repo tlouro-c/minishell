@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 16:47:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:13:47 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct s_list
 	void	(*destroy)(t_list *this);
 	void	(*removeif)(t_list *this, void *data_ref,
 			int (*cmp)(void *value, void *data_ref));
-	void	(*replace)(t_list *this, void *data_ref, void *new_value,
+	void	(*set)(t_list *this, void *data_ref, void *new_value,
 			int (*cmp)(void *value, void *data_ref));
 	void	**(*toarray)(t_list *this);
 };
@@ -71,7 +71,7 @@ struct s_list_private
 	void	(*destroy)(t_list *this);
 	void	(*removeif)(t_list *this, void *data_ref,
 			int (*cmp)(void *value, void *data_ref));
-	void	(*replace)(t_list *this, void *data_ref, void *new_value,
+	void	(*set)(t_list *this, void *data_ref, void *new_value,
 			int (*cmp)(void *value, void *data_ref));
 	void	**(*toarray)(t_list *this);
 	size_t	needs_update;
@@ -171,6 +171,7 @@ int				ft_islower(int c);
 int				ft_isupper(int c);
 int				ft_isspace(int c);
 int				ft_isspace(int c);
+int				ft_isalphanum(int c);
 
 /* -------------------------------------------------------------------------- */
 /*                               "to" functions                               */
@@ -247,21 +248,21 @@ float			ft_rad(float deg);
 /*                              "lists" functions                             */
 /* -------------------------------------------------------------------------- */
 
-t_list			*list_innit(void);
+t_list			*new_list(void);
 t_node			*__add(t_list *this, void *value);
 void			__print(t_list *this, char specifier);
 void			__destroy(t_list *this);
 void			**__toarray(t_list *this);
 void			__removeif(t_list *this, void *data_ref,
 					int (*cmp)(void *value, void *data_ref));
-void			__replace(t_list *this, void *data_ref, void *new_value,
+void			__set(t_list *this, void *data_ref, void *new_value,
 					int (*cmp)(void *value, void *data_ref));
 
 /* -------------------------------------------------------------------------- */
 /*                              "node" functions                              */
 /* -------------------------------------------------------------------------- */
 
-t_node			*node_innit(void);
+t_node			*new_node(void);
 void			__destroy_node(t_node *this);
 void			__print_node(t_node *this, char specifier);
 

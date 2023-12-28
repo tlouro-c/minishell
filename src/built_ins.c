@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:42:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/28 17:36:47 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	cmd_env(t_list *variables)
 	while (tmp)
 	{
 		if (ft_strrchr((char *)tmp -> value, '='))
-			ft_printf("%s\n", tmp -> value);
+			tmp -> print(tmp, 's');
 		tmp = tmp -> next;
 	}
 }

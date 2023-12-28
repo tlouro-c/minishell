@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   __replace_value.c                                  :+:      :+:    :+:   */
+/*   new_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 16:37:24 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 16:47:49 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/12/27 16:04:03 by tlouro-c          #+#    #+#             */
+/*   Updated: 2023/12/28 17:30:52 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	__replace(t_list *this, void *data_ref, void *new_value,
-			int (*cmp)(void *value, void *data_ref))
+t_node	*new_node(void)
 {
-	t_node	*tmp;
+	t_node	*new_node;
 
-	tmp = this -> begin;
-	while (tmp)
-	{
-		if (cmp(tmp -> value, data_ref) == 0)
-		{
-			free(tmp -> value);
-			tmp -> value = new_value;
-		}
-		tmp = tmp -> next;
-	}
+	new_node = (t_node *)ft_calloc(1, sizeof(t_node));
+	if (!new_node)
+		return (NULL);
+	new_node -> destroy = __destroy_node;
+	new_node -> print = __print_node;
+	return (new_node);
 }

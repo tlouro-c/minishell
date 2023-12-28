@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 13:02:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:14:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 	extern char	**environ;
 	int			i;
 
-	variables = list_innit();
+	variables = new_list();
 	if (!variables)
 		error_allocating_memory(enviroment);
 	i = 0;
@@ -42,7 +42,7 @@ int	ft_keycmp(void *keyvalue, void *key)
 	i = 0;
 	if (char_keyvalue == NULL || char_key == NULL)
 		return (0);
-	while (ft_isalpha(char_keyvalue[i]) && ft_isalpha(char_key[i])
+	while (ft_isalphanum(char_keyvalue[i]) && ft_isalphanum(char_key[i])
 		&& char_keyvalue[i] == char_key[i])
 		i++;
 	return (char_keyvalue[i] != '=');
