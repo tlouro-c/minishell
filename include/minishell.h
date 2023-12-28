@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 17:13:59 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:56:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ size_t		ft_strarr_size(char **strarr);
 /*                              manage_user_input                             */
 /* -------------------------------------------------------------------------- */
 
-char		*swap_env_in_input(char *input, t_enviroment *enviroment);
+char		*swap_env_in_input(char **input, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */
