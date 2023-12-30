@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 18:12:21 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/30 20:28:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,10 @@ int	main(void)
 			continue ;
 		add_history(user_input);
 		ft_printf("BEFORE: %s\n", user_input);
-		user_input = swap_env_in_input(&user_input, &enviroment);
+		user_input = phase1(user_input, &enviroment);
 		ft_printf("AFTER: %s\n", user_input);
-		char	**test = ft_split(user_input, ' ');
-		if (ft_strcmp(test[0], "export") == 0)
-			cmd_export(test, &enviroment);
-		else if (ft_strcmp(test[0], "unset") == 0)
-			cmd_unset(test, &enviroment);
-		else if (ft_strcmp(test[0], "env") == 0)
-			cmd_env(enviroment.variables);
-		else if (ft_strcmp(test[0], "cd") == 0)
-			cmd_cd(&enviroment, test[1]);	
+		// char	**test = ft_split(user_input, '\2');
+		// ft_printf ("[0] %s -> [1] %s -> [2] %s -> [3] %s\n", test[0], test[1], test[2], test[3]);
 		// free_enviroment(&enviroment);
 		// exit(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 18:14:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:46:10 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 			error_allocating_memory(enviroment);
 	}
 	enviroment->variables = variables;
+	enviroment->last_exit_status = 0;
 }
 
 int	ft_keycmp(void *keyvalue, void *key)
@@ -48,6 +49,16 @@ int	ft_keycmp(void *keyvalue, void *key)
 	return (char_keyvalue[i] != '=');
 }
 
+int	ft_keylen(const char *key)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isalphanum(key[i]))
+		i++;
+	return (i);
+}
+
 char	*ft_getenv(const char *key, t_list *variables)
 {
 	t_node	*tmp;
@@ -58,7 +69,7 @@ char	*ft_getenv(const char *key, t_list *variables)
 	while (tmp)
 	{
 		if (ft_keycmp(tmp->value, (void *)key) == 0)
-			return (tmp->value + ft_strlen(key) + 1);
+			return (tmp->value + ft_keylen(key) + 1);
 		tmp = tmp->next;
 	}
 	return ("");

@@ -14,7 +14,7 @@ SRC_FILES =  $(SRC_DIR)/main.c \
 			 $(SRC_DIR)/built_ins2.c \
 			 $(SRC_DIR)/manage_env.c \
 			 $(SRC_DIR)/manage_env2.c \
-			 $(SRC_DIR)/manage_user_input.c \
+			 $(SRC_DIR)/parser.c \
 			 $(SRC_DIR)/exit_utils.c \
 			 $(SRC_DIR)/utils.c \
 			 $(SRC_DIR)/error_messages.c

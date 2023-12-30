@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 18:13:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:17:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ char			**ft_split(char const *s, int sep);
 int				ft_putstr_fd(char *s, int fd);
 int				ft_putchar_fd(int c, int fd);
 char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin_3(char *s1, char *s2, char *s3);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strdup(const char *s1);
