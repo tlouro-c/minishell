@@ -1,5 +1,4 @@
 {
-   <insert suppression information here>
    Memcheck:Leak
    match-leak-kinds: possible
    fun:readline
@@ -7,7 +6,6 @@
 }
 
 {
-   <insert suppression information here>
    Memcheck:Leak
    match-leak-kinds: possible
    fun:readline_internal_teardown
