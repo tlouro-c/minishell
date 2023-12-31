@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/30 22:46:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:57:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 	}
 	enviroment->variables = variables;
 	enviroment->last_exit_status = 0;
+	enviroment->prompt = NULL;
 }
 
 int	ft_keycmp(void *keyvalue, void *key)

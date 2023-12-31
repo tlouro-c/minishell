@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 13:22:53 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:57:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*user_prompt(t_enviroment *enviroment)
 	char	*tmp;
 	int		i;
 
+	if (enviroment -> prompt != NULL)
+		free(enviroment -> prompt);
 	prompt = NULL;
 	str_to_join[0] = "\e[1;95m";
 	str_to_join[1] = ft_getenv("USER", enviroment->variables);

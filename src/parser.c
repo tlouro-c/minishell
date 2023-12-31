@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/31 13:17:44 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/31 14:01:08 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ static char	*set_env_on_input(char *in, t_enviroment *enviroment, int *i)
 		error_allocating_memory(enviroment);
 	after = &in[*i + ft_keylen(&in[*i + 1]) + 1 + (in[*i + 1] == '?')];
 	tmp = ft_strjoin_3(before, middle, after);
-	if (!tmp)
-		error_allocating_memory_free_str(enviroment, before);
 	free(in);
+	free(before);
+	if (!tmp)
+		error_allocating_memory(enviroment);
 	in = tmp;
 	*i += ft_strlen(middle);
 	return (in);
