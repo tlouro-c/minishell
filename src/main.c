@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/30 20:28:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:16:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	main(void)
 			continue ;
 		add_history(user_input);
 		ft_printf("BEFORE: %s\n", user_input);
-		user_input = phase1(user_input, &enviroment);
+		user_input = phase1(user_input);
+		user_input = phase2(user_input, &enviroment);
 		ft_printf("AFTER: %s\n", user_input);
 		// char	**test = ft_split(user_input, '\2');
 		// ft_printf ("[0] %s -> [1] %s -> [2] %s -> [3] %s\n", test[0], test[1], test[2], test[3]);

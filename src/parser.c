@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/30 22:45:58 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:17:44 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static char	*set_env_on_input(char *in, t_enviroment *enviroment, int *i)
 	if (!before)
 		error_allocating_memory(enviroment);
 	after = &in[*i + ft_keylen(&in[*i + 1]) + 1 + (in[*i + 1] == '?')];
-	ft_printf("debug: %s\n", after);
 	tmp = ft_strjoin_3(before, middle, after);
 	if (!tmp)
 		error_allocating_memory_free_str(enviroment, before);
@@ -54,7 +53,7 @@ static char	*set_env_on_input(char *in, t_enviroment *enviroment, int *i)
 	return (in);
 }
 
-char	*phase1(char *in, t_enviroment *enviroment)
+char	*phase2(char *in, t_enviroment *enviroment)
 {
 	t_modes	modes;
 	int		i;
@@ -74,7 +73,7 @@ char	*phase1(char *in, t_enviroment *enviroment)
 	return (in);
 }
 
-char	*phase2(char *in)
+char	*phase1(char *in)
 {
 	t_modes	modes;
 	int		i;
@@ -85,7 +84,6 @@ char	*phase2(char *in)
 	while (in[i])
 	{
 		manage_mode(in[i], &modes);
-		ft_printf("%i\n", modes.d_q);
 		if (in[i] == '|' && modes.d_q == OFF && modes.s_q == OFF)
 			in[i] = '\1';
 		else if (in[i] == ' ' && modes.d_q == OFF && modes.s_q == OFF)
