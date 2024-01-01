@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/31 13:54:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/01 22:04:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ int	main(void)
 		else if (user_input[0] == '\0')
 			continue ;
 		add_history(user_input);
+		// load_commands(&enviroment, user_input);
 		ft_printf("BEFORE: %s\n", user_input);
 		user_input = phase1(user_input);
 		user_input = phase2(user_input, &enviroment);
 		ft_printf("AFTER: %s\n", user_input);
 		// char	**test = ft_split(user_input, '\2');
 		// ft_printf ("[0] %s -> [1] %s -> [2] %s -> [3] %s\n", test[0], test[1], test[2], test[3]);
-		free_enviroment(&enviroment);
-		exit(0);
+		// free_enviroment(&enviroment);
+		// exit(0);
 	}
 }

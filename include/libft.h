@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/30 22:17:29 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/01 20:42:13 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int				ft_isupper(int c);
 int				ft_isspace(int c);
 int				ft_isspace(int c);
 int				ft_isalphanum(int c);
+int				ft_isinstr(char *s, char c);
 
 /* -------------------------------------------------------------------------- */
 /*                               "to" functions                               */
@@ -205,8 +206,9 @@ void			ft_quick_sort(int *array, int size);
 size_t			ft_strlen(const char *s);
 char			*ft_strrev(char *s);
 char			*ft_strrchr(const char *s, int c);
-int				ft_count_words(char const *s, int sep);
-char			**ft_split(char const *s, int sep);
+int				ft_count_words(char const *s, char *sep);
+char			**ft_split(char const *s, char *sep);
+char			*mod_strdup(char const *s, char *sep);
 int				ft_putstr_fd(char *s, int fd);
 int				ft_putchar_fd(int c, int fd);
 char			*ft_strjoin(char const *s1, char const *s2);

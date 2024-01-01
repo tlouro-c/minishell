@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 18:05:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:35:38 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	ft_print_list_exported(t_enviroment *enviroment)
 	ft_free_arr((void **)arr);
 }
 
-void	cmd_export(char **cmd, t_enviroment *enviroment)
+void	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
 {
 	int	i;
 
@@ -82,11 +82,6 @@ void	cmd_export(char **cmd, t_enviroment *enviroment)
 		ft_print_list_exported(enviroment);
 	else
 	{
-		if (cmd[1][0] == '-')
-		{
-			invalid_option(cmd[0], cmd[1]);
-			return ;
-		}
 		i = 0;
 		while (cmd[++i] != NULL)
 		{

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 01:01:18 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/25 01:20:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:33:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ void	invalid_option(char *cmd, char *option)
 
 void	invalid_identifier(char *cmd, char *arg)
 {
-	char	key[1024];
-
-	ft_memset(key, 0, 1024);
-	ft_getkey(key, arg);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": '", 2);
-	ft_putstr_fd(key, 2);
+	ft_putstr_fd(arg, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }

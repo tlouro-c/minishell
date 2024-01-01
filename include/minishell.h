@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/31 13:16:19 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/01 22:03:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,39 @@
 # define ON 1
 # define OFF 0
 
+# define PIPE 1
+# define AND 2
+# define OR 3
+# define SPACE 4
+
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
 
+enum e_mode
+{
+	OVERWRITE,
+	APPEND
+};
+
 typedef struct s_enviroment
 {
 	t_list			*variables;
+	t_list			*cmd;
 	char			*prompt;
 	unsigned int	last_exit_status;
 	int				stdin_fd;
 	int				stdout_fd;
 }	t_enviroment;
+
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**args;
+	int		priorities;
+	char	*input_file;
+	char	*output_file;
+}	t_cmd;
 
 typedef struct s_modes
 {
@@ -85,5 +106,6 @@ size_t		ft_strarr_size(char **strarr);
 
 char		*phase2(char *in, t_enviroment *enviroment);
 char		*phase1(char *in);
+void		load_commands(t_enviroment *enviroment, char *user_input);
 
 #endif /* MINISHELL_H */
