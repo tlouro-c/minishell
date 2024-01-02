@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/01 22:03:41 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:39:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ typedef struct s_enviroment
 	int				stdout_fd;
 }	t_enviroment;
 
-typedef struct s_cmd
+typedef struct s_cmd_node
 {
-	char	*cmd;
-	char	**args;
-	int		priorities;
-	char	*input_file;
-	char	*output_file;
-}	t_cmd;
+	char				*cmd;
+	char				**args;
+	int					priorities;
+	char				*input_file;
+	char				*output_file;
+	struct s_cmd_node	*next;
+}	t_cmd_node;
 
 typedef struct s_modes
 {
@@ -106,6 +107,6 @@ size_t		ft_strarr_size(char **strarr);
 
 char		*phase2(char *in, t_enviroment *enviroment);
 char		*phase1(char *in);
-void		load_commands(t_enviroment *enviroment, char *user_input);
+void		load_commands(t_enviroment *enviroment, char *in);
 
 #endif /* MINISHELL_H */

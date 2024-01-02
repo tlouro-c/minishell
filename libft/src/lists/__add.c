@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 23:22:59 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 17:31:52 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:24:14 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ t_node	*__add(t_list *this, void *value)
 {
 	t_node	*new;
 
-	new = new_node();
+	new = (t_node *)ft_calloc(1, sizeof(t_node));
 	if (!new)
 		return (NULL);
+	new -> destroy = __destroy_node;
+	new -> print = __print_node;
 	new -> value = value;
 	if (this -> begin == NULL)
 		this -> begin = new;

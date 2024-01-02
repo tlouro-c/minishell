@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/01 20:42:13 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:24:03 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,6 @@ void			__set(t_list *this, void *data_ref, void *new_value,
 /*                              "node" functions                              */
 /* -------------------------------------------------------------------------- */
 
-t_node			*new_node(void);
 void			__destroy_node(t_node *this);
 void			__print_node(t_node *this, char specifier);
 
