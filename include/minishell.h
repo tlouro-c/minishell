@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/02 12:39:45 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:58:03 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,13 @@ typedef struct s_enviroment
 	int				stdout_fd;
 }	t_enviroment;
 
-typedef struct s_cmd_node
+typedef struct s_cmd
 {
-	char				*cmd;
 	char				**args;
 	int					priorities;
 	char				*input_file;
 	char				*output_file;
-	struct s_cmd_node	*next;
-}	t_cmd_node;
+}	t_cmd;
 
 typedef struct s_modes
 {
