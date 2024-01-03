@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/02 12:58:03 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:45:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,30 @@ enum e_mode
 {
 	OVERWRITE,
 	APPEND
+	
 };
+
+typedef struct s_cmd
+{
+	char		**args;
+	int			priorities;
+	char		*input_file;
+	char		*output_file;
+	char		*append_file;
+	char		*delimiter;
+}	t_cmd;
 
 typedef struct s_enviroment
 {
 	t_list			*variables;
-	t_list			*cmd;
+	t_cmd			*cmd;
 	char			*prompt;
 	unsigned int	last_exit_status;
 	int				stdin_fd;
 	int				stdout_fd;
 }	t_enviroment;
 
-typedef struct s_cmd
-{
-	char				**args;
-	int					priorities;
-	char				*input_file;
-	char				*output_file;
-}	t_cmd;
+
 
 typedef struct s_modes
 {
@@ -106,5 +111,6 @@ size_t		ft_strarr_size(char **strarr);
 char		*phase2(char *in, t_enviroment *enviroment);
 char		*phase1(char *in);
 void		load_commands(t_enviroment *enviroment, char *in);
+char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 
 #endif /* MINISHELL_H */

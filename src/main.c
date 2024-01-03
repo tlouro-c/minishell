@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/02 13:06:59 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/02 16:43:23 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void)
 			continue ;
 		add_history(user_input);
 		load_commands(&enviroment, user_input);
-		execute_cmds();
+		// execute_cmds();
 		// ft_printf("BEFORE: %s\n", user_input);
 		// user_input = phase1(user_input);
 		// user_input = phase2(user_input, &enviroment);
