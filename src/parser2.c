@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 17:34:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:59:15 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 	cmd = mod_strdup(cmd, "\1\2\3");
 	if (!cmd)
 		return (NULL);
-	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4\5") + 1,
+	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4\5\6") + 1,
 			sizeof(char *));
 	if (!enviroment->cmd[struct_i]->args)
 		return (NULL);
