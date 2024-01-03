@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 11:21:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:34:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 	cmd = mod_strdup(cmd, "\1\2\3");
 	if (!cmd)
 		return (NULL);
-	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4") + 1,
+	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4\5") + 1,
 			sizeof(char *));
 	if (!enviroment->cmd[struct_i]->args)
 		return (NULL);
@@ -64,7 +64,9 @@ void	load_commands(t_enviroment *enviroment, char *in)
 	int	i;
 
 	in = phase1(in);
+	ft_printf("IN1: %s\n", in);
 	in = phase2(in, enviroment);
+	ft_printf("in: %s\n", in);
 	num_cmds = ft_count_words(in, "\1\2\3");
 	enviroment->cmd = (t_cmd **)ft_calloc(num_cmds + 1,
 			sizeof(t_cmd *));

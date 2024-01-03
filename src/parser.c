@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/01 22:05:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:37:20 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 static void	manage_mode(char *c, t_modes *modes)
 {
-	if (*c == '\'' && modes -> d_q == OFF)
+	if ((*c == '\'' || *c == QUOTE) && modes -> d_q == OFF)
 		modes -> s_q++;
-	else if (*c == '"' && modes -> s_q == OFF)
+	else if ((*c == '"' || *c == QUOTE) && modes -> s_q == OFF)
 		modes -> d_q++;
-	if (modes->d_q != OFF || modes->s_q != OFF)
-		*c = SPACE;
+	if ((*c == QUOTE || *c == '"' || *c == '\'') && (modes->d_q != OFF  || modes->s_q != OFF))
+		*c = QUOTE;
 	if (modes -> s_q == 2)
 		modes -> s_q = OFF;
 	else if (modes -> d_q == 2)
@@ -67,8 +67,7 @@ char	*phase2(char *in, t_enviroment *enviroment)
 	while (in[i])
 	{
 		manage_mode(&in[i], &modes);
-		if (in[i] == '$' && (ft_isalphanum(in[i + 1]) || in[i + 1] == '?')
-			&& modes.s_q == OFF)
+		if (in[i] == '$' && modes.s_q == OFF && (ft_isalphanum(in[i + 1]) || in[i + 1] == '?'))
 			in = set_env_on_input(in, enviroment, &i);
 		else
 			i++;
