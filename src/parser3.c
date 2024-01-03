@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 16:13:25 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 23:12:10 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 
 	first = s[*string_i];
 	second = s[*string_i + 1];
-	while (s[*string_i] == '\4' || s[*string_i] == '<' || s[*string_i] == '>' || s[*string_i] == '\5')
+	while (s[*string_i] == '\4' || s[*string_i] == '<' || s[*string_i] == '>'
+		|| s[*string_i] == '\5' || s[*string_i] == '\6')
 		(*string_i)++;
-	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5<>");
+	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5\6<>");
 	if (!file_or_delimiter)
 		return (-1);
 	(*string_i) += ft_strlen(file_or_delimiter);
@@ -53,14 +54,14 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			if (manage_redirections(cmd, enviroment, struct_i, &i) == -1)
 				return (NULL);
 		}
-		else if ((i == 0 && !ft_isinstr("\4\5<>", cmd[i]))
-			|| (!ft_isinstr("\4\5<>", cmd[i]) && ft_isinstr("\4\5<>", cmd[i - 1])))
+		else if ((i == 0 && !ft_isinstr("\4\5\6<>", cmd[i]))
+			|| (!ft_isinstr("\4\5\6<>", cmd[i])
+				&& ft_isinstr("\4\5\6<>", cmd[i - 1])))
 		{
-			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\5<>");
+			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\5\6<>");
 			if (!enviroment->cmd[struct_i]->args[j])
 				return (NULL);
-			i += ft_strlen(enviroment->cmd[struct_i]->args[j]);
-			j++;
+			i += ft_strlen(enviroment->cmd[struct_i]->args[j++]);
 		}
 		else
 			i++;

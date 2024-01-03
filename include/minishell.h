@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 15:57:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:54:55 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # define AND 2
 # define OR 3
 # define SPACE 4
-# define QUOTE 5
+# define S_QUOTE 5
+# define D_QUOTE 6
 
 # include <readline/readline.h>
 # include <readline/history.h>
