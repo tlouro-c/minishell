@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/02 17:45:48 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/03 11:19:30 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ enum e_mode
 {
 	OVERWRITE,
 	APPEND
-	
 };
 
 typedef struct s_cmd
@@ -45,14 +44,12 @@ typedef struct s_cmd
 typedef struct s_enviroment
 {
 	t_list			*variables;
-	t_cmd			*cmd;
+	t_cmd			**cmd;
 	char			*prompt;
 	unsigned int	last_exit_status;
 	int				stdin_fd;
 	int				stdout_fd;
 }	t_enviroment;
-
-
 
 typedef struct s_modes
 {
