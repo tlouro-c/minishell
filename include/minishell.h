@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 13:03:53 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:32:24 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ typedef struct s_modes
 /*                                  built_ins                                 */
 /* -------------------------------------------------------------------------- */
 
-void		cmd_pwd(void);
-void		cmd_env(t_list *variables);
-void		cmd_echo(char **args);
+int			cmd_pwd(char **args);
+int			cmd_env(char **args, t_list *variables);
+int			cmd_echo(char **args);
 void		cmd_exit(char **args, t_enviroment *enviroment);
-void		cmd_export(char **cmd, t_enviroment *enviroment);
-void		cmd_unset(char **cmd, t_enviroment *enviroment);
-void		cmd_cd(t_enviroment *enviroment, char *path);
+int			cmd_export(char **cmd, t_enviroment *enviroment);
+int			cmd_unset(char **cmd, t_enviroment *enviroment);
+int			cmd_cd(t_enviroment *enviroment, char **args);
 
 /* -------------------------------------------------------------------------- */
 /*                                 manage_env                                 */
@@ -106,6 +106,7 @@ void		invalid_identifier(char *cmd, char *arg);
 char		*user_prompt(t_enviroment *enviroment);
 size_t		ft_strarr_size(char **strarr);
 int			ft_isbuiltin(char *cmd);
+void		run_builtin(t_cmd *cmd, t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */

@@ -12,6 +12,7 @@
 		"vector": "c",
 		"__locale": "c",
 		"ios": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"bitset": "c"
 	}
 }
