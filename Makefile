@@ -21,6 +21,8 @@ SRC_FILES =  $(SRC_DIR)/main.c \
 			 $(SRC_DIR)/utils.c \
 			 $(SRC_DIR)/error_messages.c \
 			 $(SRC_DIR)/signals.c
+			 $(SRC_DIR)/pathfinder.c \
+			 $(SRC_DIR)/execute.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 

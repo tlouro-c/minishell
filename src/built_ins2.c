@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/01 14:35:38 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:31:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	ft_print_list_exported(t_enviroment *enviroment)
 	ft_free_arr((void **)arr);
 }
 
-void	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
+int	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
 {
 	int	i;
 
@@ -95,14 +95,20 @@ void	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
 			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);
 		}
 	}
+	return (0);
 }
 
-void	cmd_cd(t_enviroment *enviroment, char *path)
+int	cmd_cd(t_enviroment *enviroment, char **args)
 {
 	char	*oldpwd;
 	char	*pwd;
 
-	chdir(path);
+	if (ft_strarr_size(args) > 2)
+	{
+		ft_putstr_fd("cd: too many arguments", 2);
+		return (1);
+	}
+	chdir(args[1]);
 	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
 	if (!oldpwd)
 		error_allocating_memory(enviroment);
@@ -112,4 +118,5 @@ void	cmd_cd(t_enviroment *enviroment, char *path)
 	enviroment->variables->set(enviroment->variables, "OLDPWD",
 		oldpwd, ft_keycmp);
 	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
+	return (0);
 }

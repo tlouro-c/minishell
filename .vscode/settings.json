@@ -14,5 +14,6 @@
 		"ios": "c",
 		"errno.h": "c",
 		"libft.h": "c"
+		"bitset": "c"
 	}
 }

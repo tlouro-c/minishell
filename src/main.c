@@ -6,7 +6,6 @@
 /*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 19:49:04 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +46,9 @@ int	main(void)
 			for (int j = 0; enviroment.cmd[i]->args[j]; j++)
 				ft_printf("\tARG %d: %s\n", j, enviroment.cmd[i]->args[j]);
 		}
+		// ft_printf("NUM_COMMANDS: %i\n", enviroment.num_cmd);
+		// ft_printf("NUM_PIPES: %i\n", enviroment.num_pipes);
+		// execute_cmds(enviroment.cmd, &enviroment);
 		// ft_printf("BEFORE: %s\n", user_input);
 		// user_input = phase1(user_input);
 		// user_input = phase2(user_input, &enviroment);

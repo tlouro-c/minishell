@@ -6,26 +6,37 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 17:36:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:29:47 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	cmd_pwd(void)
+int	cmd_pwd(char **args)
 {
 	char	*pwd;
 
+	if (ft_strarr_size(args) > 2)
+	{
+		ft_putstr_fd("pwd: too many arguments", 2);
+		return (1);
+	}
 	pwd = getcwd(NULL, 0);
 	ft_printf("%s\n", pwd);
 	free(pwd);
+	return (0);
 }
 
-void	cmd_env(t_list *variables)
+int	cmd_env(char **args, t_list *variables)
 {
 	t_node	*tmp;
 
+	if (ft_strarr_size(args) > 1)
+	{
+		ft_putstr_fd("env: too many arguments", 2);
+		return (1);
+	}
 	tmp = variables -> begin;
 	while (tmp)
 	{
@@ -33,9 +44,10 @@ void	cmd_env(t_list *variables)
 			tmp -> print(tmp, 's');
 		tmp = tmp -> next;
 	}
+	return (0);
 }
 
-void	cmd_echo(char **args)
+int	cmd_echo(char **args)
 {
 	int	option;
 	int	i;
@@ -49,6 +61,7 @@ void	cmd_echo(char **args)
 	}
 	if (!option)
 		ft_putchar_fd('\n', 1);
+	return (0);
 }
 
 void	cmd_exit(char **args, t_enviroment *enviroment)
@@ -75,7 +88,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 }
 
-void	cmd_unset(char **cmd, t_enviroment *enviroment)
+int	cmd_unset(char **cmd, t_enviroment *enviroment)
 {
 	char	*key;
 	int		i;
@@ -83,7 +96,7 @@ void	cmd_unset(char **cmd, t_enviroment *enviroment)
 	if (cmd[1] != NULL && cmd[1][0] == '-')
 	{
 		invalid_option(cmd[0], cmd[1]);
-		return ;
+		return (1);
 	}
 	i = 1;
 	while (cmd[i] != NULL)
@@ -93,4 +106,5 @@ void	cmd_unset(char **cmd, t_enviroment *enviroment)
 			enviroment->variables, (void *)key, ft_keycmp);
 		i++;
 	}
+	return (0);
 }
