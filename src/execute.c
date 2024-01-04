@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:32:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:35:43 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, int *pipes[2], int i)
 		run_builtin(cmd, enviroment);
 	else
 		execve(cmd->args[0], cmd->args, enviroment->variables);
+	
 }
 
 static int	read_here_doc(char *delimiter, int to_fd)
