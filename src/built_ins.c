@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:29:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:32:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cmd_echo(char **args)
 	int	i;
 
 	option = ft_strcmp(args[1], "-n") == 0;
-	i = 1 + option;
+	i = 1 + (option  || args[1][0] == '-');
 	while (args[i] != NULL)
 	{
 		ft_printf("%s ", args[i]);

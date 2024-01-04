@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 13:32:13 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:34:55 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,20 @@ int	main(void)
 			continue ;
 		add_history(user_input);
 		load_commands(&enviroment, user_input);
-		for (int i = 0; enviroment.cmd[i]; i++)
-		{
-			ft_printf("CMD %d\n", i);
-			ft_printf("PRIORITY: %d\n", enviroment.cmd[i]->priorities);
-			ft_printf("INPUT FILE: %s\n", enviroment.cmd[i]->input_file);
-			ft_printf("OUTPUT FILE: %s\n", enviroment.cmd[i]->output_file);
-			ft_printf("APPEND FILE: %s\n", enviroment.cmd[i]->append_file);
-			ft_printf("DELIMITER: %s\n", enviroment.cmd[i]->delimiter);
-			ft_printf("ARGUMENTS\n");
-			for (int j = 0; enviroment.cmd[i]->args[j]; j++)
-				ft_printf("\tARG %d: %s\n", j, enviroment.cmd[i]->args[j]);
-		}
-		ft_printf("NUM_COMMANDS: %i\n", enviroment.num_cmd);
-		ft_printf("NUM_PIPES: %i\n", enviroment.num_pipes);
-		// execute_cmds(enviroment.cmd, &enviroment);
+		// for (int i = 0; enviroment.cmd[i]; i++)
+		// {
+		// 	ft_printf("CMD %d\n", i);
+		// 	ft_printf("PRIORITY: %d\n", enviroment.cmd[i]->priorities);
+		// 	ft_printf("INPUT FILE: %s\n", enviroment.cmd[i]->input_file);
+		// 	ft_printf("OUTPUT FILE: %s\n", enviroment.cmd[i]->output_file);
+		// 	ft_printf("APPEND FILE: %s\n", enviroment.cmd[i]->append_file);
+		// 	ft_printf("DELIMITER: %s\n", enviroment.cmd[i]->delimiter);
+		// 	ft_printf("ARGUMENTS\n");
+		// 	for (int j = 0; enviroment.cmd[i]->args[j]; j++)
+		// 		ft_printf("\tARG %d: %s\n", j, enviroment.cmd[i]->args[j]);
+		// }
+		// ft_printf("NUM_COMMANDS: %i\n", enviroment.num_cmd);
+		execute_cmds(enviroment.cmd, &enviroment);
 		// ft_printf("BEFORE: %s\n", user_input);
 		// user_input = phase1(user_input);
 		// user_input = phase2(user_input, &enviroment);

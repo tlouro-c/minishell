@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 00:01:58 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/27 16:14:49 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:46:16 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	__removeif(t_list *this, void *data_ref,
 	t_node	*previous;
 	t_node	*tmp;
 
-	if (this -> size < 1)
-		return ;
-	while (this -> begin && cmp(this -> begin -> value, data_ref) == 0)
+	while (this && this -> begin && cmp(this -> begin -> value, data_ref) == 0)
 	{
 		tmp = this -> begin;
 		this -> begin = tmp -> next;
@@ -40,4 +38,5 @@ void	__removeif(t_list *this, void *data_ref,
 		}
 		previous = previous -> next;
 	}
+	((t_list_private *)this)-> needs_update = 1;
 }

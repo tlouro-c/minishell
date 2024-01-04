@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 16:37:24 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/28 18:09:07 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:43:08 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	__set(t_list *this, void *data_ref, void *new_value,
 		{
 			free(tmp -> value);
 			tmp -> value = new_value;
+			((t_list_private *)this)-> needs_update = 1;
 		}
 		tmp = tmp -> next;
 	}

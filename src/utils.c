@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:33:05 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:56:12 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,26 @@ int	ft_isbuiltin(char *cmd)
 			|| ft_strcmp(cmd, "exit") == 0);
 }
 
-void	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
+int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
 {
 	int	status;
 
-	if (ft_strcmp(cmd, "echo") == 0)
+	status = 0;
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		status = cmd_echo(cmd->args);
-	else if (ft_strcmp(cmd, "cd") == 0)
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		status = cmd_cd(enviroment, cmd->args);
-	else if (ft_strcmp(cmd, "pwd") == 0)
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		status = cmd_pwd(cmd->args);
-	else if (ft_strcmp(cmd, "export") == 0)
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		status = cmd_export(cmd->args, enviroment);
-	else if (ft_strcmp(cmd, "unset") == 0)
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		status = cmd_unset(cmd->args, enviroment);
-	else if (ft_strcmp(cmd, "env") == 0)
-		status = cmd_env(cmd, enviroment -> variables);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		status = cmd_env(cmd->args, enviroment -> variables);
 	else
 		cmd_exit(cmd->args, enviroment);
-	enviroment -> status = status;
+	return (status);
 }
 
 // void	execute_cmd(t_enviroment *enviroment)

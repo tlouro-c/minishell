@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 00:29:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:30:00 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ static void	look_for_path(char **cmd, t_enviroment *enviroment)
 	char	**paths;
 	int		i;
 
-	paths = ft_split(ft_getenv("PATHS", enviroment->variables), ":");
+	paths = ft_split(ft_getenv("PATH", enviroment->variables), ":");
 	if (!paths)
 		error_allocating_memory(enviroment);
 	i = 0;
 	while (paths[i])
 	{
+		// ft_printf("paths[%d]: %s\n", i, paths[i]);
 		path = ft_pathjoin(paths[i++], *cmd);
+		// ft_printf("path: %s\n", path);
 		if (!path)
 			error_allocating_memory(enviroment);
 		if (access(path, X_OK) == 0)

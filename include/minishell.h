@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:32:24 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:29:18 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "libft.h"
 
 enum e_mode
@@ -48,7 +49,6 @@ typedef struct s_enviroment
 {
 	t_list			*variables;
 	t_cmd			**cmd;
-	size_t			num_pipes;
 	size_t			num_cmd;
 	char			*prompt;
 	unsigned int	status;
@@ -87,8 +87,8 @@ int			ft_keylen(const char *key);
 /* -------------------------------------------------------------------------- */
 
 void		error_allocating_memory(t_enviroment *enviroment);
-void		error_piping(t_enviroment *enviroment, int *pipes[2]);
-void		error_and_close_pipes(t_enviroment *enviroment, int *pipes[2]);
+void		error_piping(t_enviroment *enviroment, int (*pipes)[2]);
+void		error_and_close_pipes(t_enviroment *enviroment, int (*pipes)[2]);
 void		error_allocating_memory_free_str(t_enviroment *enviroment, char *s);
 void		free_enviroment(t_enviroment *enviroment);
 
@@ -106,7 +106,7 @@ void		invalid_identifier(char *cmd, char *arg);
 char		*user_prompt(t_enviroment *enviroment);
 size_t		ft_strarr_size(char **strarr);
 int			ft_isbuiltin(char *cmd);
-void		run_builtin(t_cmd *cmd, t_enviroment *enviroment);
+int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */
@@ -117,5 +117,7 @@ char		*phase1(char *in);
 void		load_commands(t_enviroment *enviroment, char *in);
 char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 void		pathfinder(t_enviroment *enviroment);
+
+void	execute_cmds(t_cmd **commands, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */
