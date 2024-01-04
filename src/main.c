@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 13:22:15 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:49:04 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ int	main(void)
 	char				*user_input;
 
 	load_enviroment_variables(&enviroment);
+	// setup_signals();
 	while (TRUE)
 	{
 		enviroment.prompt = user_prompt(&enviroment);
 		user_input = readline(enviroment.prompt);
+		/**
+		 * unlike other signals this is also how EOF(ctrl+D) is caught
+		*/
 		if (!user_input)
+		{
 			error_allocating_memory(&enviroment);
+		}
 		else if (user_input[0] == '\0')
 			continue ;
 		add_history(user_input);
@@ -41,7 +47,6 @@ int	main(void)
 			for (int j = 0; enviroment.cmd[i]->args[j]; j++)
 				ft_printf("\tARG %d: %s\n", j, enviroment.cmd[i]->args[j]);
 		}
-		// execute_cmds();
 		// ft_printf("BEFORE: %s\n", user_input);
 		// user_input = phase1(user_input);
 		// user_input = phase2(user_input, &enviroment);

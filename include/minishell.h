@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 11:19:30 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 20:08:20 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 
 enum e_mode
@@ -47,6 +48,7 @@ typedef struct s_enviroment
 	t_cmd			**cmd;
 	char			*prompt;
 	unsigned int	last_exit_status;
+	__pid_t			child_pid;
 	int				stdin_fd;
 	int				stdout_fd;
 }	t_enviroment;
@@ -56,6 +58,16 @@ typedef struct s_modes
 	int	s_q;
 	int	d_q;
 }	t_modes;
+
+
+/* -------------------------------------------------------------------------- */
+/*                                   signals                                  */
+/* -------------------------------------------------------------------------- */
+
+// void setup_signals(void);
+// void handle_sigint(t_enviroment *enviroment);
+// void signal_handler(int sig, siginfo_t *a, void *b);
+
 
 /* -------------------------------------------------------------------------- */
 /*                                  built_ins                                 */

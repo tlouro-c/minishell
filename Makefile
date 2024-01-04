@@ -1,6 +1,6 @@
 # Sample Makefile
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 LIBFT = -L$(LIBFT_DIR) -lft
 NAME = minishell
 
@@ -19,7 +19,8 @@ SRC_FILES =  $(SRC_DIR)/main.c \
 			 $(SRC_DIR)/parser3.c \
 			 $(SRC_DIR)/exit_utils.c \
 			 $(SRC_DIR)/utils.c \
-			 $(SRC_DIR)/error_messages.c
+			 $(SRC_DIR)/error_messages.c \
+			 $(SRC_DIR)/signals.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
@@ -40,6 +41,10 @@ $(OBJ_DIR):
 # Create object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+test: $(NAME)
+	clear
+	valgrind --leak-check=full ./$(NAME)
 
 clean:
 	@make -C $(LIBFT_DIR) clean
