@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 13:22:15 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 10:50:19 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(void)
 			for (int j = 0; enviroment.cmd[i]->args[j]; j++)
 				ft_printf("\tARG %d: %s\n", j, enviroment.cmd[i]->args[j]);
 		}
-		// execute_cmds();
+		execute_cmds(enviroment.cmd, &enviroment);
 		// ft_printf("BEFORE: %s\n", user_input);
 		// user_input = phase1(user_input);
 		// user_input = phase2(user_input, &enviroment);

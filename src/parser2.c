@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 00:00:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:26:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 			|| (!ft_isinstr(sep, in[i]) && ft_isinstr(sep, in[i - 1])))
 		{
 			enviroment -> cmd[j]-> priorities = manage_priorities(in, i);
+			if (enviroment->cmd[j]->priorities == PIPE)
+				enviroment->num_pipes++;
 			enviroment -> cmd[j]-> args = manage_args(&in[i], enviroment, j);
 			if (enviroment -> cmd[j]-> args == NULL)
 				error_allocating_memory_free_str(enviroment, in);
@@ -60,18 +62,17 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 
 void	load_commands(t_enviroment *enviroment, char *in)
 {
-	int	num_cmds;
 	int	i;
 
 	in = phase1(in);
 	in = phase2(in, enviroment);
-	num_cmds = ft_count_words(in, "\1\2\3");
-	enviroment->cmd = (t_cmd **)ft_calloc(num_cmds + 1,
+	enviroment->num_cmd = ft_count_words(in, "\1\2\3");
+	enviroment->cmd = (t_cmd **)ft_calloc(enviroment->num_cmd + 1,
 			sizeof(t_cmd *));
 	if (!enviroment->cmd)
 		error_allocating_memory_free_str(enviroment, in);
 	i = 0;
-	while (i < num_cmds)
+	while (i < enviroment->num_cmd)
 	{
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
