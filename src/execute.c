@@ -6,23 +6,41 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:35:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 20:09:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	child(t_cmd *cmd, t_enviroment *enviroment, int *pipes[2], int i)
+static void	child(t_cmd *cmd, t_enviroment *enviroment, int (*pipes)[2], int i)
 {
-	dup2(pipes[i - 1][0], STDIN_FILENO);
-	dup2(pipes[i][1], STDOUT_FILENO);
-	enviroment->status = 0;
-	if (ft_isbuiltin(cmd->args[0]))
-		run_builtin(cmd, enviroment);
+	char	**envp;
+
+
+
+	if (cmd->priorities == OR)
+	{
+		(void)i;
+		(void)pipes;
+	}
+		// dup2(pipes[i][0], STDIN_FILENO);
+	// dup2(pipes[i + 1][1], STDOUT_FILENO);
 	else
-		execve(cmd->args[0], cmd->args, enviroment->variables);
-	
+	{
+		envp = (char **)enviroment->variables->toarray(enviroment->variables);
+		execve(cmd->args[0], cmd->args, envp);
+		if (errno == ENOENT)
+		{
+			ft_putstr_fd(cmd->args[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			exit (127);
+		}
+		else
+			perror(cmd->args[0]);
+	}
+		
+		
 }
 
 static int	read_here_doc(char *delimiter, int to_fd)
@@ -69,16 +87,14 @@ static int	read_from_to(int from_fd, int to_fd)
 	}
 }
 
-static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int *pipes[2], int i)
+static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int (*pipes)[2], int i)
 {
 	pid_t	pid;
 	int		fd;
 
 	if (command->delimiter != NULL)
-	{
 		if (read_here_doc(command->delimiter, pipes[i][1]) < 0)
-			error_and_close_pipes(enviroment, &pipes[2]);
-	}
+			error_and_close_pipes(enviroment, pipes);
 	if (command->input_file != NULL)
 	{
 		fd = open(command->input_file, O_RDONLY, 0666);
@@ -87,33 +103,39 @@ static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int *pipes[2], 
 	}
 	if (i == 0 && command->input_file == NULL && command->delimiter == NULL)
 		dup2(STDIN_FILENO, pipes[i][1]);
+	if (ft_isbuiltin(command->args[0]))
+	{
+		enviroment->status = (run_builtin(command, enviroment));
+		return ;
+	}
 	pid = fork();
 	//! PROTECT
-	// if (pid == 0)
-	// 	child(command, enviroment, pipes[2], i + 1);
+	if (pid == 0)
+		child(command, enviroment, pipes, i);
 	waitpid(pid, (int *)&enviroment->status, 0);
 	enviroment->status = WEXITSTATUS(enviroment->status);
 }
 
 void	execute_cmds(t_cmd **commands, t_enviroment *enviroment)
 {
-	int		*pipes[2];
+	int		(*pipes)[2];
 	int		i;
 
-	pipes[2] = ft_calloc(enviroment->num_pipes, sizeof(pipes[2]));
-	if (!pipes[2])
+	pipes = ft_calloc(enviroment->num_cmd + 1, sizeof(pipes));
+	if (!pipes)
 		error_allocating_memory(enviroment);
 	i = 0;
-	while (i < enviroment->num_pipes)
-		if (pipe(pipes[i++][2]) < 0)
-			error_piping(enviroment, pipes[2]);
-	i = 0;
-	while (i < enviroment->num_cmd)
+	while (i < (int)enviroment->num_cmd + 1)
+		if (pipe(pipes[i++]) < 0)
+			error_piping(enviroment, pipes);
+	i = -1;
+	while (++i < (int)enviroment->num_cmd)
 	{
-		if ((enviroment->cmd[i]->priorities == AND && enviroment->status != 0)
-			|| (enviroment->cmd[i]->priorities == OR && enviroment->status == 0)
-			|| (enviroment->cmd[i]->priorities == PIPE && enviroment->status != 0))
+		if ((commands[i]->priorities == AND && enviroment->status != 0)
+			|| (commands[i]->priorities == OR && enviroment->status == 0)
+			|| (commands[i]->priorities == PIPE
+				&& enviroment->status != 0 && i != 0))
 			continue ;
-		launch_cmd(enviroment->cmd[i], enviroment, pipes[2], i); 
+		launch_cmd(commands[i], enviroment, pipes, i); 
 	}
 }
