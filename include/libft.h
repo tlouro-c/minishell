@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 16:33:05 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 00:12:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,8 @@ char			*ft_strdup(const char *s1);
 char			*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
+size_t			ft_strlcat(char	*dst, const char	*src, size_t dstsize);
+size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 /* -------------------------------------------------------------------------- */
 /*                              "free" functions                              */

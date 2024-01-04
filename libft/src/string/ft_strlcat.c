@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   __add.c                                            :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 23:22:59 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/02 12:24:14 by tlouro-c         ###   ########.fr       */
+/*   Created: 2024/01/04 00:07:35 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/04 00:07:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_node	*__add(t_list *this, void *value)
+size_t	ft_strlcat(char	*dst, const char	*src, size_t dstsize)
 {
-	t_node	*new;
+	size_t	limit;
+	size_t	dstlen;
+	size_t	srclen;
+	size_t	i;
+	size_t	j;
 
-	new = (t_node *)ft_calloc(1, sizeof(t_node));
-	if (!new)
-		return (NULL);
-	new -> destroy = __destroy_node;
-	new -> print = __print_node;
-	new -> value = value;
-	if (this -> begin == NULL)
-		this -> begin = new;
-	else
-		this -> end -> next = new;
-	this -> end = new;
-	this -> size++;
-	((t_list_private *)this)-> needs_update = 1;
-	return (new);
+	dstlen = ft_strlen(dst);
+	srclen = ft_strlen(src);
+	if (dstlen >= dstsize)
+		return (dstsize + srclen);
+	limit = dstsize - dstlen - 1;
+	i = dstlen;
+	j = 0;
+	while (src[j] != '\0' && j < limit)
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	dst[i] = '\0';
+	return (srclen + dstlen);
 }
