@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/30 22:21:39 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:37:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	error_allocating_memory(t_enviroment *enviroment)
 {
 	free_enviroment(enviroment);
 	ft_putstr_fd("Error: memory allocation failed\n", 2);
+	exit(10);
+}
+
+void	error_piping(t_enviroment *enviroment, int *pipes[2])
+{
+	free(pipes[2]);
+	free_enviroment(enviroment);
+	ft_putstr_fd("Error: piping failed\n", 2);
 	exit(10);
 }
 
