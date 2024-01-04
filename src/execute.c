@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:13:07 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:32:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, int *pipes[2], int i)
 	dup2(pipes[i][1], STDOUT_FILENO);
 	enviroment->status = 0;
 	if (ft_isbuiltin(cmd->args[0]))
-	{
-		
-	}
+		run_builtin(cmd, enviroment);
 	else
 		execve(cmd->args[0], cmd->args, enviroment->variables);
 }
@@ -115,6 +113,6 @@ void	execute_cmds(t_cmd **commands, t_enviroment *enviroment)
 			|| (enviroment->cmd[i]->priorities == OR && enviroment->status == 0)
 			|| (enviroment->cmd[i]->priorities == PIPE && enviroment->status != 0))
 			continue ;
-		launch_cmd(enviroment->cmd[i], enviroment, pipes[2], i);
+		launch_cmd(enviroment->cmd[i], enviroment, pipes[2], i); 
 	}
 }
