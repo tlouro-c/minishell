@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 22:54:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 00:19:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void		invalid_identifier(char *cmd, char *arg);
 
 char		*user_prompt(t_enviroment *enviroment);
 size_t		ft_strarr_size(char **strarr);
+int			ft_isbuiltin(char *cmd);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */
@@ -111,5 +112,6 @@ char		*phase2(char *in, t_enviroment *enviroment);
 char		*phase1(char *in);
 void		load_commands(t_enviroment *enviroment, char *in);
 char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
+void		pathfinder(t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 22:59:15 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 00:00:12 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ void	load_commands(t_enviroment *enviroment, char *in)
 	int	i;
 
 	in = phase1(in);
-	ft_printf("IN1: %s\n", in);
 	in = phase2(in, enviroment);
-	ft_printf("in: %s\n", in);
 	num_cmds = ft_count_words(in, "\1\2\3");
 	enviroment->cmd = (t_cmd **)ft_calloc(num_cmds + 1,
 			sizeof(t_cmd *));
@@ -81,4 +79,6 @@ void	load_commands(t_enviroment *enviroment, char *in)
 		i++;
 	}
 	split_commands(enviroment, in, "\1\2\3");
+	free(in);
+	pathfinder(enviroment);
 }
