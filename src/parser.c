@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 23:10:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:32:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*set_env_on_input(char *in, t_enviroment *enviroment, int *i)
 
 	if (in[*i + 1] == '?')
 	{
-		ft_itoa(enviroment->last_exit_status, exit, 10);
+		ft_itoa(enviroment->status, exit, 10);
 		middle = exit;
 	}
 	else

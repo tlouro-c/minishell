@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 11:37:24 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:03:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include "libft.h"
 
 enum e_mode
@@ -87,6 +88,7 @@ int			ft_keylen(const char *key);
 
 void		error_allocating_memory(t_enviroment *enviroment);
 void		error_piping(t_enviroment *enviroment, int *pipes[2]);
+void		error_and_close_pipes(t_enviroment *enviroment, int *pipes[2]);
 void		error_allocating_memory_free_str(t_enviroment *enviroment, char *s);
 void		free_enviroment(t_enviroment *enviroment);
 
