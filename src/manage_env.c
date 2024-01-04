@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/03 16:50:54 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:43:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 			error_allocating_memory(enviroment);
 	}
 	enviroment->variables = variables;
-	enviroment->last_exit_status = 0;
+	enviroment->status = 0;
 	enviroment->prompt = NULL;
 }
 

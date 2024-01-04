@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 11:26:58 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:43:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	load_commands(t_enviroment *enviroment, char *in)
 {
 	int	i;
 
+	enviroment->num_pipes = 0;
 	in = phase1(in);
 	in = phase2(in, enviroment);
 	enviroment->num_cmd = ft_count_words(in, "\1\2\3");
@@ -72,7 +73,7 @@ void	load_commands(t_enviroment *enviroment, char *in)
 	if (!enviroment->cmd)
 		error_allocating_memory_free_str(enviroment, in);
 	i = 0;
-	while (i < enviroment->num_cmd)
+	while (i < (int)enviroment->num_cmd)
 	{
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
