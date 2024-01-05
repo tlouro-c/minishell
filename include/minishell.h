@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 18:29:18 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/04 23:22:22 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ void		load_commands(t_enviroment *enviroment, char *in);
 char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 void		pathfinder(t_enviroment *enviroment);
 
-void	execute_cmds(t_cmd **commands, t_enviroment *enviroment);
+void		execute_cmds(t_cmd **commands, t_enviroment *enviroment);
+int			read_from_to(int from_fd, int to_fd);
+int			manage_output(t_cmd **commands, int (*pipes)[2], int i);
+void		close_pipes_child(int (*pipes)[2], int i, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */
