@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 23:22:22 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/05 02:10:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_enviroment
 	size_t			num_cmd;
 	char			*prompt;
 	unsigned int	status;
+	int				fd_in;
+	int				fd_out;
 }	t_enviroment;
 
 typedef struct s_modes

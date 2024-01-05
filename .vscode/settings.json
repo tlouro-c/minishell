@@ -13,6 +13,7 @@
 		"__locale": "c",
 		"ios": "c",
 		"errno.h": "c",
-		"bitset": "c"
+		"bitset": "c",
+		"output": "c"
 	}
 }

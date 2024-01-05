@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/05 01:14:49 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/05 02:12:13 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ int	read_from_to(int from_fd, int to_fd)
 	char	buffer[1024];
 	size_t	bytes_read;
 	
-	
 	while (1)
 	{
-		ft_putstr_fd("HERE MADAFACKAA\n", 2);
-		bytes_read = read(from_fd, buffer, 1024);
+		bytes_read = read(from_fd, buffer, sizeof(buffer));
 		ft_putstr_fd("HERE MADAFACKAA\n", 2);
 		if (bytes_read < 0)
 		{
@@ -63,16 +61,17 @@ int	read_from_to(int from_fd, int to_fd)
 			return (-1);
 		}
 		else if (bytes_read == 0)
-		{
-			close(from_fd);
-			return (0);
-		}
+			break ;
 		if (write (to_fd, buffer, bytes_read) < 0)
 		{
 			close(from_fd);
 			return (-1);
 		}
 	}
+	ft_putstr_fd("HERE MADAFACKAA\n", 2);
+	close(from_fd);
+	close(to_fd);
+	return (0);
 }
 
 static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int (*pipes)[2], int i)
@@ -89,11 +88,14 @@ static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int (*pipes)[2]
 	// 		error_and_close_pipes(enviroment, &pipes[2]);
 	// }
 	close_pipes_child(pipes, i, enviroment);
+	enviroment->fd_in = dup(STDIN_FILENO);
+	enviroment->fd_out = dup(STDOUT_FILENO);
 	if (command->priorities == OR && i != 0)
 		dup2(pipes[i][0], STDIN_FILENO);
 	close (pipes[i][0]);
 	if (i != (int)enviroment->num_cmd - 1 || command->append_file != NULL || command->output_file != NULL)
 		dup2(pipes[i + 1][1], STDOUT_FILENO);
+	close (pipes[i + 1][1]);
 	if (ft_isbuiltin(command->args[0]))
 	{
 		enviroment->status = (run_builtin(command, enviroment));
@@ -104,8 +106,9 @@ static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int (*pipes)[2]
 	if (pid == 0)
 		child(command, enviroment, pipes, i);
 	waitpid(pid, (int *)&enviroment->status, 0);
-	close (pipes[i + 1][1]);
 	enviroment->status = WEXITSTATUS(enviroment->status);
+	dup2(enviroment->fd_in, STDIN_FILENO);
+	dup2(enviroment->fd_out, STDOUT_FILENO);
 }
 
 void	execute_cmds(t_cmd **commands, t_enviroment *enviroment)
