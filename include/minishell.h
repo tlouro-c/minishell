@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/05 02:10:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:19:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define S_QUOTE 5
 # define D_QUOTE 6
 
+# define READ_END 0
+# define WRITE_END 1
+
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -34,6 +37,12 @@ enum e_mode
 	OVERWRITE,
 	APPEND
 };
+
+typedef struct s_pipe
+{
+	int	pipes[2];
+	int	input_for_next;
+}	t_pipe;
 
 typedef struct s_cmd
 {
@@ -124,5 +133,6 @@ void		execute_cmds(t_cmd **commands, t_enviroment *enviroment);
 int			read_from_to(int from_fd, int to_fd);
 int			manage_output(t_cmd **commands, int (*pipes)[2], int i);
 void		close_pipes_child(int (*pipes)[2], int i, t_enviroment *enviroment);
+void		close_pipes_parent(int (*pipes)[2], int i, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */
