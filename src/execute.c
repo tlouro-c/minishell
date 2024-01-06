@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:21:52 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:45:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static void	redirect_input(t_cmd *cmd, t_pipe pipes, int i,
 	}
 	if (i != 0 || cmd->input_file || cmd->delimiter)
 		close (pipes.input_pipe[1]);
-	close (pipes.input_for_next);
+	if (i != 0 && cmd -> priorities == PIPE)
+		close (pipes.input_for_next);
 	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd)
 		&& (i != 0 || cmd->input_file || cmd->delimiter))
 	{
