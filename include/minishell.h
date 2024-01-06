@@ -6,12 +6,21 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:59:21 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:36:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
+# include <string.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <errno.h>
+# include "libft.h"
 
 # define ON 1
 # define OFF 0
@@ -25,9 +34,10 @@
 # define PIPE 1
 # define AND 2
 # define OR 3
+# undef SPACE
 # define SPACE 4
 # define S_QUOTE 5
-# define D_QUOTE 6
+# define D_QUOTE 5
 
 # define READ_END 0
 # define WRITE_END 1
@@ -35,14 +45,6 @@
 # define RESET "\x1B[0m"
 # define CYAN "\033[1m\033[36m"
 # define MAGENTA "\033[1m\033[35m"
-
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <string.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <errno.h>
-# include "libft.h"
 
 typedef struct s_pipe
 {
