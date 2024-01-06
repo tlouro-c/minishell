@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 15:53:06 by tlouro-c         ###   ########.fr       */
-
+/*   Updated: 2024/01/06 21:56:15 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +23,19 @@ int	main(void)
 	// setup_signals();
 	while (TRUE)
 	{
-		load_prompt(&enviroment);
+		if (enviroment.prompt_mode == LONG)
+			load_prompt(&enviroment);
+		else
+			enviroment.prompt = ft_strdup("\033[1m\033[35mminishell>\x1B[0m "); 
 		user_input = readline(enviroment.prompt);
 		/**
 		 * unlike other signals this is also how EOF(ctrl+D) is caught
 		*/
 		if (!user_input)
 			error_allocating_memory(&enviroment);
-		else if (user_input[0] == '\0')
-			continue ;
 		add_history(user_input);
-		load_commands(&enviroment, user_input);
+		if (load_commands(&enviroment, user_input) == -1)
+			continue ;
 		execute_cmds(enviroment.cmd, &enviroment);
 		// free_enviroment(&enviroment);
 		// exit(0);

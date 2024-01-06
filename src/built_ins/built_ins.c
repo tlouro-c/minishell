@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:13:28 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:55:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	cmd_env(char **args, t_list *variables)
 {
 	t_node	*tmp;
 
-	if (ft_strarr_size(args) > 1)
+	if (ft_arr_size((void **)args) > 1)
 	{
 		ft_putstr_fd("env: too many arguments", 2);
 		return (1);
@@ -62,7 +62,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 
 	exit_status = ft_atoll(args[1]);
 	ft_printf("exit\n");
-	if (ft_strarr_size(args) > 2)
+	if (ft_arr_size((void **)args) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return ;
@@ -83,7 +83,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 }
 
-int	cmd_help(void)
+int cmd_help(void)
 {
 	ft_printf("minishell - Command List & Help\n\n");
 	ft_printf("Built-in commands:\n");
@@ -94,8 +94,11 @@ int	cmd_help(void)
 	ft_printf("  ◦ unset with no options\n");
 	ft_printf("  ◦ env with no options or arguments\n");
 	ft_printf("  ◦ exit with no options\n");
-	ft_printf("  ◦ minishell --help\n\n");
-	printf("Other functionalities replicate Bash commands.\n");
-	printf("Use 'man bash' for detailed information.\n");
-	return (0);
+	ft_printf("  ◦ minishell --help\n");
+	ft_printf("  ◦ minishell --short                Display a short prompt\n");
+	ft_printf("  ◦ minishell --long                 Display current user and current path on prompt\n\n");
+	ft_printf("Other functionalities replicate Bash commands.\n");
+	ft_printf("Use 'man bash' for detailed information.\n");
+
+    return (0);
 }

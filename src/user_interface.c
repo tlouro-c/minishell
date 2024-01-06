@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   customization.c                                    :+:      :+:    :+:   */
+/*   user_interface.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 15:53:39 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:40:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void welcome_message(void)
+void	welcome_message(void)
 {
-	ft_printf("\n%s*************************************************\n", CYAN);
-	ft_printf("   Welcome to minishell - By dabalm & tlouro-c\n");
+	ft_printf("\n%s*************************************************\n\n", CYAN);
+	ft_printf("   Welcome to minishell - By %sdabalm%s & %stlouro-c%s  \n\n",
+		MAGENTA, CYAN, MAGENTA, CYAN);
 	ft_printf("*************************************************%s\n\n", RESET);
 	ft_printf("  %s  Ready to explore? Type 'minishell --help'\n\n", CYAN);
 	ft_printf("              Start coding now! 💻%s\n\n", RESET);
@@ -30,6 +31,9 @@ static char	*path_for_prompt(t_enviroment *enviroment)
 		+ ft_strlen(ft_getenv("HOME", enviroment->variables));
 	return (path);
 }
+
+
+
 void	load_prompt(t_enviroment *enviroment)
 {
 	char	*str_to_join[6];
@@ -55,4 +59,3 @@ void	load_prompt(t_enviroment *enviroment)
 			error_allocating_memory(enviroment);
 	}
 }
-

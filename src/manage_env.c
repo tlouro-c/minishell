@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 15:50:39 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:38:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 	enviroment->variables = variables;
 	enviroment->status = 0;
 	enviroment->prompt = NULL;
+	enviroment->prompt_mode = SHORT;
 }
 
 int	ft_keycmp(void *keyvalue, void *key)
