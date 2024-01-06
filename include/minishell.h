@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 15:31:29 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:06:19 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ typedef struct s_modes
 }	t_modes;
 
 //? ------------------------------------------------------------------------ */
+//?                               user_interface                             */
+//? ------------------------------------------------------------------------ */
+
+void		load_prompt(t_enviroment *enviroment); // ✅
+void		welcome_message(void); // ✅
+
+//? ------------------------------------------------------------------------ */
 //?                                  built_ins                               */
 //? ------------------------------------------------------------------------ */
 
@@ -116,7 +123,6 @@ void		invalid_identifier(char *cmd, char *arg);
 //?                                    utils                                 */
 //? ------------------------------------------------------------------------ */
 
-char		*user_prompt(t_enviroment *enviroment);
 size_t		ft_strarr_size(char **strarr);
 int			ft_isbuiltin(char *cmd);
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
@@ -132,9 +138,18 @@ void		load_commands(t_enviroment *enviroment, char *in);
 char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 void		pathfinder(t_enviroment *enviroment);
 void		execute_cmds(t_cmd **commands, t_enviroment *enviroment);
-int			read_from_to(int from_fd, int to_fd);
-int			ft_strcmp_heredoc(const char *s1, const char *s2);
 
-void		welcome_message(void); // ✅
+
+//? ------------------------------------------------------------------------ */
+//?                                  execute                                 */
+//? ------------------------------------------------------------------------ */
+
+//? ------------------------------------------------------------------------ */
+//?                               manage_files                               */
+//? ------------------------------------------------------------------------ */
+
+int			read_here_doc(char *delimiter, int to_fd);
+int			read_from_to(int from_fd, int to_fd);
+void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes);
 
 #endif /* MINISHELL_H */

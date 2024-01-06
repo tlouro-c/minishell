@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:00:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:53:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	welcome_message();
 	while (TRUE)
 	{
-		enviroment.prompt =user_prompt(&enviroment);
+		load_prompt(&enviroment);
 		user_input = readline(enviroment.prompt);
 		if (!user_input)
 			error_allocating_memory(&enviroment);

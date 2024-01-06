@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 13:43:07 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:53:39 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ static char	*path_for_prompt(t_enviroment *enviroment)
 		+ ft_strlen(ft_getenv("HOME", enviroment->variables));
 	return (path);
 }
-char	*user_prompt(t_enviroment *enviroment)
+void	load_prompt(t_enviroment *enviroment)
 {
 	char	*str_to_join[6];
-	char	*prompt;
 	char	*tmp;
 	int		i;
 
 	if (enviroment -> prompt != NULL)
 		free(enviroment -> prompt);
-	prompt = NULL;
+	enviroment -> prompt = NULL;
 	str_to_join[0] = MAGENTA;
 	str_to_join[1] = ft_getenv("USER", enviroment->variables);
 	str_to_join[2] = "@minishell:\033[1m\033[36m";
@@ -49,12 +48,11 @@ char	*user_prompt(t_enviroment *enviroment)
 	i = -1;
 	while (str_to_join[++i] != NULL)
 	{
-		tmp = prompt;
-		prompt = ft_strjoin(prompt, str_to_join[i]);
+		tmp = enviroment->prompt;
+		enviroment->prompt = ft_strjoin(enviroment->prompt, str_to_join[i]);
 		free(tmp);
-		if (prompt == NULL)
+		if (enviroment->prompt == NULL)
 			error_allocating_memory(enviroment);
 	}
-	return (prompt);
 }
 

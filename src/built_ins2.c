@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:50:46 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:58:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,33 +95,6 @@ int	cmd_export(char **cmd, t_enviroment *enviroment)
 	return (status);
 }
 
-int	cmd_cd(t_enviroment *enviroment, char **args)
-{
-	char	*oldpwd;
-	char	*pwd;
-
-	if (chdir(args[1]) != 0)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		return (1);
-	}
-	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
-	if (!oldpwd)
-		error_allocating_memory(enviroment);
-	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
-	if (!pwd)
-		error_allocating_memory_free_str(enviroment, oldpwd);
-	enviroment->variables->set(enviroment->variables, "OLDPWD",
-		oldpwd, ft_keycmp);
-	free(oldpwd);
-	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
-	free(pwd);
-	return (0);
-}
-
 int	cmd_unset(char **cmd, t_enviroment *enviroment)
 {
 	int		i;
@@ -147,4 +120,31 @@ int	cmd_unset(char **cmd, t_enviroment *enviroment)
 			enviroment->variables, (void *)cmd[i], ft_keycmp);
 	}
 	return (status);
+}
+
+int	cmd_cd(t_enviroment *enviroment, char **args)
+{
+	char	*oldpwd;
+	char	*pwd;
+
+	if (chdir(args[1]) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": ", 2);
+		perror("");
+		return (1);
+	}
+	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
+	if (!oldpwd)
+		error_allocating_memory(enviroment);
+	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	if (!pwd)
+		error_allocating_memory_free_str(enviroment, oldpwd);
+	enviroment->variables->set(enviroment->variables, "OLDPWD",
+		oldpwd, ft_keycmp);
+	free(oldpwd);
+	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
+	free(pwd);
+	return (0);
 }

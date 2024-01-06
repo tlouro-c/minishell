@@ -16,9 +16,10 @@ RESET = \033[0m # Reset
 # Recursively find all .c files in SRC_DIR and its subdirectories
 SRC_FILES = $(SRC_DIR)/built_ins.c \
 			$(SRC_DIR)/built_ins2.c \
-			$(SRC_DIR)/customization.c \
+			$(SRC_DIR)/user_interface.c \
 			$(SRC_DIR)/error_messages.c \
 			$(SRC_DIR)/execute.c \
+			$(SRC_DIR)/manage_files.c \
 			$(SRC_DIR)/execute2.c \
 			$(SRC_DIR)/exit_utils.c \
 			$(SRC_DIR)/main.c \

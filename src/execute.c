@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 13:36:15 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:03:25 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,6 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 		perror(cmd->args[0]);
 }
 
-static int	read_here_doc(char *delimiter, int to_fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = ft_get_next_line(0);
-		if (!line)
-			return (-1);
-		if (ft_strcmp_heredoc(line, delimiter) == 0)
-			break ;
-		if (write(to_fd, line, ft_strlen(line)) < 0)
-			return (-1);
-		free(line);
-	}
-	return (0);
-}
-
-int	read_from_to(int from_fd, int to_fd)
-{
-	char	buffer[1];
-	int		bytes_read;
-
-	while (1)
-	{
-		bytes_read = read(from_fd, buffer, sizeof(buffer));
-		if (bytes_read < 0)
-			return (-1);
-		if (bytes_read == 0)
-			break ;
-		if (write(to_fd, buffer, bytes_read) < 0)
-			return (-1);
-	}
-	return (0);
-}
-
 static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
 	int	pid;
@@ -70,7 +34,7 @@ static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 	if (ft_isbuiltin(cmd->args[0])
 		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
 		&& ft_strcmp(cmd->args[1], "--help") == 0))
-		run_builtin(cmd, enviroment);
+		enviroment-> status = run_builtin(cmd, enviroment);
 	else
 	{
 		pid = fork();
@@ -79,23 +43,8 @@ static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 		waitpid(pid, (int *)&enviroment->status, 0);
 		enviroment->status = WEXITSTATUS(enviroment->status);
 	}
-	
 }
 
-// static void	wait_loop(t_enviroment *enviroment)
-// {
-// 	int		i;
-// 	int		status;
-
-// 	status = 0;
-// 	i = 0;
-// 	while (i < (int)enviroment->num_cmd)
-// 	{
-// 		wait(&status);
-// 		enviroment->status = WEXITSTATUS(status);
-// 		i++;
-// 	}
-// }
 
 static void redirect_output(t_cmd **cmd, t_pipe pipes, int i, t_enviroment *enviroment)
 {
@@ -136,28 +85,6 @@ static void redirect_input(t_cmd *cmd, t_pipe pipes, int i, t_enviroment *enviro
 	{
 		dup2(pipes.input_pipe[0], STDIN_FILENO);
 		close(pipes.input_pipe[0]);
-	}
-}
-
-static void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
-{
-	int	fd;
-
-	if (cmd->output_file)
-	{
-		close (STDOUT_FILENO);
-		fd = open(cmd->output_file, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-		if (read_from_to(pipes.input_for_next, fd) < 0)
-			error_allocating_memory(enviroment);
-		close(fd);
-	}
-	if (cmd->append_file)
-	{
-		close (STDOUT_FILENO);
-		fd = open(cmd->output_file, O_CREAT | O_APPEND | O_WRONLY, 0666);
-		if (read_from_to(pipes.input_for_next, fd) < 0)
-			error_allocating_memory(enviroment);
-		close(fd);
 	}
 }
 
