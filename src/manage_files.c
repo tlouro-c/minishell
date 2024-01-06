@@ -6,13 +6,12 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 20:57:40 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:23:14 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
 
 static int	ft_strcmp_heredoc(const char *s1, const char *s2)
 {
@@ -48,6 +47,7 @@ int	read_here_doc(char *delimiter, int to_fd)
 	}
 	return (0);
 }
+
 int	read_from_to(int from_fd, int to_fd)
 {
 	char	buffer[PIPE_BUF];
@@ -66,13 +66,14 @@ int	read_from_to(int from_fd, int to_fd)
 	return (0);
 }
 
-static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes, int mode)
+static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes,
+	int mode)
 {
-	int fd;
+	int	fd;
 	int	status;
 
 	if (mode == O_TRUNC)
-    	fd = open(cmd->output_file, O_CREAT | O_TRUNC | O_RDWR, 0666);
+		fd = open(cmd->output_file, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	else
 		fd = open(cmd->append_file, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (fd < 0)
@@ -87,6 +88,7 @@ static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes, int
 		error_and_close_pipes(enviroment, pipes);
 	pipes.input_for_next = fd;
 }
+
 void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
 	if (cmd->output_file)

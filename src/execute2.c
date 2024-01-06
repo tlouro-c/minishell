@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 20:13:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:59:37 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
 	else if (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
 		&& ft_strcmp(cmd->args[1], "--help") == 0)
 		status = cmd_help();
+	else if (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+		&& ((ft_strcmp(cmd->args[1], "--short") == 0) || (ft_strcmp(cmd->args[1],
+			"--long") == 0)))
+		status = cmd_prompt(cmd, enviroment);
 	else
 		cmd_exit(cmd->args, enviroment);
 	return (status);

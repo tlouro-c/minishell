@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 20:41:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:53:32 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	ft_isbuiltin(t_cmd *cmd)
 		|| ft_strcmp(cmd->args[0], "env") == 0
 		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
 			&& ft_strcmp(cmd->args[1], "--help") == 0)
+		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+			&& ft_strcmp(cmd->args[1], "--short") == 0)
+		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+			&& ft_strcmp(cmd->args[1], "--long") == 0)
 		|| ft_strcmp(cmd->args[0], "exit") == 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:10:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:23:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	manage_priorities(char *in, int index)
 
 static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 {
-	char **temp;
-	
+	char	**temp;
+
 	cmd = mod_strdup(cmd, "\1\2\3");
 	if (!cmd)
 		return (NULL);

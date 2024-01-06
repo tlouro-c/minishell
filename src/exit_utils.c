@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 20:41:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:25:25 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_cmds(t_cmd **cmd)
 	}
 	free(cmd);
 }
+
 void	free_exit(t_enviroment *enviroment, int status)
 {
 	free_enviroment(enviroment);
@@ -55,7 +56,7 @@ void	error_allocating_memory(t_enviroment *enviroment)
 	free_exit(enviroment, 10);
 }
 
-void		error_and_close_pipes(t_enviroment *enviroment, t_pipe pipes)
+void	error_and_close_pipes(t_enviroment *enviroment, t_pipe pipes)
 {
 	ft_close_pipes(pipes);
 	free_enviroment(enviroment);
@@ -63,8 +64,7 @@ void		error_and_close_pipes(t_enviroment *enviroment, t_pipe pipes)
 	exit(10);
 }
 
-
-void		error_piping(t_enviroment *enviroment, t_pipe pipes)
+void	error_piping(t_enviroment *enviroment, t_pipe pipes)
 {
 	close(pipes.pipes[0]);
 	close(pipes.pipes[1]);
