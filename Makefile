@@ -14,7 +14,22 @@ UNDERLINED_PURPLE = \033[4;35m
 RESET = \033[0m # Reset
 
 # Recursively find all .c files in SRC_DIR and its subdirectories
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
+SRC_FILES = $(SRC_DIR)/built_ins.c \
+			$(SRC_DIR)/built_ins2.c \
+			$(SRC_DIR)/customization.c \
+			$(SRC_DIR)/error_messages.c \
+			$(SRC_DIR)/execute.c \
+			$(SRC_DIR)/execute2.c \
+			$(SRC_DIR)/exit_utils.c \
+			$(SRC_DIR)/main.c \
+			$(SRC_DIR)/manage_env.c \
+			$(SRC_DIR)/manage_env2.c \
+			$(SRC_DIR)/parser.c \
+			$(SRC_DIR)/parser2.c \
+			$(SRC_DIR)/parser3.c \
+			$(SRC_DIR)/pathfinder.c \
+			$(SRC_DIR)/utils.c
+
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 all: libft $(NAME)

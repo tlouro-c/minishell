@@ -15,6 +15,7 @@
 		"errno.h": "c",
 		"bitset": "c",
 		"output": "c",
-		"locale": "c"
+		"locale": "c",
+		"libft.h": "c"
 	}
 }

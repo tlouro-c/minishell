@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 01:41:57 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:36:15 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
 	int	pid;
 	
-	if (ft_isbuiltin(cmd->args[0]))
+	if (ft_isbuiltin(cmd->args[0])
+		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+		&& ft_strcmp(cmd->args[1], "--help") == 0))
 		run_builtin(cmd, enviroment);
 	else
 	{

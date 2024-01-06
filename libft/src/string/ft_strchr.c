@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 14:27:38 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 12:15:41 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/09/05 03:06:15 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/06 12:30:38 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
+char	*ft_strchr(const char *s, int c)
 {
-	va_list	args;
-	t_inc	increment;
+	int	i;
 
-	if (format == NULL)
-		return (-1);
-	va_start(args, format);
-	increment.written = 0;
-	increment.i = 0;
-	while (format[increment.i] != '\0')
+	i = 0;
+	while (s[i] != '\0')
 	{
-		if (format[increment.i] == '%')
-			action(format, &args, &increment);
-		else
-		{
-			increment.written += write (1, &format[increment.i], 1);
-			increment.i++;
-		}
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
-	return (increment.written);
+	if (s[i] == (unsigned char)c)
+		return ((char *)&s[i]);
+	return (NULL);
 }

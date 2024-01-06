@@ -6,49 +6,12 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 11:25:20 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:33:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
-char	*path_for_prompt(t_enviroment *enviroment)
-{
-	char	*path;
-
-	path = ft_getenv("PWD", enviroment->variables)
-		+ ft_strlen(ft_getenv("HOME", enviroment->variables));
-	return (path);
-}
-
-char	*user_prompt(t_enviroment *enviroment)
-{
-	char	*str_to_join[6];
-	char	*prompt;
-	char	*tmp;
-	int		i;
-
-	if (enviroment -> prompt != NULL)
-		free(enviroment -> prompt);
-	prompt = NULL;
-	str_to_join[0] = "\e[1;95m";
-	str_to_join[1] = ft_getenv("USER", enviroment->variables);
-	str_to_join[2] = "@minishell:\e[1;96m~";
-	str_to_join[3] = path_for_prompt(enviroment);
-	str_to_join[4] = "$ \e[0m";
-	str_to_join[5] = NULL;
-	i = -1;
-	while (str_to_join[++i] != NULL)
-	{
-		tmp = prompt;
-		prompt = ft_strjoin(prompt, str_to_join[i]);
-		free(tmp);
-		if (prompt == NULL)
-			error_allocating_memory(enviroment);
-	}
-	return (prompt);
-}
 
 size_t	ft_strarr_size(char **strarr)
 {
@@ -80,13 +43,16 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		status = cmd_cd(enviroment, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		status = cmd_pwd(cmd->args);
+		status = cmd_pwd();
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		status = cmd_export(cmd->args, enviroment);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		status = cmd_unset(cmd->args, enviroment);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		status = cmd_env(cmd->args, enviroment -> variables);
+	else if (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+		&& ft_strcmp(cmd->args[1], "--help") == 0)
+		status = cmd_help();
 	else
 		cmd_exit(cmd->args, enviroment);
 	return (status);
