@@ -1,67 +1,56 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
-LIBFT = -L$(LIBFT_DIR) -lft
 NAME = minishell
 
-INCLUDE_DIR = ./include
-SRC_DIR = ./src
-OBJ_DIR = ./obj
-LIBFT_DIR = ./libft
+# Directories
+INCLUDE_DIR = include
+SRC_DIR = src
+OBJ_DIR = obj
+LIBFT_DIR = libft
 
-SRC_FILES =  $(SRC_DIR)/main.c \
-			 $(SRC_DIR)/built_ins.c \
-			 $(SRC_DIR)/built_ins2.c \
-			 $(SRC_DIR)/manage_env.c \
-			 $(SRC_DIR)/manage_env2.c \
-			 $(SRC_DIR)/parser.c \
-			 $(SRC_DIR)/parser2.c \
-			 $(SRC_DIR)/parser3.c \
-			 $(SRC_DIR)/exit_utils.c \
-			 $(SRC_DIR)/utils.c \
-			 $(SRC_DIR)/error_messages.c \
-			 $(SRC_DIR)/pathfinder.c \
-			 $(SRC_DIR)/execute.c \
-			 $(SRC_DIR)/execute2.c \
+PURPLE = \033[1;35m
+CYAN = \033[1;36m
+UNDERLINED_PURPLE = \033[4;35m
+RESET = \033[0m # Reset
 
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-
-# Colors
-RED=\033[0;31m
-BOLD_LIGHT_GREEN=\033[1;32m
-YELLOW=\033[0;33m
-BLUE=\033[1;34m
-RESET=\033[0m
+# Recursively find all .c files in SRC_DIR and its subdirectories
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 all: libft $(NAME)
 
 libft:
-	@echo "$(BOLD_LIGHT_GREEN)Making libft...$(RESET)"
+	@echo "$(PURPLE)Making libft...$(RESET)"
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ_FILES)
-	@echo "$(BLUE)Compiling $(NAME)...$(RESET)"
-	@$(CC) $^ -o $@ $(LIBFT) -lreadline
-	@echo "$(BLUE)$(NAME) compiled successfully.$(RESET)"
+	@echo "$(PURPLE)Building...$(RESET)"
+	@$(CC) $^ -o $@ -L$(LIBFT_DIR) -lft -lreadline
+	@echo "$(PURPLE)$(NAME) compiled successfully.$(RESET)"
 
-# Make sure dir exists
 $(OBJ_FILES): | $(OBJ_DIR)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-# Create object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	@echo "$(PURPLE)Compiling $(UNDERLINED_PURPLE)$<$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@echo "$(YELLOW)Cleaning up...$(RESET)"
+	@echo "$(PURPLE)Cleaning up...$(RESET)"
 	@make -C $(LIBFT_DIR) clean
-	@rm -f $(OBJS)
+	@rm -f $(OBJ_FILES)
 	@if [ -d "$(OBJ_DIR)" ]; then rm -rf $(OBJ_DIR); fi
+	@echo "$(PURPLE)Clean complete!$(RESET)"
 
 fclean: clean
+	@echo "$(PURPLE)Removing  \033[9m$(NAME)$(RESET)"
 	@rm -f $(NAME)
+	@echo "$(CYAN)Removing  \033[9m$(LIBFT_DIR)/libft.a$(RESET)"
 	@rm -f $(LIBFT_DIR)/libft.a
+	@echo "$(PURPLE)Removing complete!$(RESET)"
 
 re: fclean all
 
