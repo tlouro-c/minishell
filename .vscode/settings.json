@@ -13,7 +13,9 @@
 		"__locale": "c",
 		"ios": "c",
 		"errno.h": "c",
+		"bitset": "c",
+		"output": "c",
+		"locale": "c",
 		"libft.h": "c"
-		"bitset": "c"
 	}
 }

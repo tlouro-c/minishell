@@ -1,36 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 14:27:38 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 12:15:41 by tlouro-c         ###   ########.fr       */
+/*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/05 13:37:43 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
-{
-	va_list	args;
-	t_inc	increment;
-
-	if (format == NULL)
-		return (-1);
-	va_start(args, format);
-	increment.written = 0;
-	increment.i = 0;
-	while (format[increment.i] != '\0')
-	{
-		if (format[increment.i] == '%')
-			action(format, &args, &increment);
-		else
-		{
-			increment.written += write (1, &format[increment.i], 1);
-			increment.i++;
-		}
-	}
-	return (increment.written);
-}

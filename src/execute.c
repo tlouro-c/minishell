@@ -6,114 +6,111 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 14:35:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:03:25 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	child(t_cmd *cmd, t_enviroment *enviroment, int *pipes[2], int i)
+static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
-	dup2(pipes[i - 1][0], STDIN_FILENO);
-	dup2(pipes[i][1], STDOUT_FILENO);
-	enviroment->status = 0;
-	if (ft_isbuiltin(cmd->args[0]))
-		run_builtin(cmd, enviroment);
+	close (pipes.pipes[0]);
+	execve(cmd->args[0], cmd->args, (char **)enviroment->variables->toarray(enviroment->variables));
+	if (errno == ENOENT)
+	{
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit (127);
+	}
 	else
-		execve(cmd->args[0], cmd->args, enviroment->variables);
+		perror(cmd->args[0]);
+}
+
+static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
+{
+	int	pid;
 	
-}
-
-static int	read_here_doc(char *delimiter, int to_fd)
-{
-	char	*line;
-
-	while (1)
+	if (ft_isbuiltin(cmd->args[0])
+		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
+		&& ft_strcmp(cmd->args[1], "--help") == 0))
+		enviroment-> status = run_builtin(cmd, enviroment);
+	else
 	{
-		line = ft_get_next_line_v2(0);
-		if (!line)
-			return (-1);
-		if (ft_strcmp(line, delimiter) == 0)
-			break ;
-		if (write(to_fd, line, ft_strlen(line)) < 0)
-			return (-1);
-		free(line);
+		pid = fork();
+		if (pid == 0)
+			child(cmd, enviroment, pipes);
+		waitpid(pid, (int *)&enviroment->status, 0);
+		enviroment->status = WEXITSTATUS(enviroment->status);
 	}
-	return (0);
 }
 
-static int	read_from_to(int from_fd, int to_fd)
+
+static void redirect_output(t_cmd **cmd, t_pipe pipes, int i, t_enviroment *enviroment)
 {
-	char	buffer[1024];
-	size_t	bytes_read;
+	t_bool	has_output_file;
+	t_bool	next_cmd_is_pipe;
 	
-	while (1)
+	has_output_file = cmd[i]->append_file || cmd[i]->output_file;
+	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
+	enviroment->fd_out = dup(STDOUT_FILENO);
+	if (next_cmd_is_pipe || has_output_file)
 	{
-		bytes_read = read(from_fd, buffer, 1024);
-		if (bytes_read < 0)
-		{
-			close(from_fd);
-			return (-1);
-		}
-		else if (bytes_read == 0)
-		{
-			close(from_fd);
-			return (0);
-		}
-		if (write (to_fd, buffer, bytes_read) < 0)
-		{
-			close(from_fd);
-			return (-1);
-		}
+		dup2(pipes.pipes[WRITE_END], STDOUT_FILENO);
+		close(pipes.pipes[WRITE_END]);
 	}
 }
 
-static void launch_cmd(t_cmd *command, t_enviroment *enviroment, int *pipes[2], int i)
+static void redirect_input(t_cmd *cmd, t_pipe pipes, int i, t_enviroment *enviroment)
 {
-	pid_t	pid;
-	int		fd;
-
-	if (command->delimiter != NULL)
+	if (i != 0 || cmd->input_file || cmd->delimiter)
+		pipe(pipes.input_pipe);
+	if (i != 0 && cmd -> priorities == PIPE)
+		read_from_to(pipes.input_for_next, pipes.input_pipe[WRITE_END]);
+	if (cmd->input_file || cmd->delimiter)
 	{
-		if (read_here_doc(command->delimiter, pipes[i][1]) < 0)
-			error_and_close_pipes(enviroment, &pipes[2]);
+		if (cmd->input_file)
+			if (read_from_to(open(cmd->input_file, O_RDONLY),
+				pipes.input_pipe[WRITE_END]))
+				error_allocating_memory(enviroment);
+		if (cmd->delimiter)
+			if (read_here_doc(cmd->delimiter, pipes.input_pipe[1]) < 0)
+				error_allocating_memory(enviroment);
 	}
-	if (command->input_file != NULL)
+	if (i != 0 || cmd->input_file || cmd->delimiter)
+		close (pipes.input_pipe[1]);
+	enviroment->fd_in = dup(STDIN_FILENO);
+	close (pipes.input_for_next);
+	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd->args[0]))
 	{
-		fd = open(command->input_file, O_RDONLY, 0666);
-		if (fd < 0 || read_from_to(fd, pipes[i][1]) < 0)
-			error_and_close_pipes(enviroment, &pipes[2]);
+		dup2(pipes.input_pipe[0], STDIN_FILENO);
+		close(pipes.input_pipe[0]);
 	}
-	if (i == 0 && command->input_file == NULL && command->delimiter == NULL)
-		dup2(STDIN_FILENO, pipes[i][1]);
-	pid = fork();
-	//! PROTECT
-	// if (pid == 0)
-	// 	child(command, enviroment, pipes[2], i + 1);
-	waitpid(pid, (int *)&enviroment->status, 0);
-	enviroment->status = WEXITSTATUS(enviroment->status);
 }
 
-void	execute_cmds(t_cmd **commands, t_enviroment *enviroment)
+void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 {
-	int		*pipes[2];
+	t_pipe	pipes;
 	int		i;
 
-	pipes[2] = ft_calloc(enviroment->num_pipes, sizeof(pipes[2]));
-	if (!pipes[2])
-		error_allocating_memory(enviroment);
-	i = 0;
-	while (i < enviroment->num_pipes)
-		if (pipe(pipes[i++][2]) < 0)
-			error_piping(enviroment, pipes[2]);
-	i = 0;
-	while (i < enviroment->num_cmd)
+	pipes.input_for_next = STDIN_FILENO;
+	i = -1;
+	while (++i < (int)enviroment->num_cmd)
 	{
-		if ((enviroment->cmd[i]->priorities == AND && enviroment->status != 0)
-			|| (enviroment->cmd[i]->priorities == OR && enviroment->status == 0)
-			|| (enviroment->cmd[i]->priorities == PIPE && enviroment->status != 0))
+		if ((cmd[i]->priorities == AND && enviroment->status != 0)
+			|| (cmd[i]->priorities == OR && enviroment->status == 0)
+			|| (cmd[i]->priorities == PIPE
+				&& enviroment->status != 0 && i != 0))
 			continue ;
-		launch_cmd(enviroment->cmd[i], enviroment, pipes[2], i); 
+		pipe(pipes.pipes);
+		redirect_input(cmd[i], pipes, i, enviroment);
+		redirect_output(cmd, pipes, i, enviroment);
+		launch_cmd(cmd[i], enviroment, pipes);
+		pipes.input_for_next = pipes.pipes[READ_END];
+		fill_output_files(cmd[i], enviroment, pipes);
+		dup2(enviroment->fd_out, STDOUT_FILENO);
+		dup2(enviroment->fd_in, STDIN_FILENO);
 	}
+	// wait_loop(enviroment);
 }
+
