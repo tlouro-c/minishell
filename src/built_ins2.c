@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 13:56:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:12:22 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,26 @@ int	cmd_unset(char **cmd, t_enviroment *enviroment)
 {
 	char	*key;
 	int		i;
+	int		status;
 
 	if (cmd[1] != NULL && cmd[1][0] == '-')
 	{
 		invalid_option(cmd[0], cmd[1]);
 		return (1);
 	}
-	i = 1;
-	while (cmd[i] != NULL)
+	i = 0;
+	status = 0;
+	while (cmd[++i] != NULL)
 	{
 		key = cmd[i];
+		if (!ft_isalpha(key[0]) || !ft_str_only_snake(key))
+		{
+			invalid_identifier(cmd[0], key);
+			status = 1;
+			continue ;
+		} 
 		enviroment->variables->removeif(
 			enviroment->variables, (void *)key, ft_keycmp);
-		i++;
 	}
-	return (0);
+	return (status);
 }
