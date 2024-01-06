@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:27:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:50:46 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	cmd_export(char **cmd, t_enviroment *enviroment)
 			}
 			enviroment->variables->removeif
 				(enviroment->variables, cmd[i], ft_keycmp);
-			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);
+			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);		
 		}
 	}
 	return (status);

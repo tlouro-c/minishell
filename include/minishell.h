@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:31:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:31:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			cmd_pwd(void); // ✅
 int			cmd_env(char **args, t_list *variables); // ✅
 int			cmd_echo(char **args); // ✅
 void		cmd_exit(char **args, t_enviroment *enviroment); // ✅
-int			cmd_export(char **cmd, t_enviroment *enviroment);
+int			cmd_export(char **cmd, t_enviroment *enviroment); // ✅
 int			cmd_unset(char **cmd, t_enviroment *enviroment); // ✅
 int			cmd_cd(t_enviroment *enviroment, char **args); // ✅
 int			cmd_help(void); // ✅
