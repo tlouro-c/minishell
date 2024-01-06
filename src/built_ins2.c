@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:12:22 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:27:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,26 @@ static void	ft_print_list_exported(t_enviroment *enviroment)
 	while (tmp)
 	{
 		arr[i++] = ft_strdup((const char *)tmp -> value);
+		if (!arr[i - 1])
+		{
+			ft_free_arr((void **)arr);
+			error_allocating_memory(enviroment);
+		}
 		tmp = tmp -> next;
 	}
 	bubble_sort(arr, enviroment->variables->size);
 	i = 0;
 	while (arr[i])
-	{
-		ft_printf("declare -x ");
-		ft_printf("%s\n", arr[i++]);
-	}
+		ft_printf("declare -x %s\n", arr[i++]);
 	ft_free_arr((void **)arr);
 }
 
-int	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
+int	cmd_export(char **cmd, t_enviroment *enviroment)
 {
-	int	i;
+	int		i;
+	int		status;
 
+	status = 0;
 	if (cmd[1] == NULL)
 		ft_print_list_exported(enviroment);
 	else
@@ -76,9 +80,11 @@ int	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
 		i = 0;
 		while (cmd[++i] != NULL)
 		{
-			if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
+			if ((!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
+				|| !ft_key_only_snake(cmd[i]))
 			{
 				invalid_identifier(cmd[0], cmd[i]);
+				status = 1;
 				continue ;
 			}
 			enviroment->variables->removeif
@@ -86,7 +92,7 @@ int	cmd_export(char **cmd, t_enviroment *enviroment) //! TO IMPROVE
 			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);
 		}
 	}
-	return (0);
+	return (status);
 }
 
 int	cmd_cd(t_enviroment *enviroment, char **args)
@@ -118,7 +124,6 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 
 int	cmd_unset(char **cmd, t_enviroment *enviroment)
 {
-	char	*key;
 	int		i;
 	int		status;
 
@@ -131,15 +136,15 @@ int	cmd_unset(char **cmd, t_enviroment *enviroment)
 	status = 0;
 	while (cmd[++i] != NULL)
 	{
-		key = cmd[i];
-		if (!ft_isalpha(key[0]) || !ft_str_only_snake(key))
+		if ((!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
+			|| !ft_key_only_snake(cmd[i]))
 		{
-			invalid_identifier(cmd[0], key);
+			invalid_identifier(cmd[0], cmd[i]);
 			status = 1;
 			continue ;
-		} 
+		}
 		enviroment->variables->removeif(
-			enviroment->variables, (void *)key, ft_keycmp);
+			enviroment->variables, (void *)cmd[i], ft_keycmp);
 	}
 	return (status);
 }

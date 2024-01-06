@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:08:14 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:23:24 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	ft_strcmp_heredoc(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	ft_str_only_snake(char *s)
+int	ft_key_only_snake(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s[i] && s[i] != '=')
 	{
 		if (!ft_isdigit(s[i]) && !ft_isalpha(s[i]) && s[i] != '_')
 			return (0);
