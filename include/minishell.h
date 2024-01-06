@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:15:08 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:31:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char		*user_prompt(t_enviroment *enviroment);
 size_t		ft_strarr_size(char **strarr);
 int			ft_isbuiltin(char *cmd);
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
-int			ft_str_only_snake(char *s);
+int			ft_key_only_snake(char *s);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */
