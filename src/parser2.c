@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 19:54:49 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:10:10 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,17 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 	}
 }
 
-void	load_commands(t_enviroment *enviroment, char *in)
+int	load_commands(t_enviroment *enviroment, char *in)
 {
 	int	i;
 
-	in = phase1(in);
+	enviroment->parsing_error = FALSE;
+	in = phase1(in, enviroment);
+	if (enviroment->parsing_error)
+		return (msg_parsing_error(in));
 	in = phase2(in, enviroment);
 	enviroment->num_cmd = ft_count_words(in, "\1\2\3");
-	enviroment->cmd = (t_cmd **)ft_calloc(enviroment->num_cmd + 1,
-			sizeof(t_cmd *));
+	enviroment->cmd = ft_calloc(enviroment->num_cmd + 1, sizeof(t_cmd *));
 	if (!enviroment->cmd)
 		error_allocating_memory_free_str(enviroment, in);
 	i = 0;
@@ -82,9 +84,32 @@ void	load_commands(t_enviroment *enviroment, char *in)
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
 			error_allocating_memory_free_str(enviroment, in);
-		i++;
+		enviroment->cmd[i++]->valid = 0;
 	}
 	split_commands(enviroment, in, "\1\2\3");
 	free(in);
 	pathfinder(enviroment);
+	return (0);
+}
+
+int	ft_parsing_error(char *s)
+{
+	int		i;
+	char	last_c;
+
+	last_c = 0;
+	i = ft_strlen(s) - 1;
+	while (i > 0)
+	{
+		if (s[i] == SPACE)
+			i--;
+		else
+		{
+			last_c = s[i];
+			break ;
+		}
+	}
+	if (last_c == OR || last_c == PIPE || last_c == AND)
+		return (1);
+	return (0);
 }

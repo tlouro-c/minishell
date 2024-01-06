@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 16:06:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:57:40 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	read_here_doc(char *delimiter, int to_fd)
 
 	while (1)
 	{
+		ft_printf("> ");
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-1);
@@ -64,24 +65,32 @@ int	read_from_to(int from_fd, int to_fd)
 	}
 	return (0);
 }
+
+static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes, int mode)
+{
+	int fd;
+	int	status;
+
+	if (mode == O_TRUNC)
+    	fd = open(cmd->output_file, O_CREAT | O_TRUNC | O_RDWR, 0666);
+	else
+		fd = open(cmd->append_file, O_CREAT | O_APPEND | O_RDWR, 0666);
+	if (fd < 0)
+		error_and_close_pipes(enviroment, pipes);
+	status = read_from_to(pipes.input_for_next, fd);
+	ft_close(pipes.input_for_next);
+	ft_close(fd);
+	if (status < 0)
+		error_and_close_pipes(enviroment, pipes);
+	fd = open(cmd->output_file, O_RDONLY);
+	if (fd < 0)
+		error_and_close_pipes(enviroment, pipes);
+	pipes.input_for_next = fd;
+}
 void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
-	int	fd;
-
 	if (cmd->output_file)
-	{
-		close (STDOUT_FILENO);
-		fd = open(cmd->output_file, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-		if (read_from_to(pipes.input_for_next, fd) < 0)
-			error_allocating_memory(enviroment);
-		close(fd);
-	}
+		_output_file(cmd, enviroment, pipes, O_TRUNC);
 	if (cmd->append_file)
-	{
-		close (STDOUT_FILENO);
-		fd = open(cmd->output_file, O_CREAT | O_APPEND | O_WRONLY, 0666);
-		if (read_from_to(pipes.input_for_next, fd) < 0)
-			error_allocating_memory(enviroment);
-		close(fd);
-	}
+		_output_file(cmd, enviroment, pipes, O_APPEND);
 }

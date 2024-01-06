@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 17:12:27 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:41:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	free_cmds(t_cmd **cmd)
 	}
 	free(cmd);
 }
+void	free_exit(t_enviroment *enviroment, int status)
+{
+	free_enviroment(enviroment);
+	exit(status);
+}
 
 void	free_enviroment(t_enviroment *enviroment)
 {
@@ -42,27 +47,31 @@ void	free_enviroment(t_enviroment *enviroment)
 	if (enviroment->prompt != NULL)
 		free(enviroment->prompt);
 	free_cmds(enviroment->cmd);
-	//! LACKING COMMANDS STRUCTURE TO BE FREED
 }
 
 void	error_allocating_memory(t_enviroment *enviroment)
 {
-	free_enviroment(enviroment);
-	exit(10);
+	ft_putstr_fd("Error: memory allocation failed\n", 2);
+	free_exit(enviroment, 10);
 }
-void		error_and_close_pipes(t_enviroment *enviroment, int (*pipes)[2])
+
+void		error_and_close_pipes(t_enviroment *enviroment, t_pipe pipes)
 {
-	//! Close pipes
-	free(pipes);
+	ft_close_pipes(pipes);
 	free_enviroment(enviroment);
-	ft_putstr_fd("Error.\n", 2);
+	ft_putstr_fd("Error: exiting...\n", 2);
 	exit(10);
 }
 
 
-void		error_piping(t_enviroment *enviroment, int (*pipes)[2])
+void		error_piping(t_enviroment *enviroment, t_pipe pipes)
 {
-	free(pipes);
+	close(pipes.pipes[0]);
+	close(pipes.pipes[1]);
+	close(pipes.input_pipe[0]);
+	close(pipes.input_pipe[1]);
+	if (pipes.input_for_next != STDIN_FILENO)
+		close(pipes.input_for_next);
 	free_enviroment(enviroment);
 	ft_putstr_fd("Error: piping failed\n", 2);
 	exit(10);
@@ -72,4 +81,11 @@ void	error_allocating_memory_free_str(t_enviroment *enviroment, char *s)
 {
 	free(s);
 	error_allocating_memory(enviroment);
+}
+
+void	error_allocating_memory_free_arr(t_enviroment *enviroment, void **arr)
+{
+	ft_free_arr(arr);
+	ft_putstr_fd("Error: memory allocation failed\n", 2);
+	free_exit(enviroment, 10);
 }

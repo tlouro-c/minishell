@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:13:28 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:37:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	cmd_env(char **args, t_list *variables)
 {
 	t_node	*tmp;
 
-	if (ft_strarr_size(args) > 1)
+	if (ft_arr_size((void **)args) > 1)
 	{
 		ft_putstr_fd("env: too many arguments", 2);
 		return (1);
@@ -62,7 +62,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 
 	exit_status = ft_atoll(args[1]);
 	ft_printf("exit\n");
-	if (ft_strarr_size(args) > 2)
+	if (ft_arr_size((void **)args) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return ;

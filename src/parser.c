@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 23:49:22 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:07:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	manage_command_separators(char *c, t_modes *modes)
 	}
 }
 
-char	*phase1(char *in)
+char	*phase1(char *in, t_enviroment *enviroment)
 {
 	t_modes	modes;
 	int		i;
@@ -116,5 +116,7 @@ char	*phase1(char *in)
 			in[i] = SPACE;
 		i++;
 	}
+	if (modes.d_q == ON || modes.s_q == ON || ft_parsing_error(in))
+		enviroment->parsing_error = TRUE;
 	return (in);
 }

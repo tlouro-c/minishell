@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 19:30:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:56:28 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,42 +34,48 @@ static char	*ft_pathjoin(char const *s1, char const *s2)
 	return (s3);
 }
 
-static void	look_for_path(char **cmd, t_enviroment *enviroment)
+static void	look_for_path(t_cmd	*cmd, t_enviroment *enviroment, int *status)
 {
 	char	*path;
 	char	**paths;
 	int		i;
 
+	*status = COMMAND_NOT_FOUND;
 	paths = ft_split(ft_getenv("PATH", enviroment->variables), ":");
 	if (!paths)
 		error_allocating_memory(enviroment);
 	i = 0;
 	while (paths[i])
 	{
-		// ft_printf("paths[%d]: %s\n", i, paths[i]);
-		path = ft_pathjoin(paths[i++], *cmd);
-		// ft_printf("path: %s\n", path);
+		path = ft_pathjoin(paths[i++], cmd->args[0]);
 		if (!path)
-			error_allocating_memory(enviroment);
+			error_allocating_memory_free_arr(enviroment, (void **)paths);
 		if (access(path, X_OK) == 0)
 		{
-			free(*cmd);
-			*cmd = path;
+			*status = COMMAND_FOUND;
+			free(cmd->args[0]);
+			cmd->args[0] = path;
 			break ;
 		}
 		free(path);
 	}
+	ft_free_arr((void **)paths);
 }
 
 void	pathfinder(t_enviroment *enviroment)
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	while (enviroment->cmd[i])
 	{
-		if (!ft_isbuiltin(enviroment->cmd[i]->args[0]))
-			look_for_path(&enviroment->cmd[i]->args[0], enviroment);
+		if (!ft_isbuiltin(enviroment->cmd[i]))
+			look_for_path(enviroment->cmd[i], enviroment, &status);
+		if (!ft_isbuiltin(enviroment->cmd[i]) && status == COMMAND_NOT_FOUND)
+			enviroment->cmd[i]->valid = COMMAND_NOT_FOUND;
+		else
+			enviroment->cmd[i]->valid = COMMAND_FOUND;
 		i++;
 	}
 }

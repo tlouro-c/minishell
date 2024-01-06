@@ -31,10 +31,9 @@ int	main(void)
 		*/
 		if (!user_input)
 			error_allocating_memory(&enviroment);
-		else if (user_input[0] == '\0')
-			continue ;
 		add_history(user_input);
-		load_commands(&enviroment, user_input);
+		if (load_commands(&enviroment, user_input) == -1)
+			continue ;
 		execute_cmds(enviroment.cmd, &enviroment);
 		// free_enviroment(&enviroment);
 		// exit(0);

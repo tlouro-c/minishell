@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 14:05:47 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:26:25 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ char			*ft_itoa(int value, char *buffer, int base);
 int				ft_atoi(const char *s);
 long			ft_atol(const char *s);
 long long		ft_atoll(const char *s);
+size_t			ft_arr_size(void **arr);
 
 /* -------------------------------------------------------------------------- */
 /*                             "sorting" functions                            */

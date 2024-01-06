@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 16:03:25 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:47:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
 	int	pid;
 	
-	if (ft_isbuiltin(cmd->args[0])
-		|| (cmd->args[1] && ft_strcmp(cmd->args[0], "minishell") == 0
-		&& ft_strcmp(cmd->args[1], "--help") == 0))
+	if (ft_isbuiltin(cmd))
 		enviroment-> status = run_builtin(cmd, enviroment);
 	else
 	{
@@ -43,22 +41,24 @@ static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 		waitpid(pid, (int *)&enviroment->status, 0);
 		enviroment->status = WEXITSTATUS(enviroment->status);
 	}
+	dup2(enviroment->fd_out, STDOUT_FILENO);
+	dup2(enviroment->fd_in, STDIN_FILENO);
 }
 
 
-static void redirect_output(t_cmd **cmd, t_pipe pipes, int i, t_enviroment *enviroment)
+static void redirect_output(t_cmd **cmd, t_pipe pipes, int i)
 {
 	t_bool	has_output_file;
 	t_bool	next_cmd_is_pipe;
 	
 	has_output_file = cmd[i]->append_file || cmd[i]->output_file;
 	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
-	enviroment->fd_out = dup(STDOUT_FILENO);
 	if (next_cmd_is_pipe || has_output_file)
 	{
 		dup2(pipes.pipes[WRITE_END], STDOUT_FILENO);
 		close(pipes.pipes[WRITE_END]);
 	}
+
 }
 
 static void redirect_input(t_cmd *cmd, t_pipe pipes, int i, t_enviroment *enviroment)
@@ -71,28 +71,31 @@ static void redirect_input(t_cmd *cmd, t_pipe pipes, int i, t_enviroment *enviro
 	{
 		if (cmd->input_file)
 			if (read_from_to(open(cmd->input_file, O_RDONLY),
-				pipes.input_pipe[WRITE_END]))
+				pipes.input_pipe[WRITE_END]) == -1)
 				error_allocating_memory(enviroment);
 		if (cmd->delimiter)
-			if (read_here_doc(cmd->delimiter, pipes.input_pipe[1]) < 0)
+			if (read_here_doc(cmd->delimiter, pipes.input_pipe[WRITE_END]) < 0)
 				error_allocating_memory(enviroment);
 	}
 	if (i != 0 || cmd->input_file || cmd->delimiter)
 		close (pipes.input_pipe[1]);
-	enviroment->fd_in = dup(STDIN_FILENO);
 	close (pipes.input_for_next);
-	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd->args[0]))
+	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd)
+		&& (i != 0 || cmd->input_file || cmd->delimiter))
 	{
 		dup2(pipes.input_pipe[0], STDIN_FILENO);
 		close(pipes.input_pipe[0]);
 	}
 }
 
+
 void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 {
 	t_pipe	pipes;
 	int		i;
-
+	
+	if (msg_command_not_found(cmd) == -1)
+		return ;
 	pipes.input_for_next = STDIN_FILENO;
 	i = -1;
 	while (++i < (int)enviroment->num_cmd)
@@ -102,15 +105,15 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 			|| (cmd[i]->priorities == PIPE
 				&& enviroment->status != 0 && i != 0))
 			continue ;
+		enviroment->fd_in = dup(STDIN_FILENO);
+		enviroment->fd_out = dup(STDOUT_FILENO);
 		pipe(pipes.pipes);
 		redirect_input(cmd[i], pipes, i, enviroment);
-		redirect_output(cmd, pipes, i, enviroment);
+		redirect_output(cmd, pipes, i);
 		launch_cmd(cmd[i], enviroment, pipes);
 		pipes.input_for_next = pipes.pipes[READ_END];
 		fill_output_files(cmd[i], enviroment, pipes);
-		dup2(enviroment->fd_out, STDOUT_FILENO);
-		dup2(enviroment->fd_in, STDIN_FILENO);
 	}
-	// wait_loop(enviroment);
+	
 }
 
