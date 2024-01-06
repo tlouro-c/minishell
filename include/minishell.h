@@ -63,7 +63,7 @@ typedef struct s_enviroment
 	size_t			num_cmd;
 	char			*prompt;
 	unsigned int	last_exit_status;
-	__pid_t			child_pid;
+	pid_t			child_pid;
 	int				stdin_fd;
 	int				stdout_fd;
 	unsigned int	status;
