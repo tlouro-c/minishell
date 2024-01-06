@@ -1,4 +1,3 @@
-# Sample Makefile
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 LIBFT = -L$(LIBFT_DIR) -lft
@@ -26,28 +25,39 @@ SRC_FILES =  $(SRC_DIR)/main.c \
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
+# Colors
+RED=\033[0;31m
+BOLD_LIGHT_GREEN=\033[1;32m
+YELLOW=\033[0;33m
+BLUE=\033[1;34m
+RESET=\033[0m
+
 all: libft $(NAME)
 
 libft:
-	cd $(LIBFT_DIR) && make
+	@echo "$(BOLD_LIGHT_GREEN)Making libft...$(RESET)"
+	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ_FILES)
-	$(CC) $^ -o $@ $(LIBFT) -lreadline
+	@echo "$(BLUE)Compiling $(NAME)...$(RESET)"
+	@$(CC) $^ -o $@ $(LIBFT) -lreadline
+	@echo "$(BLUE)$(NAME) compiled successfully.$(RESET)"
 
 # Make sure dir exists
 $(OBJ_FILES): | $(OBJ_DIR)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 # Create object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	@echo "$(YELLOW)Cleaning up...$(RESET)"
 	@make -C $(LIBFT_DIR) clean
 	@rm -f $(OBJS)
-	@if [ -d "$(OBJ_DIR)" ]; then 		rm -rf $(OBJ_DIR); 	fi
+	@if [ -d "$(OBJ_DIR)" ]; then rm -rf $(OBJ_DIR); fi
 
 fclean: clean
 	@rm -f $(NAME)
@@ -56,4 +66,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft
-

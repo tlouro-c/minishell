@@ -2,6 +2,14 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 NAME = libft.a
 
+# Colors
+RED=\033[0;31m
+BOLD_LIGHT_GREEN=\033[1;32m
+YELLOW=\033[0;33m
+BLUE=\033[1;34m
+RESET=\033[0m
+
+# Directories
 INCLUDE_DIR = ./include
 SRC_DIR = ./src
 OBJ_DIR = ./obj
@@ -13,22 +21,26 @@ OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar -rcs $@ $^
+	@echo "$(BOLD_LIGHT_GREEN)--> Compiling libft <--$(RESET)"
+	@ar -rcs $@ $^
+	@echo "$(BOLD_LIGHT_GREEN)=== libft Compiled ===$(RESET)"
 
 $(OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@echo "$(BLUE)=== Cleaning libft ===$(RESET)"
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "$(RED)=== Removed libft ===$(RESET)"
 
 re: fclean all
 
