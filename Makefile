@@ -13,7 +13,6 @@ CYAN = \033[1;36m
 UNDERLINED_PURPLE = \033[4;35m
 RESET = \033[0m # Reset
 
-# Recursively find all .c files in SRC_DIR and its subdirectories
 SRC_FILES = $(SRC_DIR)/built_ins.c \
 			$(SRC_DIR)/built_ins2.c \
 			$(SRC_DIR)/user_interface.c \
@@ -53,6 +52,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@echo "$(PURPLE)Compiling $(UNDERLINED_PURPLE)$<$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+test: $(NAME)
+	clear
+	valgrind --leak-check=full ./$(NAME)
 
 clean:
 	@echo "$(PURPLE)Cleaning up...$(RESET)"
