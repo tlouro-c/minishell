@@ -4,10 +4,3 @@
    fun:readline
    ...
 }
-
-{
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:readline_internal_teardown
-   ...
-}

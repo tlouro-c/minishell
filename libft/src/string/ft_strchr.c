@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_env2.c                                      :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/22 15:54:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2023/12/25 01:10:42 by tlouro-c         ###   ########.fr       */
+/*   Created: 2023/09/05 03:06:15 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/06 12:30:38 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
 
-char	*ft_getkey(char *buffer, char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while (s[i] != '\0' && s[i] != '=')
+	while (s[i] != '\0')
 	{
-		buffer[i] = s[i];
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
 		i++;
 	}
-	return (buffer);
+	if (s[i] == (unsigned char)c)
+		return ((char *)&s[i]);
+	return (NULL);
 }

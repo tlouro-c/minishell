@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:31:10 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/01 20:32:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/07 22:31:37 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_isinstr(char *s, char c)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 	{

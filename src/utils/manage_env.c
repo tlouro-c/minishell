@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/04 13:43:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:46:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	load_enviroment_variables(t_enviroment *enviroment)
 	enviroment->variables = variables;
 	enviroment->status = 0;
 	enviroment->prompt = NULL;
+	enviroment->prompt_mode = SHORT;
 }
 
 int	ft_keycmp(void *keyvalue, void *key)
@@ -38,16 +39,21 @@ int	ft_keycmp(void *keyvalue, void *key)
 	char	*char_keyvalue;
 	char	*char_key;
 	int		i;
+	int		status;
 
 	char_keyvalue = (char *)keyvalue;
 	char_key = (char *)key;
 	i = 0;
 	if (char_keyvalue == NULL || char_key == NULL)
 		return (0);
-	while (ft_isalphanum(char_keyvalue[i]) && ft_isalphanum(char_key[i])
-		&& char_keyvalue[i] == char_key[i])
+	while (char_keyvalue[i] == char_key[i] && ft_isalphanum(char_keyvalue[i])
+		&& ft_isalphanum(char_key[i]))
 		i++;
-	return (char_keyvalue[i] != '=');
+	if (char_keyvalue[i] == '=' && !ft_isalphanum(char_key[i]))
+		status = 0;
+	else
+		status = 1;
+	return (status);
 }
 
 int	ft_keylen(const char *key)

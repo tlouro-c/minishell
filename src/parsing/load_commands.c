@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/08 11:53:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +26,8 @@ static int	manage_priorities(char *in, int index)
 
 static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 {
-	char **temp;
-	
+	char	**args;
+
 	cmd = mod_strdup(cmd, "\1\2\3");
 	if (!cmd)
 		return (NULL);
@@ -37,9 +38,9 @@ static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 		free(cmd);
 		return (NULL);
 	}
-	temp = split_args(cmd, enviroment, struct_i);
+	args = split_args(cmd, enviroment, struct_i);
 	free(cmd);
-	return (temp);
+	return (args);
 }
 
 static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
@@ -55,8 +56,6 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 			|| (!ft_isinstr(sep, in[i]) && ft_isinstr(sep, in[i - 1])))
 		{
 			enviroment -> cmd[j]-> priorities = manage_priorities(in, i);
-			if (enviroment->cmd[j]->priorities == PIPE)
-				enviroment->num_pipes++;
 			enviroment -> cmd[j]-> args = manage_args(&in[i], enviroment, j);
 			if (enviroment -> cmd[j]-> args == NULL)
 				error_allocating_memory_free_str(enviroment, in);
@@ -66,16 +65,17 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 	}
 }
 
-void	load_commands(t_enviroment *enviroment, char *in)
+int	load_commands(t_enviroment *enviroment, char *in)
 {
 	int	i;
 
-	enviroment->num_pipes = 0;
-	in = phase1(in);
+	enviroment->parsing_error = FALSE;
+	in = phase1(in, enviroment);
+	if (enviroment->parsing_error)
+		return (msg_parsing_error(in, enviroment));
 	in = phase2(in, enviroment);
 	enviroment->num_cmd = ft_count_words(in, "\1\2\3");
-	enviroment->cmd = (t_cmd **)ft_calloc(enviroment->num_cmd + 1,
-			sizeof(t_cmd *));
+	enviroment->cmd = ft_calloc(enviroment->num_cmd + 1, sizeof(t_cmd *));
 	if (!enviroment->cmd)
 		error_allocating_memory_free_str(enviroment, in);
 	i = 0;
@@ -84,9 +84,32 @@ void	load_commands(t_enviroment *enviroment, char *in)
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
 			error_allocating_memory_free_str(enviroment, in);
-		i++;
+		enviroment->cmd[i++]->valid = 0;
 	}
 	split_commands(enviroment, in, "\1\2\3");
 	free(in);
 	pathfinder(enviroment);
+	return (0);
+}
+
+int	ft_parsing_error(char *s)
+{
+	int		i;
+	char	last_c;
+
+	last_c = 0;
+	i = ft_strlen(s) - 1;
+	while (i > 0)
+	{
+		if (s[i] == SPACE)
+			i--;
+		else
+		{
+			last_c = s[i];
+			break ;
+		}
+	}
+	if (last_c == OR || last_c == PIPE || last_c == AND)
+		return (1);
+	return (0);
 }

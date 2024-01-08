@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_arr_size.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 14:27:38 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 12:15:41 by tlouro-c         ###   ########.fr       */
+/*   Created: 2024/01/06 16:25:30 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/06 16:26:05 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
+size_t	ft_arr_size(void **arr)
 {
-	va_list	args;
-	t_inc	increment;
+	int	size;
 
-	if (format == NULL)
-		return (-1);
-	va_start(args, format);
-	increment.written = 0;
-	increment.i = 0;
-	while (format[increment.i] != '\0')
-	{
-		if (format[increment.i] == '%')
-			action(format, &args, &increment);
-		else
-		{
-			increment.written += write (1, &format[increment.i], 1);
-			increment.i++;
-		}
-	}
-	return (increment.written);
+	if (arr == NULL)
+		return (0);
+	size = 0;
+	while (arr[size] != NULL)
+		size++;
+	return (size);
 }

@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_only_alphanum.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 14:27:38 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 12:15:41 by tlouro-c         ###   ########.fr       */
+/*   Created: 2024/01/06 12:47:22 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/07 22:31:18 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_str_only_alphanum(char *s)
 {
-	va_list	args;
-	t_inc	increment;
+	int	i;
 
-	if (format == NULL)
-		return (-1);
-	va_start(args, format);
-	increment.written = 0;
-	increment.i = 0;
-	while (format[increment.i] != '\0')
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
 	{
-		if (format[increment.i] == '%')
-			action(format, &args, &increment);
-		else
-		{
-			increment.written += write (1, &format[increment.i], 1);
-			increment.i++;
-		}
+		if (!ft_isdigit(s[i]) && !ft_isalpha(s[i]))
+			return (0);
+		i++;
 	}
-	return (increment.written);
+	return (1);
 }
