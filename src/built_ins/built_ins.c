@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 00:21:33 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 10:52:40 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,29 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 }
 
-int	cmd_help(void)
+int	cmd_cd(t_enviroment *enviroment, char **args)
 {
-	ft_printf("minishell - Command List & Help\n\n");
-	ft_printf("Built-in commands:\n");
-	ft_printf("  ◦ echo\t\t\t\twith option -n\n");
-	ft_printf("  ◦ cd\t\t\t\t\twith only a relative or absolute path\n");
-	ft_printf("  ◦ pwd\t\t\t\t\twith no options\n");
-	ft_printf("  ◦ export\t\t\t\twith no options\n");
-	ft_printf("  ◦ unset\t\t\t\twith no options\n");
-	ft_printf("  ◦ env\t\t\t\t\twith no options or arguments\n");
-	ft_printf("  ◦ exit\t\t\t\twith no options\n");
-	ft_printf("  ◦ minishell --help\t\t\tDisplay help message\n");
-	ft_printf("  ◦ minishell --short\t\t\tDisplay a short prompt\n");
-	ft_printf("  ◦ minishell --long\t\t\tDisplay current user and"
-		" current path on prompt\n\n");
-	ft_printf("Other functionalities replicate Bash commands.\n");
-	ft_printf("Use 'man bash' for detailed information.\n");
+	char	*oldpwd;
+	char	*pwd;
+
+	if (!args[1] || args[1][0] == '~')
+	{
+		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
+			return (msg_cd_error(args));
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+			return (msg_cd_error(args));
+	}
+	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
+	if (!oldpwd)
+		error_allocating_memory(enviroment);
+	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	if (!pwd)
+		error_allocating_memory_free_str(enviroment, oldpwd);
+	enviroment->variables->set(enviroment->variables, "OLDPWD",
+		oldpwd, ft_keycmp);
+	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
 	return (0);
 }

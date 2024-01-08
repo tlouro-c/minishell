@@ -6,38 +6,12 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 00:09:16 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 10:52:55 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
-static void	bubble_sort(char **arr, int size)
-{
-	int	i;
-	int	j;
-	int	swap_count;
-
-	i = 0;
-	while (i < size - 1)
-	{
-		j = 0;
-		swap_count = 0;
-		while (j < size - i - 1)
-		{
-			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
-			{
-				swap_count++;
-				ft_swap_str(&arr[j], &arr[j + 1]);
-			}
-			j++;
-		}
-		if (swap_count == 0)
-			return ;
-		i++;
-	}
-}
 
 static void	ft_print_list_exported(t_enviroment *enviroment)
 {
@@ -60,7 +34,7 @@ static void	ft_print_list_exported(t_enviroment *enviroment)
 		}
 		tmp = tmp -> next;
 	}
-	bubble_sort(arr, enviroment->variables->size);
+	ft_quick_sort_str(arr, enviroment->variables->size);
 	i = 0;
 	while (arr[i])
 		ft_printf("declare -x %s\n", arr[i++]);
@@ -122,29 +96,37 @@ int	cmd_unset(char **cmd, t_enviroment *enviroment)
 	return (status);
 }
 
-int	cmd_cd(t_enviroment *enviroment, char **args)
+int	cmd_help(void)
 {
-	char	*oldpwd;
-	char	*pwd;
+	ft_printf("minishell - Command List & Help\n\n");
+	ft_printf("Built-in commands:\n");
+	ft_printf("  ◦ echo\t\t\t\twith option -n\n");
+	ft_printf("  ◦ cd\t\t\t\t\twith only a relative or absolute path\n");
+	ft_printf("  ◦ pwd\t\t\t\t\twith no options\n");
+	ft_printf("  ◦ export\t\t\t\twith no options\n");
+	ft_printf("  ◦ unset\t\t\t\twith no options\n");
+	ft_printf("  ◦ env\t\t\t\t\twith no options or arguments\n");
+	ft_printf("  ◦ exit\t\t\t\twith no options\n");
+	ft_printf("  ◦ minishell --help\t\t\tDisplay help message\n");
+	ft_printf("  ◦ minishell --short\t\t\tDisplay a short prompt\n");
+	ft_printf("  ◦ minishell --long\t\t\tDisplay current user and"
+		" current path on prompt\n\n");
+	ft_printf("Other functionalities replicate Bash commands.\n");
+	ft_printf("Use 'man bash' for detailed information.\n");
+	return (0);
+}
 
-	if (!args[1] || args[1][0] == '~')
+int	cmd_prompt(t_cmd *cmd, t_enviroment *enviroment)
+{
+	if (cmd->args[1] && ft_strcmp(cmd->args[1], "--short") == 0)
 	{
-		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
-			return (msg_cd_error(args));
+		enviroment->prompt_mode = SHORT;
+		return (0);
 	}
-	else
+	else if (cmd->args[1] && ft_strcmp(cmd->args[1], "--long") == 0)
 	{
-		if (chdir(args[1]) != 0)
-			return (msg_cd_error(args));
+		enviroment->prompt_mode = LONG;
+		return (0);
 	}
-	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
-	if (!oldpwd)
-		error_allocating_memory(enviroment);
-	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
-	if (!pwd)
-		error_allocating_memory_free_str(enviroment, oldpwd);
-	enviroment->variables->set(enviroment->variables, "OLDPWD",
-		oldpwd, ft_keycmp);
-	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
 	return (0);
 }

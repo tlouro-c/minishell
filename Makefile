@@ -15,7 +15,6 @@ RESET = \033[0m # Reset
 
 SRC_FILES = $(SRC_DIR)/built_ins/built_ins.c \
 			$(SRC_DIR)/built_ins/built_ins2.c \
-			$(SRC_DIR)/built_ins/built_ins3.c \
 			$(SRC_DIR)/user_interface.c \
 			$(SRC_DIR)/error_messages.c \
 			$(SRC_DIR)/execute.c \
