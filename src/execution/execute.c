@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 16:15:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:04:47 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,23 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 	exit(127);
 }
 
-static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
+static int	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
-	int	pid;
-
 	if (ft_isbuiltin(cmd))
 		enviroment->status = run_builtin(cmd, enviroment);
 	else
 	{
-		pid = fork();
-		if (pid == 0)
+		enviroment->child_pid = fork();
+		if (enviroment->child_pid == 0)
 			child(cmd, enviroment, pipes);
-		waitpid(pid, (int *)&enviroment->status, 0);
+		waitpid(enviroment->child_pid, (int *)&enviroment->status, 0);
 		enviroment->status = WEXITSTATUS(enviroment->status);
+		if (enviroment->status == (SIGINT + 128))
+			return (-1);
 	}
 	dup2(enviroment->fd_out, STDOUT_FILENO);
 	dup2(enviroment->fd_in, STDIN_FILENO);
+	return (0);
 }
 
 static void	redirect_output(t_cmd **cmd, t_pipe pipes, int i)
@@ -109,7 +110,8 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		pipe(pipes.pipes);
 		redirect_input(cmd[i], pipes, i, enviroment);
 		redirect_output(cmd, pipes, i);
-		launch_cmd(cmd[i], enviroment, pipes);
+		if (launch_cmd(cmd[i], enviroment, pipes) == -1)
+			break ;
 		pipes.input_for_next = pipes.pipes[READ_END];
 		fill_output_files(cmd[i], enviroment, &pipes);
 		free_cmds(&cmd[i]);
