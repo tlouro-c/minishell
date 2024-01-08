@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 11:44:09 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:17:01 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@
 # define OR 3
 # undef SPACE
 # define SPACE 4
+# undef S_QUOTE
 # define S_QUOTE 5
-# define D_QUOTE 5
+# undef D_QUOTE
+# define D_QUOTE 6
 
 # define READ_END 0
 # define WRITE_END 1

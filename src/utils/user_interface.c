@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/07 23:33:11 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:18:28 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 void	welcome_message(void)
 {
-	ft_printf("\n%s*************************************************\n\n", CYAN);
+	ft_printf("\n%s*************************************************\n\n",
+		CYAN);
 	ft_printf("   Welcome to minishell - By %sdabalm%s & %stlouro-c%s  \n\n",
 		MAGENTA, CYAN, MAGENTA, CYAN);
 	ft_printf("*************************************************%s\n\n", RESET);
@@ -54,8 +55,6 @@ void	load_prompt(t_enviroment *enviroment)
 	char	*tmp;
 	int		i;
 
-	if (enviroment -> prompt != NULL)
-		free(enviroment -> prompt);
 	enviroment -> prompt = NULL;
 	str_to_join[0] = MAGENTA;
 	str_to_join[1] = ft_getenv("USER", enviroment->variables);
@@ -71,6 +70,8 @@ void	load_prompt(t_enviroment *enviroment)
 		tmp = enviroment->prompt;
 		enviroment->prompt = ft_strjoin(enviroment->prompt, str_to_join[i]);
 		free(tmp);
+		if (i == 3)
+			free(str_to_join[i]);
 		if (enviroment->prompt == NULL)
 			error_allocating_memory(enviroment);
 	}

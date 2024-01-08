@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 10:52:40 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:52:54 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	cmd_env(char **args, t_list *variables)
 
 	if (ft_arr_size((void **)args) > 1)
 	{
-		ft_putstr_fd("env: too many arguments", 2);
+		ft_putstr_fd("env: too many arguments\n", 2);
 		return (1);
 	}
 	tmp = variables -> begin;
@@ -48,7 +48,7 @@ int	cmd_echo(char **args)
 	int	i;
 
 	option = ft_strcmp(args[1], "-n") == 0;
-	i = 1 + (option || args[1][0] == '-');
+	i = 1 + (option || (args[1] && args[1][0] == '-'));
 	while (args[i] != NULL)
 		ft_printf("%s ", args[i++]);
 	if (!option)
@@ -87,6 +87,7 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 {
 	char	*oldpwd;
 	char	*pwd;
+	char	*cwd;
 
 	if (!args[1] || args[1][0] == '~')
 	{
@@ -94,14 +95,14 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 			return (msg_cd_error(args));
 	}
 	else
-	{
 		if (chdir(args[1]) != 0)
 			return (msg_cd_error(args));
-	}
 	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
 	if (!oldpwd)
 		error_allocating_memory(enviroment);
-	pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", cwd);
+	free(cwd);
 	if (!pwd)
 		error_allocating_memory_free_str(enviroment, oldpwd);
 	enviroment->variables->set(enviroment->variables, "OLDPWD",
