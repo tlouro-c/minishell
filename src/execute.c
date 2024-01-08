@@ -94,7 +94,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	t_pipe	pipes;
 	int		i;
 
-	if (msg_command_not_found(cmd) == -1)
+	if (msg_command_not_found(cmd, enviroment) == -1)
 		return ;
 	pipes.input_for_next = STDIN_FILENO;
 	i = -1;

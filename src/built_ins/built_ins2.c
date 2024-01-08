@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:18:57 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 00:09:16 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,15 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 	char	*oldpwd;
 	char	*pwd;
 
-	if (chdir(args[1]) != 0)
+	if (!args[1] || args[1][0] == '~')
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		return (1);
+		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
+			return (msg_cd_error(args));
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+			return (msg_cd_error(args));
 	}
 	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
 	if (!oldpwd)
@@ -143,8 +145,6 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 		error_allocating_memory_free_str(enviroment, oldpwd);
 	enviroment->variables->set(enviroment->variables, "OLDPWD",
 		oldpwd, ft_keycmp);
-	free(oldpwd);
 	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
-	free(pwd);
 	return (0);
 }
