@@ -6,10 +6,10 @@
 /*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/05 17:58:01 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 
 void	free_cmds(t_cmd **cmd)
@@ -17,7 +17,7 @@ void	free_cmds(t_cmd **cmd)
 	int	i;
 
 	i = 0;
-	while (cmd[i])
+	while (cmd && cmd[i])
 	{
 		if (cmd[i]->args)
 			ft_free_arr((void **)cmd[i]->args);
