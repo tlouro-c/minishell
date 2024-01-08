@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:59:21 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:39:10 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,9 @@ void		free_cmds(t_cmd **cmd);
 
 void		invalid_option(char *cmd, char *option);
 void		invalid_identifier(char *cmd, char *arg);
-int			msg_parsing_error(char *input);
-int			msg_command_not_found(t_cmd **cmd);
+int			msg_parsing_error(char *input, t_enviroment *enviroment);
+int			msg_command_not_found(t_cmd **cmd, t_enviroment *enviroment);
+int			msg_cd_error(char **args);
 
 //? ------------------------------------------------------------------------ */
 //?                                    utils                                 */

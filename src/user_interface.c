@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:40:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:33:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,27 @@ void	welcome_message(void)
 static char	*path_for_prompt(t_enviroment *enviroment)
 {
 	char	*path;
+	char	*pwd;
+	char	*home;
+	int		home_len;
 
-	path = ft_getenv("PWD", enviroment->variables)
-		+ ft_strlen(ft_getenv("HOME", enviroment->variables));
+	home = ft_getenv("HOME", enviroment->variables);
+	pwd = ft_getenv("PWD", enviroment->variables);
+	home_len = ft_strlen(home);
+	if (ft_strnstr(pwd, home, home_len))
+	{
+		path = ft_strjoin("~", pwd + home_len);
+		if (!path)
+			return (NULL);
+	}
+	else
+	{
+		path = ft_strdup(pwd);
+		if (!path)
+			return (NULL);
+	}
 	return (path);
 }
-
-
 
 void	load_prompt(t_enviroment *enviroment)
 {
@@ -47,6 +61,8 @@ void	load_prompt(t_enviroment *enviroment)
 	str_to_join[1] = ft_getenv("USER", enviroment->variables);
 	str_to_join[2] = "@minishell:\033[1m\033[36m";
 	str_to_join[3] = path_for_prompt(enviroment);
+	if (!str_to_join[3])
+		error_allocating_memory(enviroment);
 	str_to_join[4] = "$ \e[0m";
 	str_to_join[5] = NULL;
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:21:52 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:05:24 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	t_pipe	pipes;
 	int		i;
 
-	if (msg_command_not_found(cmd) == -1)
+	if (msg_command_not_found(cmd, enviroment) == -1)
 		return ;
 	pipes.input_for_next = STDIN_FILENO;
 	i = -1;

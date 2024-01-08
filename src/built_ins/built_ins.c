@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:55:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 00:21:33 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 {
 	long long	exit_status;
 
-	exit_status = ft_atoll(args[1]);
 	ft_printf("exit\n");
+	exit_status = ft_atoll(args[1]);
 	if (ft_arr_size((void **)args) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return ;
 	}
 	if (exit_status > LONG_MAX || exit_status < LONG_MIN
-		|| !ft_str_only_digits(args[1]))
+		|| (args[1] && !ft_str_only_digits(args[1])))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
@@ -83,22 +83,22 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 }
 
-int cmd_help(void)
+int	cmd_help(void)
 {
 	ft_printf("minishell - Command List & Help\n\n");
 	ft_printf("Built-in commands:\n");
-	ft_printf("  ◦ echo with option -n\n");
-	ft_printf("  ◦ cd with only a relative or absolute path\n");
-	ft_printf("  ◦ pwd with no options\n");
-	ft_printf("  ◦ export with no options\n");
-	ft_printf("  ◦ unset with no options\n");
-	ft_printf("  ◦ env with no options or arguments\n");
-	ft_printf("  ◦ exit with no options\n");
-	ft_printf("  ◦ minishell --help\n");
-	ft_printf("  ◦ minishell --short                Display a short prompt\n");
-	ft_printf("  ◦ minishell --long                 Display current user and current path on prompt\n\n");
+	ft_printf("  ◦ echo\t\t\t\twith option -n\n");
+	ft_printf("  ◦ cd\t\t\t\t\twith only a relative or absolute path\n");
+	ft_printf("  ◦ pwd\t\t\t\t\twith no options\n");
+	ft_printf("  ◦ export\t\t\t\twith no options\n");
+	ft_printf("  ◦ unset\t\t\t\twith no options\n");
+	ft_printf("  ◦ env\t\t\t\t\twith no options or arguments\n");
+	ft_printf("  ◦ exit\t\t\t\twith no options\n");
+	ft_printf("  ◦ minishell --help\t\t\tDisplay help message\n");
+	ft_printf("  ◦ minishell --short\t\t\tDisplay a short prompt\n");
+	ft_printf("  ◦ minishell --long\t\t\tDisplay current user and"
+		" current path on prompt\n\n");
 	ft_printf("Other functionalities replicate Bash commands.\n");
 	ft_printf("Use 'man bash' for detailed information.\n");
-
-    return (0);
+	return (0);
 }
