@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 16:26:25 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 10:49:09 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,8 @@ size_t			ft_arr_size(void **arr);
 /*                             "sorting" functions                            */
 /* -------------------------------------------------------------------------- */
 
-void			ft_quick_sort(int *array, int size);
+void			ft_quick_sort_int(int *array, int size);
+void			ft_quick_sort_str(char **array, int size);
 
 /* -------------------------------------------------------------------------- */
 /*                             "string" functions                             */
