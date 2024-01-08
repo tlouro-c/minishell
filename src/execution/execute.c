@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/07 23:05:24 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:44:24 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
-	close (pipes.pipes[0]);
+	ft_close(&pipes.pipes[0]);
 	execve(cmd->args[0], cmd->args,
 		(char **)enviroment->variables->toarray(enviroment->variables));
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd(cmd->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
 	}
 	else
 		perror(cmd->args[0]);
+	exit(127);
 }
 
 static void	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
@@ -56,7 +56,7 @@ static void	redirect_output(t_cmd **cmd, t_pipe pipes, int i)
 	if (next_cmd_is_pipe || has_output_file)
 	{
 		dup2(pipes.pipes[WRITE_END], STDOUT_FILENO);
-		close(pipes.pipes[WRITE_END]);
+		ft_close(&pipes.pipes[WRITE_END]);
 	}
 }
 
@@ -67,6 +67,7 @@ static void	redirect_input(t_cmd *cmd, t_pipe pipes, int i,
 		pipe(pipes.input_pipe);
 	if (i != 0 && cmd -> priorities == PIPE)
 		read_from_to(pipes.input_for_next, pipes.input_pipe[WRITE_END]);
+	ft_close(&pipes.input_for_next);
 	if (cmd->input_file || cmd->delimiter)
 	{
 		if (cmd->input_file)
@@ -78,13 +79,12 @@ static void	redirect_input(t_cmd *cmd, t_pipe pipes, int i,
 				error_allocating_memory(enviroment);
 	}
 	if (i != 0 || cmd->input_file || cmd->delimiter)
-		close (pipes.input_pipe[1]);
-	close (pipes.input_for_next);
+		ft_close(&pipes.input_pipe[1]);
 	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd)
 		&& (i != 0 || cmd->input_file || cmd->delimiter))
 	{
 		dup2(pipes.input_pipe[0], STDIN_FILENO);
-		close(pipes.input_pipe[0]);
+		ft_close(&pipes.input_pipe[0]);
 	}
 }
 
@@ -93,9 +93,9 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	t_pipe	pipes;
 	int		i;
 
+	innit_pipes(&pipes);
 	if (msg_command_not_found(cmd, enviroment) == -1)
 		return ;
-	pipes.input_for_next = STDIN_FILENO;
 	i = -1;
 	while (++i < (int)enviroment->num_cmd)
 	{
@@ -111,6 +111,6 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		redirect_output(cmd, pipes, i);
 		launch_cmd(cmd[i], enviroment, pipes);
 		pipes.input_for_next = pipes.pipes[READ_END];
-		fill_output_files(cmd[i], enviroment, pipes);
+		fill_output_files(cmd[i], enviroment, &pipes);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:53:32 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:38:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,37 @@ int	ft_key_only_snake(char *s)
 	return (1);
 }
 
-int	ft_close(int fd)
+int	ft_close(int *fd)
 {
-	if (fd != -1)
+	if (*fd != -1)
 	{
-		if (close(fd) < 0)
+		if (close(*fd) < 0)
 			return (-1);
-		fd = -1;
+		*fd = -1;
 	}
 	return (0);
 }
 
-int	ft_close_pipes(t_pipe pipes)
+int	ft_close_pipes(t_pipe *pipes)
 {
-	if (ft_close(pipes.pipes[0]) < 0)
+	if (ft_close(&pipes->pipes[0]) < 0)
 		return (-1);
-	if (ft_close(pipes.pipes[1]) < 0)
+	if (ft_close(&pipes->pipes[1]) < 0)
 		return (-1);
-	if (ft_close(pipes.input_for_next) < 0)
+	if (ft_close(&pipes->input_for_next) < 0)
 		return (-1);
-	if (ft_close(pipes.input_pipe[0]) < 0)
+	if (ft_close(&pipes->input_pipe[0]) < 0)
 		return (-1);
-	if (ft_close(pipes.input_pipe[1]) < 0)
+	if (ft_close(&pipes->input_pipe[1]) < 0)
 		return (-1);
 	return (0);
+}
+
+void	innit_pipes(t_pipe *pipes)
+{
+	pipes->pipes[0] = -1;
+	pipes->pipes[1] = -1;
+	pipes->input_pipe[0] = -1;
+	pipes->input_pipe[1] = -1;
+	pipes->input_for_next = -1;
 }

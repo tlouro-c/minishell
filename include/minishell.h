@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/07 23:39:10 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:44:09 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int			cmd_prompt(t_cmd *cmd, t_enviroment *enviroment); // ✅
 void		load_enviroment_variables(t_enviroment *enviroment);
 char		*ft_getenv(const char *key, t_list *variables);
 int			ft_keycmp(void *keyvalue, void *key);
-char		*ft_getkey(char *buffer, char *s);
 int			ft_keylen(const char *key);
 
 //? ------------------------------------------------------------------------ */
@@ -132,7 +131,7 @@ int			ft_keylen(const char *key);
 
 void		error_allocating_memory(t_enviroment *enviroment);
 void		error_piping(t_enviroment *enviroment, t_pipe pipes);
-void		error_and_close_pipes(t_enviroment *enviroment, t_pipe pipes);
+void		error_and_close_pipes(t_enviroment *enviroment, t_pipe *pipes);
 void		error_allocating_memory_free_str(t_enviroment *enviroment, char *s);
 void		error_allocating_memory_free_arr(t_enviroment *enviroment,
 				void **arr);
@@ -155,8 +154,9 @@ int			msg_cd_error(char **args);
 
 int			ft_isbuiltin(t_cmd *cmd);
 int			ft_key_only_snake(char *s);
-int			ft_close(int fd);
-int			ft_close_pipes(t_pipe pipes);
+int			ft_close(int *fd);
+int			ft_close_pipes(t_pipe *pipes);
+void		innit_pipes(t_pipe *pipes);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */
@@ -183,6 +183,6 @@ int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
 int			read_here_doc(char *delimiter, int to_fd);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
-				t_pipe pipes);
+				t_pipe *pipes);
 
 #endif /* MINISHELL_H */

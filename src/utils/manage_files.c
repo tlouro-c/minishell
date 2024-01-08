@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/06 21:23:14 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:44:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	read_from_to(int from_fd, int to_fd)
 	return (0);
 }
 
-static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes,
+static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes,
 	int mode)
 {
 	int	fd;
@@ -78,18 +78,18 @@ static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes,
 		fd = open(cmd->append_file, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (fd < 0)
 		error_and_close_pipes(enviroment, pipes);
-	status = read_from_to(pipes.input_for_next, fd);
-	ft_close(pipes.input_for_next);
-	ft_close(fd);
+	status = read_from_to(pipes->input_for_next, fd);
+	ft_close(&pipes->input_for_next);
+	ft_close(&fd);
 	if (status < 0)
 		error_and_close_pipes(enviroment, pipes);
 	fd = open(cmd->output_file, O_RDONLY);
 	if (fd < 0)
 		error_and_close_pipes(enviroment, pipes);
-	pipes.input_for_next = fd;
+	pipes->input_for_next = fd;
 }
 
-void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
+void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
 	if (cmd->output_file)
 		_output_file(cmd, enviroment, pipes, O_TRUNC);
