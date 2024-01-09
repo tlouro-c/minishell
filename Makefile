@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS = -Wall -Wextra -g -Werror -I$(INCLUDE_DIR)
 NAME = minishell
 
 # Directories
