@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:17:01 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:13:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define S_QUOTE 5
 # undef D_QUOTE
 # define D_QUOTE 6
+# define EMPTY 7
 
 # define READ_END 0
 # define WRITE_END 1
@@ -128,6 +129,7 @@ void		load_enviroment_variables(t_enviroment *enviroment);
 char		*ft_getenv(const char *key, t_list *variables);
 int			ft_keycmp(void *keyvalue, void *key);
 int			ft_keylen(const char *key);
+char		*get_env_declare(char *enviroment_variable);
 
 //? ------------------------------------------------------------------------ */
 //?                                  exit_utils                              */
@@ -141,6 +143,7 @@ void		error_allocating_memory_free_arr(t_enviroment *enviroment,
 				void **arr);
 void		free_enviroment(t_enviroment *enviroment);
 void		free_cmds(t_cmd **cmd);
+void		free_cmd(t_cmd *cmd);
 
 //? ------------------------------------------------------------------------ */
 //?                               error_messages                             */
@@ -179,6 +182,7 @@ int			ft_parsing_error(char *s);
 //? ------------------------------------------------------------------------ */
 
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
+void		order_cmd(t_cmd **cmd);
 
 //? ------------------------------------------------------------------------ */
 //?                               manage_files                               */
