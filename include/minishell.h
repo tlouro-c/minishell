@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 10:56:06 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 16:44:44 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@
 # define RESET "\x1B[0m"
 # define CYAN "\033[1m\033[36m"
 # define MAGENTA "\033[1m\033[35m"
+
+// signal
+# define MAIN 42
+# define CHILD 007
 
 typedef struct s_pipe
 {
@@ -103,7 +107,7 @@ void		welcome_message(void); // ✅
 /*                                   signals                                  */
 /* -------------------------------------------------------------------------- */
 
-// void setup_signals(void);
+void setup_signals(int n);
 // void handle_sigint(t_enviroment *enviroment);
 // void signal_handler(int sig, siginfo_t *a, void *b);
 
@@ -143,6 +147,7 @@ void		error_allocating_memory_free_arr(t_enviroment *enviroment,
 				void **arr);
 void		free_enviroment(t_enviroment *enviroment);
 void		free_cmds(t_cmd **cmd);
+void	free_exit(t_enviroment *enviroment, int status);
 void		free_cmd(t_cmd *cmd);
 
 //? ------------------------------------------------------------------------ */

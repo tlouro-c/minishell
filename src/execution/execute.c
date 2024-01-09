@@ -6,7 +6,8 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 11:08:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 16:49:35 by dabalm           ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +36,13 @@ static int	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 	else
 	{
 		enviroment->child_pid = fork();
-		if (enviroment->child_pid == 0)
+		if (enviroment->child_pid == 0){
+			setup_signals(CHILD);
 			child(cmd, enviroment, pipes);
+		}
 		waitpid(enviroment->child_pid, (int *)&enviroment->status, 0);
 		enviroment->status = WEXITSTATUS(enviroment->status);
+		// printf("status: %d\n", enviroment->status);
 		if (enviroment->status == (SIGINT + 128))
 			return (-1);
 	}
