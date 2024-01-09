@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 10:49:09 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:48:31 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,8 @@ size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char			*ft_strchr(const char *s, int c);
 int				ft_str_only_digits(char *s);
 int				ft_str_only_alphanum(char *s);
+char			*ft_strshrinker(char *str, char *set, int to_free);
+int				ft_isonlythis(char *str, char *set);
 
 /* -------------------------------------------------------------------------- */
 /*                              "free" functions                              */

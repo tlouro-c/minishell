@@ -40,6 +40,7 @@
 # define S_QUOTE 5
 # undef D_QUOTE
 # define D_QUOTE 6
+# define EMPTY 7
 
 # define READ_END 0
 # define WRITE_END 1
@@ -132,6 +133,7 @@ void		load_enviroment_variables(t_enviroment *enviroment);
 char		*ft_getenv(const char *key, t_list *variables);
 int			ft_keycmp(void *keyvalue, void *key);
 int			ft_keylen(const char *key);
+char		*get_env_declare(char *enviroment_variable);
 
 //? ------------------------------------------------------------------------ */
 //?                                  exit_utils                              */
@@ -146,6 +148,7 @@ void		error_allocating_memory_free_arr(t_enviroment *enviroment,
 void		free_enviroment(t_enviroment *enviroment);
 void		free_cmds(t_cmd **cmd);
 void	free_exit(t_enviroment *enviroment, int status);
+void		free_cmd(t_cmd *cmd);
 
 //? ------------------------------------------------------------------------ */
 //?                               error_messages                             */
@@ -166,6 +169,8 @@ int			ft_key_only_snake(char *s);
 int			ft_close(int *fd);
 int			ft_close_pipes(t_pipe *pipes);
 void		innit_pipes(t_pipe *pipes);
+void		set_pwd(t_enviroment *enviroment);
+void		set_oldpwd(t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */
@@ -184,6 +189,7 @@ int			ft_parsing_error(char *s);
 //? ------------------------------------------------------------------------ */
 
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
+void		order_cmd(t_cmd **cmd);
 
 //? ------------------------------------------------------------------------ */
 //?                               manage_files                               */

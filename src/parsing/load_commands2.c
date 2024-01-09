@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:19:07 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 22:53:44 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			if (manage_redirections(cmd, enviroment, struct_i, &i) == -1)
 				return (NULL);
 		}
-		else if ((i == 0 && !ft_isinstr("\4\5\6<>", cmd[i]))
-			|| (!ft_isinstr("\4\5\6<>", cmd[i])
-				&& ft_isinstr("\4\5\6<>", cmd[i - 1])))
+		else if ((i == 0 && !ft_isinstr("\4<>", cmd[i]))
+			|| (!ft_isinstr("\4<>", cmd[i])
+				&& ft_isinstr("\4<>", cmd[i - 1])))
 		{
-			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\5\6<>");
+			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4<>");
 			if (!enviroment->cmd[struct_i]->args[j])
 				return (NULL);
 			i += ft_strlen(enviroment->cmd[struct_i]->args[j++]);

@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
 /*   Updated: 2024/01/09 16:49:35 by dabalm           ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +106,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	{
 		if ((cmd[i]->priorities == AND && enviroment->status != 0)
 			|| (cmd[i]->priorities == OR && enviroment->status == 0)
-			|| (cmd[i]->priorities == PIPE
-				&& enviroment->status != 0 && i != 0))
+			|| (cmd[i]->priorities == PIPE && enviroment->status != 0 && i != 0))
 			continue ;
 		enviroment->fd_in = dup(STDIN_FILENO);
 		enviroment->fd_out = dup(STDOUT_FILENO);
@@ -117,6 +117,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 			break ;
 		pipes.input_for_next = pipes.pipes[READ_END];
 		fill_output_files(cmd[i], enviroment, &pipes);
-		free_cmds(&cmd[i]);
+		free_cmd(cmd[i]);
 	}
+	free(enviroment->cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 11:44:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 10:35:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	read_here_doc(char *delimiter, int to_fd)
 		if (!line)
 			return (-1);
 		if (ft_strcmp_heredoc(line, delimiter) == 0)
+		{
+			free(line);
 			break ;
+		}
 		if (write(to_fd, line, ft_strlen(line)) < 0)
 			return (-1);
 		free(line);

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/07 22:18:37 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/08 23:00:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	look_for_path(t_cmd	*cmd, t_enviroment *enviroment)
 	char	**paths;
 	int		i;
 
+	if (cmd->args[0][0] == '\0')
+		return ;
 	paths = ft_split(ft_getenv("PATH", enviroment->variables), ":");
 	if (!paths)
 		error_allocating_memory(enviroment);
@@ -74,6 +76,8 @@ void	pathfinder(t_enviroment *enviroment)
 			enviroment->cmd[i]->valid = COMMAND_NOT_FOUND;
 		else
 			enviroment->cmd[i]->valid = COMMAND_FOUND;
+		enviroment->cmd[i]->has_input_file = (enviroment->cmd[i]->input_file
+				|| enviroment->cmd[i]->delimiter);
 		i++;
 	}
 }

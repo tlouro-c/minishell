@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 00:22:20 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:11:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,36 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
 	else
 		cmd_exit(cmd->args, enviroment);
 	return (status);
+}
+
+static void	swap_cmd(t_cmd **a, t_cmd **b)
+{
+	t_cmd	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+void	order_cmd(t_cmd **cmd)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (cmd[i])
+	{
+		if (cmd[i] != NULL && cmd[i - 1] != NULL && cmd[i]->priorities == PIPE
+			&& cmd[i]->has_input_file && !cmd[i - 1]->has_input_file)
+		{
+			j = i;
+			while (j > 0 && cmd[j - 1] != NULL && cmd[j - 1]->priorities == PIPE
+				&& !cmd[j - 1]->input_file)
+			{
+				swap_cmd(&cmd[j], &cmd[j - 1]);
+				j--;
+			}
+		}
+		i++;
+	}
 }

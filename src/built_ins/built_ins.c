@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 16:52:54 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 10:59:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 
 int	cmd_cd(t_enviroment *enviroment, char **args)
 {
-	char	*oldpwd;
-	char	*pwd;
-	char	*cwd;
-
 	if (!args[1] || args[1][0] == '~')
 	{
 		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
@@ -97,16 +93,9 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 	else
 		if (chdir(args[1]) != 0)
 			return (msg_cd_error(args));
-	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
-	if (!oldpwd)
-		error_allocating_memory(enviroment);
-	cwd = getcwd(NULL, 0);
-	pwd = ft_strjoin("PWD=", cwd);
-	free(cwd);
-	if (!pwd)
-		error_allocating_memory_free_str(enviroment, oldpwd);
-	enviroment->variables->set(enviroment->variables, "OLDPWD",
-		oldpwd, ft_keycmp);
-	enviroment->variables->set(enviroment->variables, "PWD", pwd, ft_keycmp);
+	if (ft_getenv("OLDPWD", enviroment->variables)[0] != '\0')
+		set_oldpwd(enviroment);
+	if (ft_getenv("PWD", enviroment->variables)[0] != '\0')
+		set_pwd(enviroment);
 	return (0);
 }

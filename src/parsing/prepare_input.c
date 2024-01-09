@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:17:24 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:10:13 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ char	*phase2(char *in, t_enviroment *enviroment)
 	while (in[i])
 	{
 		manage_mode(&in[i], &modes);
-		if (in[i] == '$' && modes.s_q == OFF
+		if (in[i] == D_QUOTE || in[i] == S_QUOTE)
+			in[i] = SPACE;
+		else if (in[i] == '$' && modes.s_q == OFF
 			&& (ft_isalphanum(in[i + 1]) || in[i + 1] == '?'))
 			in = set_env_on_input(in, enviroment, &i);
 		else
