@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 11:05:22 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:05:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,12 @@ void	load_prompt(t_enviroment *enviroment)
 		if (enviroment->prompt == NULL)
 			error_allocating_memory(enviroment);
 	}
+}
+
+void	define_prompt(t_enviroment *enviroment)
+{
+	if (enviroment->prompt_mode == LONG)
+		load_prompt(enviroment);
+	else
+		enviroment->prompt = ft_strdup("\033[1m\033[35mminishell>\x1B[0m ");
 }

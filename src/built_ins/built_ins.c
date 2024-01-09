@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 10:59:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 20:51:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	cmd_echo(char **args)
 	return (0);
 }
 
-void	cmd_exit(char **args, t_enviroment *enviroment)
+void	cmd_exit(char **args, t_enviroment *enviroment, t_pipe *pipes)
 {
 	long long	exit_status;
 
@@ -78,6 +78,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 	else
 	{
+		ft_close_pipes(pipes);
 		free_enviroment(enviroment);
 		exit (exit_status % 256);
 	}

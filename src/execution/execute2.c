@@ -6,14 +6,14 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 00:11:41 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:40:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
+int	run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
 	int	status;
 
@@ -38,7 +38,7 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment)
 			|| (ft_strcmp(cmd->args[1], "--long") == 0)))
 		status = cmd_prompt(cmd, enviroment);
 	else
-		cmd_exit(cmd->args, enviroment);
+		cmd_exit(cmd->args, enviroment, pipes);
 	return (status);
 }
 
@@ -71,5 +71,27 @@ void	order_cmd(t_cmd **cmd)
 			}
 		}
 		i++;
+	}
+}
+
+void	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
+			t_pipe *pipes)
+{
+	int	fd;
+
+	if (cmd->input_file)
+	{
+		fd = open(cmd->input_file, O_RDONLY);
+		if (fd == -1)
+			error_and_close_pipes(enviroment, pipes);
+		if (read_from_to(fd, pipes->input_pipe[WRITE_END]) == -1)
+			error_and_close_pipes(enviroment, pipes);
+		ft_close(&fd);
+	}
+	if (cmd -> delimiter)
+	{
+		if (read_here_doc(cmd->delimiter,
+				pipes->input_pipe[WRITE_END]) == -1)
+			error_and_close_pipes(enviroment, pipes);
 	}
 }

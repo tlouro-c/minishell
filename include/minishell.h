@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 16:44:44 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/09 21:38:21 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <fcntl.h>
 # include <errno.h>
 # include "libft.h"
+
+# ifndef PIPE_BUF
+#  define PIPE_BUF 512
+# endif
 
 # define ON 1
 # define OFF 0
@@ -58,6 +62,8 @@ typedef struct s_pipe
 	int	pipes[2];
 	int	input_pipe[2];
 	int	input_for_next;
+	int	fd_in;
+	int	fd_out;
 }	t_pipe;
 
 typedef struct s_cmd
@@ -85,8 +91,6 @@ typedef struct s_enviroment
 	int				stdin_fd;
 	int				stdout_fd;
 	unsigned int	status;
-	int				fd_in;
-	int				fd_out;
 	int				prompt_mode;
 }	t_enviroment;
 
@@ -102,12 +106,14 @@ typedef struct s_modes
 
 void		load_prompt(t_enviroment *enviroment); // ✅
 void		welcome_message(void); // ✅
+void		define_prompt(t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                   signals                                  */
 /* -------------------------------------------------------------------------- */
 
-void setup_signals(int n);
+void		setup_signals(int n);
+
 // void handle_sigint(t_enviroment *enviroment);
 // void signal_handler(int sig, siginfo_t *a, void *b);
 
@@ -118,7 +124,7 @@ void setup_signals(int n);
 int			cmd_pwd(void); // ✅
 int			cmd_env(char **args, t_list *variables); // ✅
 int			cmd_echo(char **args); // ✅
-void		cmd_exit(char **args, t_enviroment *enviroment); // ✅
+void		cmd_exit(char **args, t_enviroment *enviroment, t_pipe *pipes);
 int			cmd_export(char **cmd, t_enviroment *enviroment); // ✅
 int			cmd_unset(char **cmd, t_enviroment *enviroment); // ✅
 int			cmd_cd(t_enviroment *enviroment, char **args); // ✅
@@ -146,9 +152,10 @@ void		error_allocating_memory_free_str(t_enviroment *enviroment, char *s);
 void		error_allocating_memory_free_arr(t_enviroment *enviroment,
 				void **arr);
 void		free_enviroment(t_enviroment *enviroment);
-void		free_cmds(t_cmd **cmd);
-void	free_exit(t_enviroment *enviroment, int status);
-void		free_cmd(t_cmd *cmd);
+void		free_cmds(t_enviroment *enviroment);
+void		free_exit(t_enviroment *enviroment, int status);
+void		free_cmd(t_enviroment *enviroment, int i);
+void		ft_free(void **ptr);
 
 //? ------------------------------------------------------------------------ */
 //?                               error_messages                             */
@@ -188,7 +195,7 @@ int			ft_parsing_error(char *s);
 //?                                  execute                                 */
 //? ------------------------------------------------------------------------ */
 
-int			run_builtin(t_cmd *cmd, t_enviroment *enviroment);
+int			run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes);
 void		order_cmd(t_cmd **cmd);
 
 //? ------------------------------------------------------------------------ */
@@ -198,6 +205,8 @@ void		order_cmd(t_cmd **cmd);
 int			read_here_doc(char *delimiter, int to_fd);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
+				t_pipe *pipes);
+void		fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
 
 #endif /* MINISHELL_H */
