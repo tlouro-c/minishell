@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 00:13:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 10:56:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ int			ft_key_only_snake(char *s);
 int			ft_close(int *fd);
 int			ft_close_pipes(t_pipe *pipes);
 void		innit_pipes(t_pipe *pipes);
+void		set_pwd(t_enviroment *enviroment);
+void		set_oldpwd(t_enviroment *enviroment);
 
 /* -------------------------------------------------------------------------- */
 /*                                   parser                                   */

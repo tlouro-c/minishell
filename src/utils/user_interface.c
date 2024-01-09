@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 13:07:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:18:28 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:05:22 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,19 @@ static char	*path_for_prompt(t_enviroment *enviroment)
 	int		home_len;
 
 	home = ft_getenv("HOME", enviroment->variables);
-	pwd = ft_getenv("PWD", enviroment->variables);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		error_allocating_memory(enviroment);
 	home_len = ft_strlen(home);
-	if (ft_strnstr(pwd, home, home_len))
+	if (home_len > 0 && ft_strnstr(pwd, home, home_len))
 	{
 		path = ft_strjoin("~", pwd + home_len);
+		free(pwd);
 		if (!path)
 			return (NULL);
 	}
 	else
-	{
-		path = ft_strdup(pwd);
-		if (!path)
-			return (NULL);
-	}
+		path = pwd;
 	return (path);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 23:16:59 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:08:17 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	{
 		if ((cmd[i]->priorities == AND && enviroment->status != 0)
 			|| (cmd[i]->priorities == OR && enviroment->status == 0)
-			|| (cmd[i]->priorities == PIPE
-				&& enviroment->status != 0 && i != 0))
+			|| (cmd[i]->priorities == PIPE && enviroment->status != 0 && i != 0))
 			continue ;
 		enviroment->fd_in = dup(STDIN_FILENO);
 		enviroment->fd_out = dup(STDOUT_FILENO);
@@ -116,4 +115,5 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		fill_output_files(cmd[i], enviroment, &pipes);
 		free_cmd(cmd[i]);
 	}
+	free(enviroment->cmd);
 }
