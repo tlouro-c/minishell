@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 18:04:47 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/08 23:16:59 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 			break ;
 		pipes.input_for_next = pipes.pipes[READ_END];
 		fill_output_files(cmd[i], enviroment, &pipes);
-		free_cmds(&cmd[i]);
+		free_cmd(cmd[i]);
 	}
 }

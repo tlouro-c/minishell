@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:58:11 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/08 20:00:38 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(void)
 		add_history(user_input);
 		if (load_commands(&enviroment, user_input) == -1)
 			continue ;
+		order_cmd(enviroment.cmd);
 		execute_cmds(enviroment.cmd, &enviroment);
 	}
 }

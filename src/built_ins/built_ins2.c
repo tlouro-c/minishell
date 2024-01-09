@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 21:41:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 10:52:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:12:39 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_print_list_exported(t_enviroment *enviroment)
 	i = 0;
 	while (tmp)
 	{
-		arr[i++] = ft_strdup((const char *)tmp -> value);
+		arr[i++] = get_env_declare((char *)tmp -> value);
 		if (!arr[i - 1])
 		{
 			ft_free_arr((void **)arr);
@@ -63,7 +63,8 @@ int	cmd_export(char **cmd, t_enviroment *enviroment)
 			}
 			enviroment->variables->removeif
 				(enviroment->variables, cmd[i], ft_keycmp);
-			enviroment->variables->add(enviroment->variables, (void *)cmd[i]);
+			enviroment->variables->add(enviroment->variables,
+				(void *)ft_strdup(cmd[i]));
 		}
 	}
 	return (status);

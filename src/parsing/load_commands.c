@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser2.c                                          :+:      :+:    :+:   */
+/*   load_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 11:53:04 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:10:03 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,26 @@ static int	manage_priorities(char *in, int index)
 
 static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 {
-	char	**args;
-
 	cmd = mod_strdup(cmd, "\1\2\3");
 	if (!cmd)
 		return (NULL);
-	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4\5\6") + 1,
-			sizeof(char *));
+	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4")
+			+ 1 + ft_isonlythis(cmd, "\4"), sizeof(char *));
 	if (!enviroment->cmd[struct_i]->args)
 	{
 		free(cmd);
 		return (NULL);
 	}
-	args = split_args(cmd, enviroment, struct_i);
+	if (ft_isonlythis(cmd, "\4"))
+	{
+		free(cmd);
+		enviroment->cmd[struct_i]->args[0] = ft_strdup("");
+		return (enviroment->cmd[struct_i]->args);
+	}
+	if (split_args(cmd, enviroment, struct_i) == NULL)
+		error_allocating_memory(enviroment);
 	free(cmd);
-	return (args);
+	return (enviroment->cmd[struct_i]->args);
 }
 
 static void	split_commands(t_enviroment *enviroment, char *in, char *sep)

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 11:46:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:12:08 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,31 @@ char	*ft_getenv(const char *key, t_list *variables)
 		tmp = tmp->next;
 	}
 	return ("");
+}
+
+char	*get_env_declare(char *enviroment_variable)
+{
+	char	*env_declare;
+	int		i;
+	int		j;
+
+	env_declare = ft_calloc(ft_strlen(enviroment_variable) + 3, sizeof(char));
+	if (!env_declare)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (enviroment_variable[i] != '\0' && enviroment_variable[i] != '=')
+		env_declare[j++] = enviroment_variable[i++];
+	if (enviroment_variable[i] == '=')
+	{
+		env_declare[j++] = '=';
+		env_declare[j++] = '"';
+		i++;
+	}
+	while (enviroment_variable[i] != '\0')
+		env_declare[j++] = enviroment_variable[i++];
+	if (i != j)
+		env_declare[j++] = '"';
+	env_declare[j] = '\0';
+	return (env_declare);
 }

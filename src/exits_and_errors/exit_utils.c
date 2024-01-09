@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 17:31:01 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/08 19:47:30 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_cmd(t_cmd *cmd)
+{
+	if (cmd->args)
+		ft_free_arr((void **)cmd->args);
+	if (cmd->input_file)
+		free(cmd->input_file);
+	if (cmd->output_file)
+		free(cmd->output_file);
+	if (cmd->append_file)
+		free(cmd->append_file);
+	if (cmd->delimiter)
+		free(cmd->delimiter);
+	free(cmd);
+}
 
 void	free_cmds(t_cmd **cmd)
 {
@@ -19,17 +34,7 @@ void	free_cmds(t_cmd **cmd)
 	i = 0;
 	while (cmd && cmd[i])
 	{
-		if (cmd[i]->args)
-			ft_free_arr((void **)cmd[i]->args);
-		if (cmd[i]->input_file)
-			free(cmd[i]->input_file);
-		if (cmd[i]->output_file)
-			free(cmd[i]->output_file);
-		if (cmd[i]->append_file)
-			free(cmd[i]->append_file);
-		if (cmd[i]->delimiter)
-			free(cmd[i]->delimiter);
-		free(cmd[i]);
+		free_cmd(cmd[i]);
 		i++;
 	}
 	free(cmd);
