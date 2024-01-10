@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 00:10:13 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:18:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,10 @@ char	*phase1(char *in, t_enviroment *enviroment)
 			manage_command_separators(&in[i], &modes);
 		else if (ft_isspace(in[i]) && modes.d_q == OFF && modes.s_q == OFF)
 			in[i] = SPACE;
+		else if (in[i] == '>' && modes.d_q == OFF && modes.s_q == OFF)
+			in[i] = RED_RIGHT;
+		else if (in[i] == '<' && modes.d_q == OFF && modes.s_q == OFF)
+			in[i] = RED_LEFT;
 		i++;
 	}
 	if (modes.d_q == ON || modes.s_q == ON || ft_parsing_error(in))

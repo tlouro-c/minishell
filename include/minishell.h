@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 21:38:21 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:36:25 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 # define OR 3
 # undef SPACE
 # define SPACE 4
-# undef S_QUOTE
 # define S_QUOTE 5
-# undef D_QUOTE
 # define D_QUOTE 6
+# define RED_RIGHT 28
+# define RED_LEFT 29
 # define EMPTY 7
 
 # define READ_END 0
@@ -165,7 +165,7 @@ void		invalid_option(char *cmd, char *option);
 void		invalid_identifier(char *cmd, char *arg);
 int			msg_parsing_error(char *input, t_enviroment *enviroment);
 int			msg_command_not_found(t_cmd **cmd, t_enviroment *enviroment);
-int			msg_cd_error(char **args);
+int			msg_cd_error(char **args, int mode);
 
 //? ------------------------------------------------------------------------ */
 //?                                    utils                                 */
@@ -197,6 +197,7 @@ int			ft_parsing_error(char *s);
 
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes);
 void		order_cmd(t_cmd **cmd);
+
 
 //? ------------------------------------------------------------------------ */
 //?                               manage_files                               */

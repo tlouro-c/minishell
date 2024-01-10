@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 20:51:29 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:35:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	cmd_echo(char **args)
 	int	i;
 
 	option = ft_strcmp(args[1], "-n") == 0;
-	i = 1 + (option || (args[1] && args[1][0] == '-'));
+	i = 1 + option;
 	while (args[i] != NULL)
 		ft_printf("%s ", args[i++]);
 	if (!option)
@@ -89,11 +89,11 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 	if (!args[1] || args[1][0] == '~')
 	{
 		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
-			return (msg_cd_error(args));
+			return (msg_cd_error(args, 1));
 	}
 	else
 		if (chdir(args[1]) != 0)
-			return (msg_cd_error(args));
+			return (msg_cd_error(args, 0));
 	if (ft_getenv("OLDPWD", enviroment->variables)[0] != '\0')
 		set_oldpwd(enviroment);
 	if (ft_getenv("PWD", enviroment->variables)[0] != '\0')

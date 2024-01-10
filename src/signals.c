@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:01:41 by dabalm            #+#    #+#             */
-/*   Updated: 2024/01/09 21:38:35 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:03:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	handle_sigint_child(int sig)
 {
 	(void)sig;
-	exit(128 + SIGINT);
+	kill(getpid(), SIGINT);
 }
 
 void	handle_sigint_main(int sig)

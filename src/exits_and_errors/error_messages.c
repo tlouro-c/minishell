@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 01:01:18 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 19:40:37 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:37:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,16 @@ int	msg_command_not_found(t_cmd **cmd, t_enviroment *enviroment)
 	return (0);
 }
 
-int	msg_cd_error(char **args)
+int	msg_cd_error(char **args, int mode)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(args[1], 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
+	if (mode == 1)
+		ft_putstr_fd("HOME not set\n", 2);
+	else
+	{
+		ft_putstr_fd(": ", 2);
+		perror("");
+	}
 	return (1);
 }

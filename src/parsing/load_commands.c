@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 00:10:03 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:33:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ int	ft_parsing_error(char *s)
 			break ;
 		}
 	}
-	if (last_c == OR || last_c == PIPE || last_c == AND)
+	if (last_c == OR || last_c == PIPE || last_c == AND || last_c == RED_LEFT
+		|| last_c == RED_RIGHT)
 		return (1);
 	return (0);
 }
