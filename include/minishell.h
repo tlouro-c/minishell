@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 14:36:25 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:27:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_enviroment
 	char			*prompt;
 	int				parsing_error;
 	unsigned int	last_exit_status;
-	pid_t			child_pid;
+	pid_t			*child_pid;
 	int				stdin_fd;
 	int				stdout_fd;
 	unsigned int	status;
@@ -108,14 +108,11 @@ void		load_prompt(t_enviroment *enviroment); // ✅
 void		welcome_message(void); // ✅
 void		define_prompt(t_enviroment *enviroment);
 
-/* -------------------------------------------------------------------------- */
-/*                                   signals                                  */
-/* -------------------------------------------------------------------------- */
+//? ------------------------------------------------------------------------ */
+//?                                  signals                                 */
+//? ------------------------------------------------------------------------ */
 
 void		setup_signals(int n);
-
-// void handle_sigint(t_enviroment *enviroment);
-// void signal_handler(int sig, siginfo_t *a, void *b);
 
 //? ------------------------------------------------------------------------ */
 //?                                  built_ins                               */
@@ -146,7 +143,7 @@ char		*get_env_declare(char *enviroment_variable);
 //? ------------------------------------------------------------------------ */
 
 void		error_allocating_memory(t_enviroment *enviroment);
-void		error_piping(t_enviroment *enviroment, t_pipe pipes);
+void		error_piping(t_enviroment *enviroment);
 void		error_and_close_pipes(t_enviroment *enviroment, t_pipe *pipes);
 void		error_allocating_memory_free_str(t_enviroment *enviroment, char *s);
 void		error_allocating_memory_free_arr(t_enviroment *enviroment,
@@ -179,9 +176,9 @@ void		innit_pipes(t_pipe *pipes);
 void		set_pwd(t_enviroment *enviroment);
 void		set_oldpwd(t_enviroment *enviroment);
 
-/* -------------------------------------------------------------------------- */
-/*                                   parser                                   */
-/* -------------------------------------------------------------------------- */
+//? ------------------------------------------------------------------------ */
+//?                                  parser                                  */
+//? ------------------------------------------------------------------------ */
 
 char		*phase1(char *in, t_enviroment *enviroment);
 char		*phase2(char *in, t_enviroment *enviroment);
@@ -197,7 +194,8 @@ int			ft_parsing_error(char *s);
 
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes);
 void		order_cmd(t_cmd **cmd);
-
+void		wait_loop(t_enviroment *enviroment);
+int			check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i);
 
 //? ------------------------------------------------------------------------ */
 //?                               manage_files                               */

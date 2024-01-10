@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 14:37:03 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:30:37 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
-	ft_close(&pipes->pipes[0]);
+	ft_close(&pipes->pipes[READ_END]);
 	execve(cmd->args[0], cmd->args,
 		(char **)enviroment->variables->toarray(enviroment->variables));
 	if (errno == ENOENT)
@@ -30,20 +30,19 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	exit(127);
 }
 
-static int	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
+static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
+				int i)
 {
-	if (ft_isbuiltin(cmd))
-		enviroment->status = run_builtin(cmd, enviroment, pipes);
+	if (ft_isbuiltin(cmd[i]))
+		enviroment->status = run_builtin(cmd[i], enviroment, pipes);
 	else
 	{
-		enviroment->child_pid = fork();
-		if (enviroment->child_pid == 0)
+		enviroment->child_pid[i] = fork();
+		if (enviroment->child_pid[i] == 0)
 		{
 			setup_signals(CHILD);
-			child(cmd, enviroment, pipes);
+			child(cmd[i], enviroment, pipes);
 		}
-		waitpid(enviroment->child_pid, (int *)&enviroment->status, 0);
-		enviroment->status = WEXITSTATUS(enviroment->status);
 	}
 	dup2(pipes->fd_out, STDOUT_FILENO);
 	ft_close(&pipes->fd_out);
@@ -69,22 +68,23 @@ static void	redirect_output(t_cmd **cmd, t_pipe *pipes, int i)
 static void	redirect_input(t_cmd *cmd, t_pipe *pipes, int i,
 	t_enviroment *enviroment)
 {
-	if (i != 0 || cmd->input_file || cmd->delimiter)
+	if (cmd->has_input_file)
 		pipe(pipes->input_pipe);
-	if (i != 0 && cmd -> priorities == PIPE)
+	if (cmd->has_input_file && i != 0 && cmd->priorities == PIPE)
 		if (read_from_to(pipes->input_for_next,
 				pipes->input_pipe[WRITE_END]) < 0)
 			error_and_close_pipes(enviroment, pipes);
-	ft_close(&pipes->input_for_next);
 	fill_pipes_with_input(cmd, enviroment, pipes);
-	if (i != 0 || cmd->input_file || cmd->delimiter)
+	if (cmd->has_input_file)
 		ft_close(&pipes->input_pipe[1]);
-	if (cmd->priorities == PIPE && !ft_isbuiltin(cmd)
-		&& (i != 0 || cmd->input_file || cmd->delimiter))
+	if (cmd->has_input_file)
 	{
-		dup2(pipes->input_pipe[0], STDIN_FILENO);
-		ft_close(&pipes->input_pipe[0]);
+		dup2(pipes->input_pipe[READ_END], STDIN_FILENO);
+		ft_close(&pipes->input_pipe[READ_END]);
 	}
+	else if (i != 0 && cmd->priorities == PIPE)
+		dup2(pipes->input_for_next, STDIN_FILENO);
+	ft_close(&pipes->input_for_next);
 }
 
 void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
@@ -98,16 +98,14 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	i = -1;
 	while (++i < (int)enviroment->num_cmd)
 	{
-		if ((cmd[i]->priorities == AND && enviroment->status != 0)
-			|| (cmd[i]->priorities == OR && enviroment->status == 0)
-			|| (cmd[i]->priorities == PIPE && enviroment->status != 0 && i != 0))
+		if (check_priorities(cmd, enviroment, i) == 1)
 			continue ;
 		pipes.fd_in = dup(STDIN_FILENO);
 		pipes.fd_out = dup(STDOUT_FILENO);
 		pipe(pipes.pipes);
 		redirect_input(cmd[i], &pipes, i, enviroment);
 		redirect_output(cmd, &pipes, i);
-		launch_cmd(cmd[i], enviroment, &pipes);
+		launch_cmd(cmd, enviroment, &pipes, i);
 		pipes.input_for_next = pipes.pipes[READ_END];
 		fill_output_files(cmd[i], enviroment, &pipes);
 		free_cmd(enviroment, i);

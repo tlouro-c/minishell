@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:55:02 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 20:54:59 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:15:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ void	error_and_close_pipes(t_enviroment *enviroment, t_pipe *pipes)
 	exit(10);
 }
 
-void	error_piping(t_enviroment *enviroment, t_pipe pipes)
+void	error_piping(t_enviroment *enviroment)
 {
-	ft_close_pipes(&pipes);
 	free_enviroment(enviroment);
 	ft_putstr_fd("Error: piping failed\n", 2);
 	exit(10);
