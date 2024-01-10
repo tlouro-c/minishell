@@ -56,6 +56,7 @@
 // signal
 # define MAIN 42
 # define CHILD 007
+# define IGN 777
 
 typedef struct s_pipe
 {

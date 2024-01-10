@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:01:41 by dabalm            #+#    #+#             */
-/*   Updated: 2024/01/10 12:03:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:22:39 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,24 @@ void	setup_sigquit_handler(void)
 
 void	setup_signals(int n)
 {
-	struct sigaction	sa;
+    struct sigaction sa;
 
-	setup_sigquit_handler();
-	if (n == MAIN)
-	{
-		sa.sa_handler = handle_sigint_main;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sigaction(SIGINT, &sa, NULL);
-	}
-	else if (n == CHILD)
-	{
-		sa.sa_handler = handle_sigint_child;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sigaction(SIGINT, &sa, NULL);
-	}
+    setup_sigquit_handler();
+    if (n == MAIN)
+    {
+        sa.sa_handler = handle_sigint_main;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGINT, &sa, NULL);
+    } else if (n == CHILD) {
+        sa.sa_handler = handle_sigint_child;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGINT, &sa, NULL);
+    } else if (n == IGN) {
+        sa.sa_handler = SIG_IGN;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGINT, &sa, NULL);
+    }
 }
