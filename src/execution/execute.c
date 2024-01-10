@@ -33,8 +33,11 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 				int i)
 {
-	if (ft_isbuiltin(cmd[i]))
-		enviroment->status = run_builtin(cmd[i], enviroment, pipes);
+	if (ft_isbuiltin(cmd))
+	{
+		setup_signals(IGN);
+		enviroment->status = run_builtin(cmd, enviroment);
+	}
 	else
 	{
 		enviroment->child_pid[i] = fork();
@@ -42,7 +45,9 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 		{
 			setup_signals(CHILD);
 			child(cmd[i], enviroment, pipes);
-		}
+		} 
+    else
+			setup_signals(IGN);
 	}
 	dup2(pipes->fd_out, STDOUT_FILENO);
 	ft_close(&pipes->fd_out);
