@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 14:36:16 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:31:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,19 @@ void	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 		if (read_here_doc(cmd->delimiter,
 				pipes->input_pipe[WRITE_END]) == -1)
 			error_and_close_pipes(enviroment, pipes);
+	}
+}
+
+void	wait_loop(t_enviroment *enviroment)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (enviroment->child_pid[i])
+	{
+		waitpid(enviroment->child_pid[i], &status, 0);
+		enviroment->status = WEXITSTATUS(status);
+		i++;
 	}
 }

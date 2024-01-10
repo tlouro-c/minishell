@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 12:22:57 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:29:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 
 	first = s[*string_i];
 	second = s[*string_i + 1];
-	while (s[*string_i] == '\4' || s[*string_i] == RED_RIGHT || s[*string_i] == RED_RIGHT
-		|| s[*string_i] == '\5' || s[*string_i] == '\6')
+	while (s[*string_i] == '\4' || s[*string_i] == RED_LEFT 
+		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
+		|| s[*string_i] == '\6')
 		(*string_i)++;
 	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5\6\28\29");
 	if (!file_or_delimiter)
@@ -67,4 +68,19 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			i++;
 	}
 	return (enviroment->cmd[struct_i]->args);
+}
+
+int	check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i)
+{
+	if (cmd[i]-> priorities != PIPE)
+	{
+		waitpid(enviroment->child_pid[i - 1], (int *)&enviroment->status, 0);
+		if (WIFEXITED(enviroment->status))
+			enviroment->status = WEXITSTATUS(enviroment->status);
+	}
+	if ((cmd[i]->priorities == AND && enviroment->status != 0)
+		|| (cmd[i]->priorities == OR && enviroment->status == 0)
+		|| (cmd[i]->priorities == PIPE && enviroment->status != 0 && i != 0))
+		return (1);
+	return (0);
 }
