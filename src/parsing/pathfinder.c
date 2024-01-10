@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 23:00:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 21:18:44 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ void	pathfinder(t_enviroment *enviroment)
 	i = 0;
 	while (enviroment->cmd[i])
 	{
+		if (!enviroment->cmd[i]->args[0])
+		{
+			enviroment->cmd[i]->valid = COMMAND_NOT_FOUND;
+			return ;
+		}
 		if (!ft_isbuiltin(enviroment->cmd[i]))
 			look_for_path(enviroment->cmd[i], enviroment);
 		if (!ft_isbuiltin(enviroment->cmd[i])
