@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 18:31:04 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:39:00 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,6 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	else
 		cmd_exit(cmd->args, enviroment, pipes);
 	return (status);
-}
-
-static void	swap_cmd(t_cmd **a, t_cmd **b)
-{
-	t_cmd	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-void	order_cmd(t_cmd **cmd)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (cmd[i])
-	{
-		if (cmd[i] != NULL && cmd[i - 1] != NULL && cmd[i]->priorities == PIPE
-			&& cmd[i]->has_input_file && !cmd[i - 1]->has_input_file)
-		{
-			j = i;
-			while (j > 0 && cmd[j - 1] != NULL && cmd[j - 1]->priorities == PIPE
-				&& !cmd[j - 1]->input_file)
-			{
-				swap_cmd(&cmd[j], &cmd[j - 1]);
-				j--;
-			}
-		}
-		i++;
-	}
 }
 
 void	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
@@ -108,4 +76,17 @@ void	wait_loop(t_enviroment *enviroment)
 		enviroment->status = WEXITSTATUS(status);
 		i++;
 	}
+	ft_free((void **)&enviroment->child_pid);
+}
+
+void	save_std_fds(t_pipe *pipes)
+{
+	pipes->fd_in = dup(STDIN_FILENO);
+	pipes->fd_out = dup(STDOUT_FILENO);
+}
+
+void	swap_input_for_next(t_pipe *pipes)
+{
+	ft_close(&pipes->input_for_next);
+	pipes->input_for_next = pipes->pipes[READ_END];
 }

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 21:39:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:30:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,9 @@ static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes,
 	if (fd < 0)
 		error_and_close_pipes(enviroment, pipes);
 	status = read_from_to(pipes->input_for_next, fd);
-	ft_close(&pipes->input_for_next);
 	ft_close(&fd);
 	if (status < 0)
 		error_and_close_pipes(enviroment, pipes);
-	fd = open(cmd->output_file, O_RDONLY);
-	if (fd < 0)
-		error_and_close_pipes(enviroment, pipes);
-	pipes->input_for_next = fd;
 }
 
 void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)

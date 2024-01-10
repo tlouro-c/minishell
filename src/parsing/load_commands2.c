@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 18:29:48 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/10 19:55:00 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 
 	first = s[*string_i];
 	second = s[*string_i + 1];
-	while (s[*string_i] == '\4' || s[*string_i] == RED_LEFT 
+	while (s[*string_i] == '\4' || s[*string_i] == RED_LEFT
 		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
 		|| s[*string_i] == '\6')
 		(*string_i)++;
