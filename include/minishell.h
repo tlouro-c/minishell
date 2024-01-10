@@ -6,7 +6,7 @@
 /*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 16:44:44 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/10 13:22:18 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 // signal
 # define MAIN 42
 # define CHILD 007
+# define IGN 777
 
 typedef struct s_pipe
 {

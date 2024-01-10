@@ -32,13 +32,18 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 static int	launch_cmd(t_cmd *cmd, t_enviroment *enviroment, t_pipe pipes)
 {
 	if (ft_isbuiltin(cmd))
+	{
+		setup_signals(IGN);
 		enviroment->status = run_builtin(cmd, enviroment);
+	}
 	else
 	{
 		enviroment->child_pid = fork();
 		if (enviroment->child_pid == 0){
 			setup_signals(CHILD);
 			child(cmd, enviroment, pipes);
+		} else {
+			setup_signals(IGN);
 		}
 		waitpid(enviroment->child_pid, (int *)&enviroment->status, 0);
 		enviroment->status = WEXITSTATUS(enviroment->status);
