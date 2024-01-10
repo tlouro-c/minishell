@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 10:51:49 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 10:54:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:01:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	set_oldpwd(t_enviroment *enviroment)
 	char	*oldpwd;
 
 	oldpwd = ft_strjoin("OLDPWD=", ft_getenv("PWD", enviroment ->variables));
-		if (!oldpwd)
-			error_allocating_memory(enviroment);
-		enviroment->variables->set(enviroment->variables, "OLDPWD",
-			oldpwd, ft_keycmp);
+	if (!oldpwd)
+		error_allocating_memory(enviroment);
+	enviroment->variables->set(enviroment->variables, "OLDPWD",
+		oldpwd, ft_keycmp);
 }

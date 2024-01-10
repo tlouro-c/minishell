@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 22:45:05 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 11:38:53 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:20:52 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ int	ft_close_pipes(t_pipe *pipes)
 		return (-1);
 	if (ft_close(&pipes->input_pipe[1]) < 0)
 		return (-1);
+	if (ft_close(&pipes->fd_in) < 0)
+		return (-1);
+	if (ft_close(&pipes->fd_out) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -77,4 +81,6 @@ void	innit_pipes(t_pipe *pipes)
 	pipes->input_pipe[0] = -1;
 	pipes->input_pipe[1] = -1;
 	pipes->input_for_next = -1;
+	pipes->fd_in = -1;
+	pipes->fd_out = -1;
 }

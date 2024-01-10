@@ -6,14 +6,15 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 16:45:28 by dabalm           ###   ########.fr       */
+/*   Updated: 2024/01/10 14:36:11 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-
+// valgrind --track-fds=yes --leak-check=full 
+// --gen-suppressions=all --log-fd=9 ./minishell  9>memcheck.log
 
 int	main(void)
 {
@@ -25,16 +26,9 @@ int	main(void)
 	while (TRUE)
 	{
 		setup_signals(MAIN);
-		if (enviroment.prompt_mode == LONG)
-			load_prompt(&enviroment);
-		else
-			enviroment.prompt = ft_strdup("\033[1m\033[35mminishell>\x1B[0m "); 
-		ft_putstr_fd(enviroment.prompt, 2);
-		user_input = readline(NULL);
+		define_prompt(&enviroment);
+		user_input = readline(enviroment.prompt);
 		free(enviroment.prompt);
-		/**
-		 * unlike other signals this is also how EOF(ctrl+D) is caught
-		*/
 		if (!user_input)
 			free_exit(&enviroment, 2);
 		if (user_input[0] == '\0')

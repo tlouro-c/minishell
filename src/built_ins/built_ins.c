@@ -48,7 +48,7 @@ int	cmd_echo(char **args)
 	int	i;
 
 	option = ft_strcmp(args[1], "-n") == 0;
-	i = 1 + (option || (args[1] && args[1][0] == '-'));
+	i = 1 + option;
 	while (args[i] != NULL)
 		ft_printf("%s ", args[i++]);
 	if (!option)
@@ -56,7 +56,7 @@ int	cmd_echo(char **args)
 	return (0);
 }
 
-void	cmd_exit(char **args, t_enviroment *enviroment)
+void	cmd_exit(char **args, t_enviroment *enviroment, t_pipe *pipes)
 {
 	long long	exit_status;
 
@@ -78,6 +78,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment)
 	}
 	else
 	{
+		ft_close_pipes(pipes);
 		free_enviroment(enviroment);
 		exit (exit_status % 256);
 	}
@@ -88,11 +89,11 @@ int	cmd_cd(t_enviroment *enviroment, char **args)
 	if (!args[1] || args[1][0] == '~')
 	{
 		if (chdir(ft_getenv("HOME", enviroment->variables)) != 0)
-			return (msg_cd_error(args));
+			return (msg_cd_error(args, 1));
 	}
 	else
 		if (chdir(args[1]) != 0)
-			return (msg_cd_error(args));
+			return (msg_cd_error(args, 0));
 	if (ft_getenv("OLDPWD", enviroment->variables)[0] != '\0')
 		set_oldpwd(enviroment);
 	if (ft_getenv("PWD", enviroment->variables)[0] != '\0')
