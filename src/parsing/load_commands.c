@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 17:06:52 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:20:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 			enviroment -> cmd[j]-> args = manage_args(&in[i], enviroment, j);
 			if (enviroment -> cmd[j]-> args == NULL)
 				error_allocating_memory_free_str(enviroment, in);
+			enviroment->cmd[j]->has_input_file = enviroment->cmd[j]->input_file
+				|| enviroment->cmd[j]->delimiter;
+			enviroment->cmd[j]->has_output_file = enviroment->cmd[j]->output_file
+				|| enviroment->cmd[j]->append_file;
 			j++;
 		}
 		i++;

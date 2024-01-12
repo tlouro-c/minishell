@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:55:33 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:54:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,33 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 	return (0);
 }
 
-static void	redirect_output(t_cmd **cmd, t_pipe *pipes, int i)
-{
-	t_bool	has_output_file;
-	t_bool	next_cmd_is_pipe;
-
-	has_output_file = cmd[i]->append_file || cmd[i]->output_file;
-	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
-	if (next_cmd_is_pipe || has_output_file)
-	{
-		dup2(pipes->pipes[WRITE_END], STDOUT_FILENO);
-		ft_close(&pipes->pipes[WRITE_END]);
-	}
-}
-
-static void	redirect_input(t_cmd *cmd, t_pipe *pipes, int i,
+static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 	t_enviroment *enviroment)
 {
-	if (cmd->has_input_file)
+	t_bool	next_cmd_is_pipe;
+
+	if (cmd[i]->has_input_file)
 	{
 		pipe(pipes->input_pipe);
-		fill_pipes_with_input(cmd, enviroment, pipes);
+		if (fill_pipes_with_input(cmd[i], enviroment, pipes) == 5)
+		{
+			ft_close_pipes(pipes);
+			free_cmd(enviroment, i);
+			return (5);
+		}
 		ft_close(&pipes->input_pipe[1]);
 		dup2(pipes->input_pipe[READ_END], STDIN_FILENO);
 		ft_close(&pipes->input_pipe[READ_END]);
 	}
-	else if (i != 0 && cmd->priorities == PIPE)
+	else if (i != 0 && cmd[i]->priorities == PIPE)
 		dup2(pipes->input_for_next, STDIN_FILENO);
+	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
+	if (next_cmd_is_pipe || cmd[i]->has_output_file)
+	{
+		dup2(pipes->pipes[WRITE_END], STDOUT_FILENO);
+		ft_close(&pipes->pipes[WRITE_END]);
+	}
+	return (0);
 }
 
 void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
@@ -103,8 +103,8 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 			continue ;
 		save_std_fds(&pipes);
 		pipe(pipes.pipes);
-		redirect_input(cmd[i], &pipes, i, enviroment);
-		redirect_output(cmd, &pipes, i);
+		if (redirect_io(cmd, &pipes, i, enviroment) == 5)
+			continue ;
 		launch_cmd(cmd, enviroment, &pipes, i);
 		swap_input_for_next(&pipes);
 		fill_output_files(cmd[i], enviroment, &pipes);

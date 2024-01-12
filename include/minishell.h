@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:39:23 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:56:56 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 
 // signal
 # define MAIN 42
+# define MAIN2 43
 # define CHILD 007
 # define IGN 777
 
@@ -114,6 +115,9 @@ void		define_prompt(t_enviroment *enviroment);
 //? ------------------------------------------------------------------------ */
 
 void		setup_signals(int n);
+void		handle_sigint_main(int sig);
+void		handle_sigint_main2(int sig);
+void		set_up_main_signals(struct sigaction *sa, int n);
 
 //? ------------------------------------------------------------------------ */
 //?                                  built_ins                               */
@@ -207,7 +211,7 @@ int			read_here_doc(char *delimiter, int to_fd);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
-void		fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
+int			fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
 
 #endif /* MINISHELL_H */

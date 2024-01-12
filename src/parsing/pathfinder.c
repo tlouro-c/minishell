@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 21:18:44 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:21:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ void	pathfinder(t_enviroment *enviroment)
 			enviroment->cmd[i]->valid = COMMAND_NOT_FOUND;
 		else
 			enviroment->cmd[i]->valid = COMMAND_FOUND;
-		enviroment->cmd[i]->has_input_file = (enviroment->cmd[i]->input_file
-				|| enviroment->cmd[i]->delimiter);
 		i++;
 	}
 }

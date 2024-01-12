@@ -30,7 +30,8 @@ SRC_FILES = $(SRC_DIR)/built_ins/built_ins.c \
 			$(SRC_DIR)/execution/execute.c \
 			$(SRC_DIR)/execution/execute2.c \
 			$(SRC_DIR)/main.c \
-			$(SRC_DIR)/signals.c
+			$(SRC_DIR)/signals.c \
+			$(SRC_DIR)/signals2.c
 
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 

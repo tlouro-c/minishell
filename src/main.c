@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:59:57 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:47:59 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(void)
 		setup_signals(MAIN);
 		define_prompt(&enviroment);
 		user_input = readline(enviroment.prompt);
+		setup_signals(MAIN2);
 		free(enviroment.prompt);
 		if (!user_input)
 			free_exit(&enviroment, 2);

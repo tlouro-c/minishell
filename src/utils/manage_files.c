@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:30:48 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:25:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	read_here_doc(char *delimiter, int to_fd)
 		ft_printf("> ");
 		line = ft_get_next_line(0);
 		if (!line)
-			return (-1);
+			return (-2);
 		if (ft_strcmp_heredoc(line, delimiter) == 0)
 		{
 			free(line);

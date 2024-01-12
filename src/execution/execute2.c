@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:39:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:26:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,33 @@ int	run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	return (status);
 }
 
-void	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
+int	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 			t_pipe *pipes)
 {
+	int	status;
 	int	fd;
 
 	if (cmd->input_file)
 	{
 		fd = open(cmd->input_file, O_RDONLY);
 		if (fd == -1)
-			error_and_close_pipes(enviroment, pipes);
+		{
+			perror(cmd->input_file);
+			return (5);
+		}
 		if (read_from_to(fd, pipes->input_pipe[WRITE_END]) == -1)
 			error_and_close_pipes(enviroment, pipes);
 		ft_close(&fd);
 	}
 	if (cmd -> delimiter)
 	{
-		if (read_here_doc(cmd->delimiter,
-				pipes->input_pipe[WRITE_END]) == -1)
+		status = read_here_doc(cmd->delimiter, pipes->input_pipe[WRITE_END]);
+		if (status == -1)
 			error_and_close_pipes(enviroment, pipes);
+		else if (status == -2)
+			return (5);
 	}
+	return (0);
 }
 
 void	wait_loop(t_enviroment *enviroment)
