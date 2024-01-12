@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:10:24 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/10 20:08:00 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:15:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	free_exit(t_enviroment *enviroment, int status)
 void	free_enviroment(t_enviroment *enviroment)
 {
 	enviroment->variables->destroy(enviroment->variables);
-	ft_free((void **)&enviroment->child_pid);
+	if (enviroment->child_pid)
+		ft_free((void **)&enviroment->child_pid);
 	if (enviroment->cmd)
 		free_cmds(enviroment);
 }
