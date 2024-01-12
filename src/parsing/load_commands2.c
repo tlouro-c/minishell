@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 17:39:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:30:59 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 	return (1);
 }
 
+static int	create_arg(t_cmd *cmd, char *s, int *i, int j)
+{
+	cmd->args[j] = mod_strdup(s, "\4\14\15");
+	if (!cmd->args[j])
+		return (-1);
+	if (cmd->args[j][0] == NULL_BYTE)
+	{
+		cmd->args[j][0] = '\0';
+		(*i) += 2;
+	}
+	(*i) += ft_strlen(cmd->args[j]);
+	cmd->args[j] = ft_strshrinker(cmd->args[j], "\17", 1);
+	return (0);
+}
+
 char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 {
 	int	i;
@@ -59,15 +74,9 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			|| (!ft_isinstr("\4\14\15", cmd[i])
 				&& ft_isinstr("\4\14\15", cmd[i - 1])))
 		{
-			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\14\15");
-			if (!enviroment->cmd[struct_i]->args[j])
+			if (create_arg(enviroment->cmd[struct_i], &cmd[i], &i, j) == -1)
 				return (NULL);
-			if (enviroment->cmd[struct_i]->args[j][0] == NULL_BYTE)
-			{
-				enviroment->cmd[struct_i]->args[j][0] = '\0';
-				i += 2;
-			}
-			i += ft_strlen(enviroment->cmd[struct_i]->args[j++]);
+			j++;
 		}
 		else
 			i++;

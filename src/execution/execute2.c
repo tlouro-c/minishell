@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:26:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 22:05:23 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	wait_loop(t_enviroment *enviroment)
 		enviroment->status = WEXITSTATUS(status);
 		i++;
 	}
+	wait(NULL);
 	ft_free((void **)&enviroment->child_pid);
 }
 
@@ -92,8 +93,9 @@ void	save_std_fds(t_pipe *pipes)
 	pipes->fd_out = dup(STDOUT_FILENO);
 }
 
-void	swap_input_for_next(t_pipe *pipes)
+void	swap_input_for_next(t_pipe *pipes, t_enviroment *enviroment, int i)
 {
 	ft_close(&pipes->input_for_next);
-	pipes->input_for_next = pipes->pipes[READ_END];
+	if (i != (int)enviroment->num_cmd - 1)
+		pipes->input_for_next = pipes->pipes[READ_END];
 }

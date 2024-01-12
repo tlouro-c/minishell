@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 17:01:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 22:04:58 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
+	ft_close(&pipes->input_pipe[READ_END]);
 	ft_close(&pipes->pipes[READ_END]);
 	execve(cmd->args[0], cmd->args,
 		(char **)enviroment->variables->toarray(enviroment->variables));
@@ -37,6 +38,7 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 	{
 		setup_signals(IGN);
 		enviroment->status = run_builtin(cmd[i], enviroment, pipes);
+		ft_close(&pipes->pipes[WRITE_END]);
 	}
 	else
 	{
@@ -61,7 +63,7 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 {
 	t_bool	next_cmd_is_pipe;
 
-	if (cmd[i]->has_input_file)
+	if (cmd[i]->has_input_file && !ft_isbuiltin(cmd[i]))
 	{
 		pipe(pipes->input_pipe);
 		if (fill_pipes_with_input(cmd[i], enviroment, pipes) == 5)
@@ -74,8 +76,11 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 		dup2(pipes->input_pipe[READ_END], STDIN_FILENO);
 		ft_close(&pipes->input_pipe[READ_END]);
 	}
-	else if (i != 0 && cmd[i]->priorities == PIPE)
+	else if (i != 0 && cmd[i]->priorities == PIPE && !ft_isbuiltin(cmd[i]))
+	{
 		dup2(pipes->input_for_next, STDIN_FILENO);
+		ft_close(&pipes->input_for_next);
+	}
 	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
 	if (next_cmd_is_pipe || cmd[i]->has_output_file)
 	{
@@ -106,7 +111,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		if (redirect_io(cmd, &pipes, i, enviroment) == 5)
 			continue ;
 		launch_cmd(cmd, enviroment, &pipes, i);
-		swap_input_for_next(&pipes);
+		swap_input_for_next(&pipes, enviroment, i);
 		fill_output_files(cmd[i], enviroment, &pipes);
 		free_cmd(enviroment, i);
 	}
