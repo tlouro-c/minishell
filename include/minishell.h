@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:56:56 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:13:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@
 # define SPACE 4
 # define S_QUOTE 5
 # define D_QUOTE 6
-# define RED_RIGHT 28
-# define RED_LEFT 29
-# define EMPTY 7
+# define RED_RIGHT 14
+# define RED_LEFT 15
+# define NULL_BYTE 16
+# define EMPTY 9
 
 # define READ_END 0
 # define WRITE_END 1
@@ -180,6 +181,8 @@ int			ft_close_pipes(t_pipe *pipes);
 void		innit_pipes(t_pipe *pipes);
 void		set_pwd(t_enviroment *enviroment);
 void		set_oldpwd(t_enviroment *enviroment);
+int			echo_strcmp(char *s1);
+
 
 //? ------------------------------------------------------------------------ */
 //?                                  parser                                  */

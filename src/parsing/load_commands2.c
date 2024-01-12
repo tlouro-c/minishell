@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:18:30 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:39:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
 		|| s[*string_i] == '\6')
 		(*string_i)++;
-	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5\6\28\29");
+	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5\6\14\15");
 	if (!file_or_delimiter)
 		return (-1);
 	(*string_i) += ft_strlen(file_or_delimiter);
@@ -55,13 +55,18 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			if (manage_redirections(cmd, enviroment, struct_i, &i) == -1)
 				return (NULL);
 		}
-		else if ((i == 0 && !ft_isinstr("\4\28\29", cmd[i]))
-			|| (!ft_isinstr("\4\28\29", cmd[i])
-				&& ft_isinstr("\4\28\29", cmd[i - 1])))
+		else if ((i == 0 && !ft_isinstr("\4\14\15", cmd[i]))
+			|| (!ft_isinstr("\4\14\15", cmd[i])
+				&& ft_isinstr("\4\14\15", cmd[i - 1])))
 		{
-			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\28\29");
+			enviroment->cmd[struct_i]->args[j] = mod_strdup(&cmd[i], "\4\14\15");
 			if (!enviroment->cmd[struct_i]->args[j])
 				return (NULL);
+			if (enviroment->cmd[struct_i]->args[j][0] == NULL_BYTE)
+			{
+				enviroment->cmd[struct_i]->args[j][0] = '\0';
+				i += 2;
+			}
 			i += ft_strlen(enviroment->cmd[struct_i]->args[j++]);
 		}
 		else
