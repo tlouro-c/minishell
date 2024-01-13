@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 22:05:23 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:48:50 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 	}
 	if (cmd -> delimiter)
 	{
-		status = read_here_doc(cmd->delimiter, pipes->input_pipe[WRITE_END]);
+		status = read_here_doc(cmd->delimiter, pipes->input_pipe[WRITE_END],
+				enviroment);
 		if (status == -1)
 			error_and_close_pipes(enviroment, pipes);
 		else if (status == -2)
