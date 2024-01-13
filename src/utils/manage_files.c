@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:25:34 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:46:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_strcmp_heredoc(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	read_here_doc(char *delimiter, int to_fd)
+int	read_here_doc(char *delimiter, int to_fd, t_enviroment *enviroment)
 {
 	char	*line;
 
@@ -44,6 +44,10 @@ int	read_here_doc(char *delimiter, int to_fd)
 			free(line);
 			break ;
 		}
+		line = phase2(line, enviroment);
+		line = ft_strshrinker(line, "\17", 1);
+		if (!line)
+			return (-1);
 		if (write(to_fd, line, ft_strlen(line)) < 0)
 			return (-1);
 		free(line);

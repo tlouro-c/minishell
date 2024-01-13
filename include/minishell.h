@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:06:04 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:45:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void		save_std_fds(t_pipe *pipes);
 //?                               manage_files                               */
 //? ------------------------------------------------------------------------ */
 
-int			read_here_doc(char *delimiter, int to_fd);
+int			read_here_doc(char *delimiter, int to_fd, t_enviroment *enviroment);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
