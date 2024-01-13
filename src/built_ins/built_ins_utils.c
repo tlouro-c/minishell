@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 10:51:49 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/09 18:01:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:41:21 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,19 @@ void	set_oldpwd(t_enviroment *enviroment)
 		error_allocating_memory(enviroment);
 	enviroment->variables->set(enviroment->variables, "OLDPWD",
 		oldpwd, ft_keycmp);
+}
+
+int	echo_strcmp(char *s1)
+{
+	int	i;
+
+	i = 0;
+	if (s1[i] != '-')
+		return (1);
+	i++;
+	while (s1[i] != '\0' && s1[i] == 'n')
+		i++;
+	if (s1[i] != '\0')
+		return (1);
+	return (0);
 }

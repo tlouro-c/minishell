@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:56:56 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:06:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@
 # define OR 3
 # undef SPACE
 # define SPACE 4
+# define SPACE2 17
 # define S_QUOTE 5
 # define D_QUOTE 6
-# define RED_RIGHT 28
-# define RED_LEFT 29
-# define EMPTY 7
+# define RED_RIGHT 14
+# define RED_LEFT 15
+# define NULL_BYTE 16
+# define EMPTY 9
 
 # define READ_END 0
 # define WRITE_END 1
@@ -73,6 +75,7 @@ typedef struct s_cmd
 	char	**args;
 	int		priorities;
 	char	*input_file;
+	int		if_notfirst;
 	char	*output_file;
 	char	*append_file;
 	char	*delimiter;
@@ -180,6 +183,8 @@ int			ft_close_pipes(t_pipe *pipes);
 void		innit_pipes(t_pipe *pipes);
 void		set_pwd(t_enviroment *enviroment);
 void		set_oldpwd(t_enviroment *enviroment);
+int			echo_strcmp(char *s1);
+void		dup2andclose(int *fd1, int fd2);
 
 //? ------------------------------------------------------------------------ */
 //?                                  parser                                  */
@@ -192,7 +197,7 @@ char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 void		pathfinder(t_enviroment *enviroment);
 void		execute_cmds(t_cmd **cmd, t_enviroment *enviroment);
 int			ft_parsing_error(char *s);
-void		swap_input_for_next(t_pipe *pipes);
+void		swap_input_for_next(t_pipe *pipes, t_enviroment *enviroment, int i);
 
 //? ------------------------------------------------------------------------ */
 //?                                  execute                                 */
