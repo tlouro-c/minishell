@@ -27,6 +27,7 @@ SRC_FILES = $(SRC_DIR)/built_ins/built_ins.c \
 			$(SRC_DIR)/utils/manage_env.c \
 			$(SRC_DIR)/utils/user_interface.c \
 			$(SRC_DIR)/utils/utils.c \
+			$(SRC_DIR)/utils/utils2.c \
 			$(SRC_DIR)/execution/execute.c \
 			$(SRC_DIR)/execution/execute2.c \
 			$(SRC_DIR)/main.c \

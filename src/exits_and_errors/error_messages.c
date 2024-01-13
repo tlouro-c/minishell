@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 01:01:18 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 16:26:20 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:19:54 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ int	msg_command_not_found(t_cmd **cmd, t_enviroment *enviroment)
 			|| (!ft_isbuiltin(cmd[i]) && access(cmd[i]->args[0], X_OK) == -1))
 		{
 			enviroment->status = 127;
-			ft_putstr_fd(cmd[i]->args[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
+			if (cmd[i]->args[0])
+			{
+				ft_putstr_fd(cmd[i]->args[0], 2);
+				ft_putstr_fd(": command not found\n", 2);
+			}
 			free_cmds(enviroment);
 			return (-1);
 		}

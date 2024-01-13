@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 21:17:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:06:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_cmd
 	char	**args;
 	int		priorities;
 	char	*input_file;
+	int		if_notfirst;
 	char	*output_file;
 	char	*append_file;
 	char	*delimiter;
@@ -183,6 +184,7 @@ void		innit_pipes(t_pipe *pipes);
 void		set_pwd(t_enviroment *enviroment);
 void		set_oldpwd(t_enviroment *enviroment);
 int			echo_strcmp(char *s1);
+void		dup2andclose(int *fd1, int fd2);
 
 //? ------------------------------------------------------------------------ */
 //?                                  parser                                  */
