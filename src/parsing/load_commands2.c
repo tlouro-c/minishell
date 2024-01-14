@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:10:41 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:03:35 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 		return (-1);
 	(*string_i) += ft_strlen(file_or_delimiter);
 	if (first == RED_LEFT && second == RED_LEFT)
-		enviroment->cmd[struct_i]->delimiter = file_or_delimiter;
+		enviroment->cmd[struct_i]->delimiter->add(
+			enviroment->cmd[struct_i]->delimiter, file_or_delimiter);
 	else if (first == RED_LEFT)
 		enviroment->cmd[struct_i]->input_file = file_or_delimiter;
 	else if (first == RED_RIGHT && second == RED_RIGHT)

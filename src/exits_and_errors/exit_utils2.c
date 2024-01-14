@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:10:24 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 11:15:04 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 12:28:06 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_cmd(t_enviroment *enviroment, int i)
 	if (enviroment->cmd[i]->append_file)
 		ft_free((void **)&enviroment->cmd[i]->append_file);
 	if (enviroment->cmd[i]->delimiter)
-		ft_free((void **)&enviroment->cmd[i]->delimiter);
+		enviroment->cmd[i]->delimiter->destroy(enviroment->cmd[i]->delimiter);
 	ft_free((void **)&enviroment->cmd[i]);
 }
 

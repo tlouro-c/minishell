@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:48:50 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:41:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ void	save_std_fds(t_pipe *pipes)
 	pipes->fd_out = dup(STDOUT_FILENO);
 }
 
-void	swap_input_for_next(t_pipe *pipes, t_enviroment *enviroment, int i)
+void	swap_input_for_next(t_pipe *pipes)
 {
 	ft_close(&pipes->input_for_next);
-	if (i != (int)enviroment->num_cmd - 1)
-		pipes->input_for_next = pipes->pipes[READ_END];
+	pipes->input_for_next = pipes->pipes[READ_END];
 }
