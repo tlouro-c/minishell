@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:26:23 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:42:14 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		if (redirect_io(cmd, &pipes, i, enviroment) == 5)
 			break ;
 		launch_cmd(cmd, enviroment, &pipes, i);
-		swap_input_for_next(&pipes, enviroment, i);
+		swap_input_for_next(&pipes);
 		fill_output_files(cmd[i], enviroment, &pipes);
 		free_cmd(enviroment, i);
 	}

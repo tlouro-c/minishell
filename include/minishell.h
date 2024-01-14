@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:45:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:41:51 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_cmd
 	int		if_notfirst;
 	char	*output_file;
 	char	*append_file;
-	char	*delimiter;
+	t_list	*delimiter;
 	int		valid;
 	t_bool	has_output_file;
 	t_bool	has_input_file;
@@ -197,7 +197,7 @@ char		**split_args(char *cmd, t_enviroment *enviroment, int struct_i);
 void		pathfinder(t_enviroment *enviroment);
 void		execute_cmds(t_cmd **cmd, t_enviroment *enviroment);
 int			ft_parsing_error(char *s);
-void		swap_input_for_next(t_pipe *pipes, t_enviroment *enviroment, int i);
+void		swap_input_for_next(t_pipe *pipes);
 
 //? ------------------------------------------------------------------------ */
 //?                                  execute                                 */
@@ -212,7 +212,8 @@ void		save_std_fds(t_pipe *pipes);
 //?                               manage_files                               */
 //? ------------------------------------------------------------------------ */
 
-int			read_here_doc(char *delimiter, int to_fd, t_enviroment *enviroment);
+int			read_here_doc(t_list *delimiter, int to_fd,
+				t_enviroment *enviroment);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 20:18:25 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:26:33 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 		return (NULL);
 	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4")
 			+ 1 + ft_isonlythis(cmd, "\4"), sizeof(char *));
+	enviroment->cmd[struct_i]->delimiter = new_list();
 	if (!enviroment->cmd[struct_i]->args)
 	{
 		free(cmd);
@@ -65,7 +66,7 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 			if (enviroment -> cmd[j]-> args == NULL)
 				error_allocating_memory_free_str(enviroment, in);
 			enviroment->cmd[j]->has_input_file = enviroment->cmd[j]->input_file
-				|| enviroment->cmd[j]->delimiter;
+				|| enviroment->cmd[j]->delimiter->begin;
 			enviroment->cmd[j]->has_output_file
 				= enviroment->cmd[j]->output_file
 				|| enviroment->cmd[j]->append_file;

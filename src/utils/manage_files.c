@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/13 21:46:41 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/14 13:30:42 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,30 @@ static int	ft_strcmp_heredoc(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	read_here_doc(char *delimiter, int to_fd, t_enviroment *enviroment)
+int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 {
 	char	*line;
+	t_node	*tmp;
 
-	while (1)
+	tmp = delimiter->begin;
+	while (tmp)
 	{
 		ft_printf("> ");
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-2);
-		if (ft_strcmp_heredoc(line, delimiter) == 0)
+		if (ft_strcmp_heredoc(line, (char *)tmp->value) == 0)
 		{
+			tmp = tmp->next;
 			free(line);
-			break ;
+			continue ;
 		}
 		line = phase2(line, enviroment);
 		line = ft_strshrinker(line, "\17", 1);
 		if (!line)
 			return (-1);
-		if (write(to_fd, line, ft_strlen(line)) < 0)
-			return (-1);
+		if (tmp == delimiter->end)
+			write(to_fd, line, ft_strlen(line));
 		free(line);
 	}
 	return (0);
