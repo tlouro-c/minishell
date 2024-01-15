@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 16:53:49 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:57:19 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-2);
+		line = phase1(line, enviroment);
 		if (ft_strcmp_heredoc(line, (char *)tmp->value) == 0)
 		{
 			tmp = tmp->next;
