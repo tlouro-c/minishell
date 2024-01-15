@@ -13,12 +13,18 @@
 #include "minishell.h"
 #include "libft.h"
 
+static void	free_and_reassign(char **str, char *new_str)
+{
+	free(*str);
+	*str = new_str;
+}
+
 static int	manage_redirections(char *s, t_enviroment *enviroment,
 				int struct_i, int *string_i)
 {
 	int		first;
 	int		second;
-	char	*file_or_delimiter;
+	char	*f_o_d;
 
 	first = s[*string_i];
 	second = s[*string_i + 1];
@@ -26,19 +32,19 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
 		|| s[*string_i] == '\6')
 		(*string_i)++;
-	file_or_delimiter = mod_strdup(&s[*string_i], "\4\5\6\14\15");
-	if (!file_or_delimiter)
+	f_o_d = mod_strdup(&s[*string_i], "\4\5\6\14\15");
+	if (!f_o_d)
 		return (-1);
-	(*string_i) += ft_strlen(file_or_delimiter);
+	(*string_i) += ft_strlen(f_o_d);
 	if (first == RED_LEFT && second == RED_LEFT)
 		enviroment->cmd[struct_i]->delimiter->add(
-			enviroment->cmd[struct_i]->delimiter, file_or_delimiter);
+			enviroment->cmd[struct_i]->delimiter, f_o_d);
 	else if (first == RED_LEFT)
-		enviroment->cmd[struct_i]->input_file = file_or_delimiter;
+		free_and_reassign(&enviroment->cmd[struct_i]->input_file, f_o_d);
 	else if (first == RED_RIGHT && second == RED_RIGHT)
-		enviroment->cmd[struct_i]->append_file = file_or_delimiter;
+		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
 	else if (first == RED_RIGHT)
-		enviroment->cmd[struct_i]->output_file = file_or_delimiter;
+		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
 	return (1);
 }
 
