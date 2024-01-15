@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 01:01:18 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 00:28:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:09:09 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	msg_command_not_found(t_cmd **cmd, t_enviroment *enviroment)
 	i = 0;
 	while (cmd[i])
 	{
-		if ((cmd[i]->valid == COMMAND_NOT_FOUND
+		if (!cmd[i]->args || (cmd[i]->valid == COMMAND_NOT_FOUND
 				&& access(cmd[i]->args[0], X_OK) == -1)
 			|| (!ft_isbuiltin(cmd[i]) && access(cmd[i]->args[0], X_OK) == -1))
 		{
