@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/14 13:03:35 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 00:26:46 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	create_arg(t_cmd *cmd, char *s, int *i, int j)
 		(*i) += 2;
 	}
 	(*i) += ft_strlen(cmd->args[j]);
-	cmd->args[j] = ft_strshrinker(cmd->args[j], "\17", 1);
+	cmd->args[j] = ft_strshrinker(cmd->args[j], "\e", 1);
 	return (0);
 }
 
