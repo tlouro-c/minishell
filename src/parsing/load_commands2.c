@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 09:25:12 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:53:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,29 @@ static void	free_and_reassign(char **str, char *new_str)
 static int	manage_redirections(char *s, t_enviroment *enviroment,
 				int struct_i, int *string_i)
 {
-	int		first;
-	int		second;
+	int		st;
+	int		nd;
 	char	*f_o_d;
 
-	first = s[*string_i];
-	second = s[*string_i + 1];
+	st = s[*string_i];
+	nd = s[*string_i + 1];
 	while (s[*string_i] == '\4' || s[*string_i] == RED_LEFT
 		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
 		|| s[*string_i] == '\6')
 		(*string_i)++;
 	f_o_d = mod_strdup(&s[*string_i], "\4\5\6\14\15");
+	f_o_d = ft_strshrinker(f_o_d, "\e\a\5\6", 1);
 	if (!f_o_d)
 		return (-1);
-	(*string_i) += ft_strlen(f_o_d);
-	if (first == RED_LEFT && second == RED_LEFT)
+	(*string_i) += ft_strlen(f_o_d) + 1 + nd == RED_RIGHT || nd == RED_LEFT;
+	if (st == RED_LEFT && nd == RED_LEFT)
 		enviroment->cmd[struct_i]->delimiter->add(
 			enviroment->cmd[struct_i]->delimiter, f_o_d);
-	else if (first == RED_LEFT)
+	else if (st == RED_LEFT)
 		free_and_reassign(&enviroment->cmd[struct_i]->input_file, f_o_d);
-	else if (first == RED_RIGHT && second == RED_RIGHT)
+	else if (st == RED_RIGHT && nd == RED_RIGHT)
 		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
-	else if (first == RED_RIGHT)
+	else if (st == RED_RIGHT)
 		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
 	return (1);
 }
@@ -51,15 +52,11 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 static int	create_arg(t_cmd *cmd, char *s, int *i, int j)
 {
 	cmd->args[j] = mod_strdup(s, "\4\14\15");
+	ft_printf("cmd->args[%d] = %s\n", j, cmd->args[j]);
 	if (!cmd->args[j])
 		return (-1);
-	if (cmd->args[j][0] == NULL_BYTE)
-	{
-		cmd->args[j][0] = '\0';
-		(*i) += 2;
-	}
 	(*i) += ft_strlen(cmd->args[j]);
-	cmd->args[j] = ft_strshrinker(cmd->args[j], "\e\a", 1);
+	cmd->args[j] = ft_strshrinker(cmd->args[j], "\e\a\5\6", 1);
 	return (0);
 }
 
