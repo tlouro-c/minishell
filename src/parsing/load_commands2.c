@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 16:53:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:56:28 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 static int	create_arg(t_cmd *cmd, char *s, int *i, int j)
 {
 	cmd->args[j] = mod_strdup(s, "\4\14\15");
-	ft_printf("cmd->args[%d] = %s\n", j, cmd->args[j]);
 	if (!cmd->args[j])
 		return (-1);
 	(*i) += ft_strlen(cmd->args[j]);
