@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dabalm <dabalm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:01:41 by dabalm            #+#    #+#             */
-/*   Updated: 2024/01/12 10:55:13 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 22:27:07 by dabalm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	handle_sigint_child(int sig)
+void	handle_signal_child(int sig)
 {
-	(void)sig;
-	kill(getpid(), SIGINT);
+	kill(getpid(), sig);
 }
 
 void	handle_sigint_main(int sig)
@@ -54,10 +53,11 @@ void	setup_signals(int n)
 	set_up_main_signals(&sa, n);
 	if (n == CHILD)
 	{
-		sa.sa_handler = handle_sigint_child;
+		sa.sa_handler = handle_signal_child;
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = 0;
 		sigaction(SIGINT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
 	}
 	else if (n == IGN)
 	{
