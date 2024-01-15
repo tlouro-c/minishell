@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 00:15:29 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 00:07:05 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 09:33:18 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 static void	manage_mode(char *c, t_modes *modes)
 {
-	if ((*c == '\'' && c[1] && c[1] == '\'')
-		|| (*c == '"' && c[1] && c[1] == '"'))
+	if (((*c == '\'' && c[1] && c[1] == '\'')
+			|| (*c == '"' && c[1] && c[1] == '"'))
+		&& modes->d_q == OFF && modes->s_q == OFF)
 	{
 		*c = NULL_BYTE;
 		c[1] = NULL_BYTE;
