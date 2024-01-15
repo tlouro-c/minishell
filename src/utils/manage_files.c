@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/14 13:30:42 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:53:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	ft_strcmp_heredoc(const char *s1, const char *s2)
 	int	i;
 
 	i = 0;
-	if (s1[i] == '\n' && s2[i] == '\n')
+	if ((s1[i] == '\n' && s2[i] == '\n')
+		|| (s1[i] == '\n' && s2[i] == '\0'))
 		return (0);
 	while (s1[i] == s2[i] && s1[i] != '\0' )
 	{
