@@ -6,36 +6,34 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 21:08:01 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 10:38:21 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static int	ft_strcmp_heredoc(char **s1, const char *s2)
+static int	ft_strcmp_heredoc(char **line, const char *delimiter)
 {
 	int	i;
 
 	i = 0;
-	if (((*s1)[0] == '"' && (*s1)[1] && (*s1)[1] == '"')
-		|| ((*s1)[0] == '\'' && (*s1)[1] && (*s1)[1] == '\''))
+	if (((*line)[0] == '"' && (*line)[1] && (*line)[1] == '"')
+		|| ((*line)[0] == '\'' && (*line)[1] && (*line)[1] == '\''))
 	{
-		free(*s1);
-		*s1 = ft_strdup("");
+		free(*line);
+		*line = ft_strdup("");
 	}
-	if (((*s1)[i] == '\n' && s2[i] == '\n')
-		|| ((*s1)[i] == '\n' && s2[i] == '\0'))
+	if (((*line)[i] == '\n' && delimiter[i] == '\n')
+		|| ((*line)[i] == '\n' && delimiter[i] == '\0'))
 		return (0);
-	if (s2[i] == '"' && s2[i + 1] == '"')
-		return (0);
-	while ((*s1)[i] == s2[i] && (*s1)[i] != '\0' )
+	while ((*line)[i] == delimiter[i] && (*line)[i] != '\0' )
 	{
-		if ((*s1)[i + 1] == '\n')
+		if ((*line)[i + 1] == '\n')
 			break ;
 		i++;
 	}
-	return ((*s1)[i] - s2[i]);
+	return ((*line)[i] - delimiter[i]);
 }
 
 int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
@@ -50,6 +48,8 @@ int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-2);
+		ft_printf("delim: %s\n", (char *)tmp->value);
+		ft_printf("line: %s\n", line);
 		if (ft_strcmp_heredoc(&line, (char *)tmp->value) == 0)
 		{
 			tmp = tmp->next;
