@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 09:23:55 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:33:34 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void		pathfinder(t_enviroment *enviroment);
 void		execute_cmds(t_cmd **cmd, t_enviroment *enviroment);
 int			ft_parsing_error(char *s);
 void		swap_input_for_next(t_pipe *pipes);
+char		*set_env_on_input(char *in, t_enviroment *enviroment, int *i);
 
 //? ------------------------------------------------------------------------ */
 //?                                  execute                                 */
@@ -218,5 +219,6 @@ void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
 int			fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);
+char		*exp_here_doc(char *in, t_enviroment *enviroment);
 
 #endif /* MINISHELL_H */

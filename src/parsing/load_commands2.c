@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 10:20:18 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:32:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 	else if (st == RED_LEFT)
 		free_and_reassign(&enviroment->cmd[struct_i]->input_file, f_o_d);
 	else if (st == RED_RIGHT && nd == RED_RIGHT)
-		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
+		free_and_reassign(&enviroment->cmd[struct_i]->append_file, f_o_d);
 	else if (st == RED_RIGHT)
 		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
 	return (1);

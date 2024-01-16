@@ -6,34 +6,23 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 10:38:21 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:32:57 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static int	ft_strcmp_heredoc(char **line, const char *delimiter)
+static int	ft_strcmp_heredoc(char *line, const char *delimiter)
 {
-	int	i;
+	int		i;
+	int		result;
 
 	i = 0;
-	if (((*line)[0] == '"' && (*line)[1] && (*line)[1] == '"')
-		|| ((*line)[0] == '\'' && (*line)[1] && (*line)[1] == '\''))
-	{
-		free(*line);
-		*line = ft_strdup("");
-	}
-	if (((*line)[i] == '\n' && delimiter[i] == '\n')
-		|| ((*line)[i] == '\n' && delimiter[i] == '\0'))
-		return (0);
-	while ((*line)[i] == delimiter[i] && (*line)[i] != '\0' )
-	{
-		if ((*line)[i + 1] == '\n')
-			break ;
+	while (delimiter[i] && line[i] && line[i] == delimiter[i])
 		i++;
-	}
-	return ((*line)[i] - delimiter[i]);
+	result = line[i] == '\n' && delimiter[i] == '\0';
+	return (1 - result);
 }
 
 int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
@@ -48,16 +37,13 @@ int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-2);
-		ft_printf("delim: %s\n", (char *)tmp->value);
-		ft_printf("line: %s\n", line);
-		if (ft_strcmp_heredoc(&line, (char *)tmp->value) == 0)
+		if (ft_strcmp_heredoc(line, (char *)tmp->value) == 0)
 		{
 			tmp = tmp->next;
 			free(line);
 			continue ;
 		}
-		line = phase2(line, enviroment);
-		line = ft_strshrinker(line, "\17", 1);
+		line = exp_here_doc(line, enviroment);
 		if (!line)
 			return (-1);
 		if (tmp == delimiter->end)

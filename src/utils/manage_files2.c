@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   manage_files2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 15:17:40 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 12:15:08 by tlouro-c         ###   ########.fr       */
+/*   Created: 2024/01/16 11:35:35 by tlouro-c          #+#    #+#             */
+/*   Updated: 2024/01/16 13:33:16 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*exp_here_doc(char *in, t_enviroment *enviroment)
 {
-	size_t	len;
+	t_modes	modes;
+	int		i;
 
-	len = 0;
-	if (s == NULL)
-		return (len);
-	while (s[len] != '\0')
-		len++;
-	return (len);
+	modes.s_q = OFF;
+	i = 0;
+	while (in[i])
+	{
+		if (in[i] == '\'')
+		{
+			modes.s_q++;
+			if (modes.s_q == 2)
+				modes.s_q = OFF;
+			i++;
+		}
+		else if (in[i] == '$' && modes.s_q == OFF
+			&& (ft_isalphanum(in[i + 1]) || in[i + 1] == '?'))
+			in = set_env_on_input(in, enviroment, &i);
+		else
+			i++;
+	}
+	return (in);
 }
