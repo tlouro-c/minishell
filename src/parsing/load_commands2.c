@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/15 16:56:28 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 10:20:18 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 		|| s[*string_i] == '\6')
 		(*string_i)++;
 	f_o_d = mod_strdup(&s[*string_i], "\4\5\6\14\15");
+	(*string_i) += ft_strlen(f_o_d);
 	f_o_d = ft_strshrinker(f_o_d, "\e\a\5\6", 1);
 	if (!f_o_d)
 		return (-1);
-	(*string_i) += ft_strlen(f_o_d) + 1 + nd == RED_RIGHT || nd == RED_LEFT;
 	if (st == RED_LEFT && nd == RED_LEFT)
 		enviroment->cmd[struct_i]->delimiter->add(
 			enviroment->cmd[struct_i]->delimiter, f_o_d);
