@@ -6,17 +6,32 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 13:32:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:13:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	free_and_reassign(char **str, char *new_str)
+static void	free_and_reassign(t_cmd *cmd, char *new_str, int prio)
 {
-	free(*str);
-	*str = new_str;
+	if (prio == RED)
+	{
+		free(cmd->input_file);
+		cmd->input_file = new_str;
+	}
+	else if (prio == APP)
+	{
+		free(cmd->append_file);
+		cmd->append_file = new_str;
+		cmd->prio = APP;
+	}
+	else if (prio == OVE)
+	{
+		free(cmd->output_file);
+		cmd->output_file = new_str;
+		cmd->prio = OVE;
+	}
 }
 
 static int	manage_redirections(char *s, t_enviroment *enviroment,
@@ -41,11 +56,11 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 		enviroment->cmd[struct_i]->delimiter->add(
 			enviroment->cmd[struct_i]->delimiter, f_o_d);
 	else if (st == RED_LEFT)
-		free_and_reassign(&enviroment->cmd[struct_i]->input_file, f_o_d);
+		free_and_reassign(enviroment->cmd[struct_i], f_o_d, RED);
 	else if (st == RED_RIGHT && nd == RED_RIGHT)
-		free_and_reassign(&enviroment->cmd[struct_i]->append_file, f_o_d);
+		free_and_reassign(enviroment->cmd[struct_i], f_o_d, APP);
 	else if (st == RED_RIGHT)
-		free_and_reassign(&enviroment->cmd[struct_i]->output_file, f_o_d);
+		free_and_reassign(enviroment->cmd[struct_i], f_o_d, OVE);
 	return (1);
 }
 

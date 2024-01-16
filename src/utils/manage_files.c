@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 13:32:57 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:13:46 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes,
 
 void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
-	if (cmd->output_file)
+	if (cmd->prio == OVE && cmd->output_file)
 		_output_file(cmd, enviroment, pipes, O_TRUNC);
-	if (cmd->append_file)
+	else if (cmd->prio == APP && cmd->append_file)
 		_output_file(cmd, enviroment, pipes, O_APPEND);
 }
