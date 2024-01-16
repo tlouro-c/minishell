@@ -24,6 +24,7 @@ SRC_FILES = $(SRC_DIR)/built_ins/built_ins.c \
 			$(SRC_DIR)/parsing/prepare_input.c \
 			$(SRC_DIR)/parsing/pathfinder.c \
 			$(SRC_DIR)/utils/manage_files.c \
+			$(SRC_DIR)/utils/manage_files2.c \
 			$(SRC_DIR)/utils/manage_env.c \
 			$(SRC_DIR)/utils/user_interface.c \
 			$(SRC_DIR)/utils/utils.c \
