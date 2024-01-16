@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 13:33:34 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:04:53 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@
 # define CHILD 007
 # define IGN 777
 
+typedef enum e_prio
+{
+	APP,
+	OVE,
+	RED
+}	t_prio;
+
 typedef struct s_pipe
 {
 	int	pipes[2];
@@ -81,6 +88,7 @@ typedef struct s_cmd
 	int		valid;
 	t_bool	has_output_file;
 	t_bool	has_input_file;
+	t_prio	prio;
 }	t_cmd;
 
 typedef struct s_enviroment
