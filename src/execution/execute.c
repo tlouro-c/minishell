@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 14:41:53 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/18 20:25:09 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	else
 		perror(cmd->args[0]);
 	ft_close_pipes(pipes);
-	free_enviroment(enviroment);
 	exit(127);
 }
 
@@ -67,15 +66,9 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 	{
 		pipe(pipes->input_pipe);
 		if (fill_pipes_with_input(cmd[i], enviroment, pipes) == 5)
-		{
-			ft_close_pipes(pipes);
-			free_cmd(enviroment, i);
 			return (5);
-		}
 		ft_close(&pipes->input_pipe[WRITE_END]);
 	}
-	if (msg_command_not_found(cmd, enviroment) == -1)
-		return (5);
 	if (cmd[i]->has_input_file && !ft_isbuiltin(cmd[i]))
 		dup2andclose(&pipes->input_pipe[READ_END], STDIN_FILENO);
 	else if (i != 0 && cmd[i]->priorities == PIPE && !ft_isbuiltin(cmd[i]))
@@ -107,8 +100,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 		launch_cmd(cmd, enviroment, &pipes, i);
 		swap_input_for_next(&pipes);
 		fill_output_files(cmd[i], enviroment, &pipes);
-		free_cmd(enviroment, i);
 	}
 	ft_close_pipes(&pipes);
-	ft_free((void **)&enviroment->cmd);
+	free_cmds(enviroment);
 }
