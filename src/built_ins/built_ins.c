@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 20:14:05 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:50:27 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	cmd_exit(char **args, t_enviroment *enviroment, t_pipe *pipes)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_close_pipes(pipes);
 		free_enviroment(enviroment);
 		exit(255);
 	}

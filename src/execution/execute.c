@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/18 20:25:09 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:11:19 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
 	ft_close(&pipes->input_pipe[WRITE_END]);
 	ft_close(&pipes->pipes[READ_END]);
+	if (!cmd->args[0])
+	{
+		ft_close_pipes(pipes);
+		exit (0);
+	}
 	execve(cmd->args[0], cmd->args,
 		(char **)enviroment->variables->toarray(enviroment->variables));
+	ft_close_pipes(pipes);
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd(cmd->args[0], 2);
@@ -26,7 +32,6 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	}
 	else
 		perror(cmd->args[0]);
-	ft_close_pipes(pipes);
 	exit(127);
 }
 

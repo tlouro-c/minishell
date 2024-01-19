@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:57:25 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 11:21:32 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:04:33 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	ft_keycmp(void *keyvalue, void *key)
 	while (char_keyvalue[i] == char_key[i] && ft_isalphanum(char_keyvalue[i])
 		&& ft_isalphanum(char_key[i]))
 		i++;
-	if (char_keyvalue[i] == '=' && !ft_isalphanum(char_key[i]))
+	if ((char_keyvalue[i] == '=' || char_keyvalue[i] == '\0')
+		&& !ft_isalphanum(char_key[i]))
 		status = 0;
 	else
 		status = 1;
