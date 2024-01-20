@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/19 20:11:19 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:52:02 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	execute_cmds(t_cmd **cmd, t_enviroment *enviroment)
 	i = -1;
 	while (++i < (int)enviroment->num_cmd)
 	{
-		if (check_priorities(cmd, enviroment, i) == 1)
+		if (check_priorities(cmd, enviroment, i, &pipes) == 1)
 			continue ;
 		save_std_fds(&pipes);
 		pipe(pipes.pipes);
