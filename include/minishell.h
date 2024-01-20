@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 15:04:53 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:52:56 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,8 @@ char		*set_env_on_input(char *in, t_enviroment *enviroment, int *i);
 
 int			run_builtin(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes);
 void		wait_loop(t_enviroment *enviroment);
-int			check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i);
+int			check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i,
+				t_pipe *pipes);
 void		save_std_fds(t_pipe *pipes);
 
 //? ------------------------------------------------------------------------ */

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/18 20:24:51 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:29:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,12 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 	return (enviroment->cmd[struct_i]->args);
 }
 
-int	check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i)
+int	check_priorities(t_cmd **cmd, t_enviroment *enviroment, int i,
+		t_pipe *pipes)
 {
 	if (cmd[i]-> priorities != PIPE)
 	{
+		ft_close_pipes(pipes);
 		waitpid(enviroment->child_pid[i - 1], (int *)&enviroment->status, 0);
 		if (WIFEXITED(enviroment->status))
 			enviroment->status = WEXITSTATUS(enviroment->status);

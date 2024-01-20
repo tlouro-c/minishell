@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:46:48 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/19 18:50:27 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:23:16 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,12 @@ int	cmd_echo(char **args)
 	while (args[i] != NULL && echo_strcmp(args[i]) == 0)
 		i++;
 	while (args[i] != NULL)
-		ft_printf("%s ", args[i++]);
+	{
+		if (args[i + 1])
+			ft_printf("%s ", args[i++]);
+		else
+			ft_printf("%s", args[i++]);
+	}
 	if (!option)
 		ft_putchar_fd('\n', 1);
 	return (0);
