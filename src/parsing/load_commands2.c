@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/20 17:29:29 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:05:29 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@ static void	free_and_reassign(t_cmd *cmd, char *new_str, int prio)
 	if (prio == RED)
 	{
 		free(cmd->input_file);
+		new_str = ft_strshrinker(new_str, "\e\a\5\6", 1);
 		cmd->input_file = new_str;
 	}
 	else if (prio == APP)
 	{
 		free(cmd->append_file);
+		new_str = ft_strshrinker(new_str, "\e\a\5\6", 1);
 		cmd->append_file = new_str;
 		cmd->prio = APP;
 	}
 	else if (prio == OVE)
 	{
 		free(cmd->output_file);
+		new_str = ft_strshrinker(new_str, "\e\a\5\6", 1);
 		cmd->output_file = new_str;
 		cmd->prio = OVE;
 	}
@@ -44,12 +47,10 @@ static int	manage_redirections(char *s, t_enviroment *enviroment,
 	st = s[*string_i];
 	nd = s[*string_i + 1];
 	while (s[*string_i] == '\4' || s[*string_i] == RED_LEFT
-		|| s[*string_i] == RED_RIGHT || s[*string_i] == '\5'
-		|| s[*string_i] == '\6')
+		|| s[*string_i] == RED_RIGHT)
 		(*string_i)++;
-	f_o_d = mod_strdup(&s[*string_i], "\4\5\6\14\15");
+	f_o_d = mod_strdup(&s[*string_i], "\4\14\15");
 	(*string_i) += ft_strlen(f_o_d);
-	f_o_d = ft_strshrinker(f_o_d, "\e\a\5\6", 1);
 	if (!f_o_d)
 		return (-1);
 	if (st == RED_LEFT && nd == RED_LEFT)

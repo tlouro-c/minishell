@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/20 16:52:56 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:45:45 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void		set_pwd(t_enviroment *enviroment);
 void		set_oldpwd(t_enviroment *enviroment);
 int			echo_strcmp(char *s1);
 void		dup2andclose(int *fd1, int fd2);
+int			pipe_after_pipe(char *in);
 
 //? ------------------------------------------------------------------------ */
 //?                                  parser                                  */

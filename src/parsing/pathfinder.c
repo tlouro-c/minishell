@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 23:51:23 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/12 10:21:34 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:53:28 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,24 @@ void	pathfinder(t_enviroment *enviroment)
 			enviroment->cmd[i]->valid = COMMAND_FOUND;
 		i++;
 	}
+}
+
+int	pipe_after_pipe(char *in)
+{
+	int	i;
+
+	i = 0;
+	while (in[i] != '\0')
+	{
+		if (in[i] == PIPE)
+		{
+			while (in[++i] == SPACE)
+				;
+			if (in[i] == PIPE || in[i] == RED_LEFT || in[i] == RED_RIGHT)
+				return (1);
+		}
+		else
+			i++;
+	}
+	return (0);
 }

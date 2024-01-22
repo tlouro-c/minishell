@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/08 22:48:31 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:14:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ struct s_node
 {
 	void	*value;
 	t_node	*next;
-	void	(*destroy)(t_node *this);
+	void	(*destroy)(t_node *this, int free_value);
 	void	(*print)(t_node *this, char specifier);
 };
 
@@ -52,7 +52,7 @@ struct s_list
 	void	**arr;
 	t_node	*(*add)(t_list *this, void *value);
 	void	(*print)(t_list *this, char specifier);
-	void	(*destroy)(t_list *this);
+	void	(*destroy)(t_list *this, int free_value);
 	void	(*removeif)(t_list *this, void *data_ref,
 			int (*cmp)(void *value, void *data_ref));
 	void	(*set)(t_list *this, void *data_ref, void *new_value,
@@ -68,7 +68,7 @@ struct s_list_private
 	void	**arr;
 	t_node	*(*add)(t_list *this, void *value);
 	void	(*print)(t_list *this, char specifier);
-	void	(*destroy)(t_list *this);
+	void	(*destroy)(t_list *this, int free_value);
 	void	(*removeif)(t_list *this, void *data_ref,
 			int (*cmp)(void *value, void *data_ref));
 	void	(*set)(t_list *this, void *data_ref, void *new_value,
@@ -264,7 +264,7 @@ float			ft_rad(float deg);
 t_list			*new_list(void);
 t_node			*__add(t_list *this, void *value);
 void			__print(t_list *this, char specifier);
-void			__destroy(t_list *this);
+void			__destroy(t_list *this, int free_value);
 void			**__toarray(t_list *this);
 void			__removeif(t_list *this, void *data_ref,
 					int (*cmp)(void *value, void *data_ref));
@@ -275,7 +275,7 @@ void			__set(t_list *this, void *data_ref, void *new_value,
 /*                              "node" functions                              */
 /* -------------------------------------------------------------------------- */
 
-void			__destroy_node(t_node *this);
+void			__destroy_node(t_node *this, int free_value);
 void			__print_node(t_node *this, char specifier);
 
 #endif /* LIBFT_H */
