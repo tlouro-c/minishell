@@ -6,14 +6,14 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/16 15:13:46 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:33:36 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static int	ft_strcmp_heredoc(char *line, const char *delimiter)
+static int	ft_strcmp_heredoc(char *line, const char *delimiter, t_node **tmp)
 {
 	int		i;
 	int		result;
@@ -22,6 +22,11 @@ static int	ft_strcmp_heredoc(char *line, const char *delimiter)
 	while (delimiter[i] && line[i] && line[i] == delimiter[i])
 		i++;
 	result = line[i] == '\n' && delimiter[i] == '\0';
+	if (result)
+	{
+		*tmp = (*tmp)->next;
+		free(line);
+	}
 	return (1 - result);
 }
 
@@ -29,21 +34,21 @@ int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 {
 	char	*line;
 	t_node	*tmp;
+	int		exp;
 
 	tmp = delimiter->begin;
 	while (tmp)
 	{
+		exp = ((char *)tmp->value)[0] == '\e';
+		tmp->value = ft_strshrinker(tmp->value, "\a\e\5\6", 1);
 		ft_printf("> ");
 		line = ft_get_next_line(0);
 		if (!line)
 			return (-2);
-		if (ft_strcmp_heredoc(line, (char *)tmp->value) == 0)
-		{
-			tmp = tmp->next;
-			free(line);
+		if (ft_strcmp_heredoc(line, (char *)tmp->value, &tmp) == 0)
 			continue ;
-		}
-		line = exp_here_doc(line, enviroment);
+		if (!exp)
+			line = exp_here_doc(line, enviroment);
 		if (!line)
 			return (-1);
 		if (tmp == delimiter->end)

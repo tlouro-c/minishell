@@ -6,20 +6,22 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/20 16:52:02 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:12:49 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
+static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes, int i)
 {
+	(void) i;
 	ft_close(&pipes->input_pipe[WRITE_END]);
 	ft_close(&pipes->pipes[READ_END]);
 	if (!cmd->args[0])
 	{
 		ft_close_pipes(pipes);
+		free_cmds(enviroment);
 		exit (0);
 	}
 	execve(cmd->args[0], cmd->args,
@@ -32,6 +34,9 @@ static void	child(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 	}
 	else
 		perror(cmd->args[0]);
+	free_cmds(enviroment);
+	free(enviroment->child_pid);
+	enviroment->variables->destroy(enviroment->variables, 0);
 	exit(127);
 }
 
@@ -50,7 +55,7 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 		if (enviroment->child_pid[i] == 0)
 		{
 			setup_signals(CHILD);
-			child(cmd[i], enviroment, pipes);
+			child(cmd[i], enviroment, pipes, i);
 		}
 		else
 			setup_signals(IGN);
