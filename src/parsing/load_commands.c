@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/22 18:46:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:13:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static char	**manage_args(char *cmd, t_enviroment *enviroment, int struct_i)
 	enviroment->cmd[struct_i]->args = ft_calloc(ft_count_words(cmd, "\4")
 			+ 1 + ft_isonlythis(cmd, "\4"), sizeof(char *));
 	enviroment->cmd[struct_i]->delimiter = new_list();
+	enviroment->cmd[struct_i]->input_file = new_list();
+	enviroment->cmd[struct_i]->output_file = new_list();
+	enviroment->cmd[struct_i]->append_file = new_list();
 	if (!enviroment->cmd[struct_i]->args)
 	{
 		free(cmd);
@@ -65,11 +68,12 @@ static void	split_commands(t_enviroment *enviroment, char *in, char *sep)
 			enviroment -> cmd[j]-> args = manage_args(&in[i], enviroment, j);
 			if (enviroment -> cmd[j]-> args == NULL)
 				error_allocating_memory_free_str(enviroment, in);
-			enviroment->cmd[j]->has_input_file = enviroment->cmd[j]->input_file
+			enviroment->cmd[j]->has_input_file
+				= enviroment->cmd[j]->input_file->begin
 				|| enviroment->cmd[j]->delimiter->begin;
 			enviroment->cmd[j]->has_output_file
-				= enviroment->cmd[j]->output_file
-				|| enviroment->cmd[j]->append_file;
+				= enviroment->cmd[j]->output_file->begin
+				|| enviroment->cmd[j]->append_file->begin;
 			j++;
 		}
 		i++;
@@ -95,7 +99,6 @@ int	load_commands(t_enviroment *enviroment, char *in)
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
 			error_allocating_memory_free_str(enviroment, in);
-		enviroment->cmd[i]->prio = RED;
 		enviroment->cmd[i++]->valid = 0;
 	}
 	split_commands(enviroment, in, "\1\2\3");

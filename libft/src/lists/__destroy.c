@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 23:48:53 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/22 20:13:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:37:05 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	__destroy(t_list *this, int free_value)
 	while (tmp)
 	{
 		next = tmp -> next;
-		tmp -> destroy(tmp, free_value);
+		if (free_value)
+			free(tmp->value);
+		free(tmp);
 		this -> size--;
 		tmp = next;
 	}
