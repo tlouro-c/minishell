@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 11:18:23 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:21:14 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,11 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 		else
 			setup_signals(IGN);
 	}
+	ft_close(&pipes->pipes[WRITE_END]);
 	dup2(pipes->fd_out, STDOUT_FILENO);
 	ft_close(&pipes->fd_out);
 	dup2(pipes->fd_in, STDIN_FILENO);
 	ft_close(&pipes->fd_in);
-	if (cmd[i]->priorities == AND || cmd[i]->priorities == OR)
-		ft_close(&pipes->pipes[READ_END]);
 	return (0);
 }
 
@@ -75,6 +74,7 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 {
 	t_bool	next_cmd_is_pipe;
 
+	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
 	if (cmd[i]->has_input_file && !ft_isbuiltin(cmd[i]))
 	{
 		pipe(pipes->input_pipe);
@@ -83,10 +83,14 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 		ft_close(&pipes->input_pipe[WRITE_END]);
 	}
 	if (cmd[i]->has_input_file && !ft_isbuiltin(cmd[i]))
+	{
+		ft_close(&pipes->input_for_next);
 		dup2andclose(&pipes->input_pipe[READ_END], STDIN_FILENO);
-	else if (i != 0 && cmd[i]->priorities == PIPE && !ft_isbuiltin(cmd[i]))
+	}
+	else if (i != 0 && next_cmd_is_pipe && !ft_isbuiltin(cmd[i]))
 		dup2andclose(&pipes->input_for_next, STDIN_FILENO);
-	next_cmd_is_pipe = cmd[i + 1] && cmd[i + 1]->priorities == PIPE;
+	else
+		ft_close(&pipes->input_for_next);
 	if (next_cmd_is_pipe || cmd[i]->has_output_file)
 		dup2andclose(&pipes->pipes[WRITE_END], STDOUT_FILENO);
 	return (0);
