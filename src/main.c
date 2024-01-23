@@ -6,14 +6,15 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/22 18:20:33 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:33:14 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-//valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all  --suppressions=".valgrind.supp" ./minishell
+//valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all  
+// --suppressions=".valgrind.supp" ./minishell
 
 int	main(void)
 {

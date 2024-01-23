@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 00:51:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/22 20:14:36 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:35:33 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ struct s_node
 {
 	void	*value;
 	t_node	*next;
-	void	(*destroy)(t_node *this, int free_value);
+	void	(*destroy)(t_node *this);
 	void	(*print)(t_node *this, char specifier);
 };
 
@@ -275,7 +275,7 @@ void			__set(t_list *this, void *data_ref, void *new_value,
 /*                              "node" functions                              */
 /* -------------------------------------------------------------------------- */
 
-void			__destroy_node(t_node *this, int free_value);
+void			__destroy_node(t_node *this);
 void			__print_node(t_node *this, char specifier);
 
 #endif /* LIBFT_H */

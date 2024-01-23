@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 22:48:07 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/19 18:55:16 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:35:28 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,19 @@ int	fill_pipes_with_input(t_cmd *cmd, t_enviroment *enviroment,
 	int	status;
 	int	fd;
 
-	if (cmd->input_file)
+	if (cmd->input_file->begin)
 	{
-		fd = open(cmd->input_file, O_RDONLY);
+		fd = open((char *)cmd->input_file->end->value, O_RDONLY);
 		if (fd == -1)
 		{
-			perror(cmd->input_file);
+			perror((char *)cmd->input_file->end->value);
 			return (5);
 		}
 		if (read_from_to(fd, pipes->input_pipe[WRITE_END]) == -1)
 			error_and_close_pipes(enviroment, pipes);
 		ft_close(&fd);
 	}
-	if (cmd -> delimiter)
+	if (cmd->delimiter->begin)
 	{
 		status = read_here_doc(cmd->delimiter, pipes->input_pipe[WRITE_END],
 				enviroment);
