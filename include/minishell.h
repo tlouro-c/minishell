@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 03:00:38 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:18:51 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,11 @@
 
 typedef enum e_prio
 {
+	IGNORE,
 	APP,
 	OVE,
-	RED
+	IN,
+	HERE
 }	t_prio;
 
 typedef struct s_pipe
@@ -88,7 +90,8 @@ typedef struct s_cmd
 	int		valid;
 	t_bool	has_output_file;
 	t_bool	has_input_file;
-	t_prio	prio;
+	t_prio	prio_in;
+	t_prio	prio_out;
 }	t_cmd;
 
 typedef struct s_enviroment
@@ -210,6 +213,7 @@ char		*set_env_on_input(char *in, t_enviroment *enviroment, int *i);
 int			input_file(t_cmd *cmd, char **split, int before_cmd);
 int			append_file(t_cmd *cmd, char **split, int before_cmd);
 int			output_file(t_cmd *cmd, char **split, int before_cmd);
+int			here_doc(t_cmd *cmd, char **split, int before_cmd);
 void		setup_red_parsing(char *s, int *str_i, int *st, int *nd);
 
 //? ------------------------------------------------------------------------ */
@@ -227,7 +231,7 @@ void		save_std_fds(t_pipe *pipes);
 //? ------------------------------------------------------------------------ */
 
 int			read_here_doc(t_list *delimiter, int to_fd,
-				t_enviroment *enviroment);
+				t_enviroment *enviroment, int prio);
 int			read_from_to(int from_fd, int to_fd);
 void		fill_output_files(t_cmd *cmd, t_enviroment *enviroment,
 				t_pipe *pipes);

@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:00:45 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 02:53:43 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:10:48 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	ft_strcmp_heredoc(char *line, char *delimiter, t_node **tmp)
 	return (1 - result);
 }
 
-int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
+int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment,
+		int prio)
 {
 	char	*line;
 	t_node	*tmp;
@@ -53,7 +54,7 @@ int	read_here_doc(t_list *delimiter, int to_fd, t_enviroment *enviroment)
 			line = exp_here_doc(line, enviroment);
 		if (!line)
 			return (-1);
-		if (tmp == delimiter->end)
+		if (prio == HERE && tmp == delimiter->end)
 			write(to_fd, line, ft_strlen(line));
 		free(line);
 	}
@@ -100,8 +101,8 @@ static void	_output_file(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes,
 
 void	fill_output_files(t_cmd *cmd, t_enviroment *enviroment, t_pipe *pipes)
 {
-	if (cmd->prio == OVE && cmd->output_file)
+	if (cmd->prio_out == OVE && cmd->output_file)
 		_output_file(cmd, enviroment, pipes, O_TRUNC);
-	else if (cmd->prio == APP && cmd->append_file)
+	else if (cmd->prio_out == APP && cmd->append_file)
 		_output_file(cmd, enviroment, pipes, O_APPEND);
 }

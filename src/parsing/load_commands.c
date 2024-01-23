@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:00:15 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 02:41:17 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:13:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	load_commands(t_enviroment *enviroment, char *in)
 		enviroment->cmd[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 		if (!enviroment->cmd[i])
 			error_allocating_memory_free_str(enviroment, in);
-		enviroment->cmd[i]->prio = RED;
 		enviroment->cmd[i++]->valid = 0;
 	}
 	split_commands(enviroment, in, "\1\2\3");

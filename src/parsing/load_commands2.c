@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 03:00:07 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:16:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 static void	free_and_reassign(t_cmd *cmd, char **split, int prio,
 	int before_cmd)
 {
-	if (prio == RED)
+	if (prio == IN)
 		input_file(cmd, split, before_cmd);
 	else if (prio == APP)
 		append_file(cmd, split, before_cmd);
 	else if (prio == OVE)
 		output_file(cmd, split, before_cmd);
+	else if (prio == HERE)
+		here_doc(cmd, split, before_cmd);
 }
 
 static int	manage_redirections(char *s, t_cmd *cmd, int *str_i)
@@ -34,17 +36,17 @@ static int	manage_redirections(char *s, t_cmd *cmd, int *str_i)
 
 	before_cmd = !cmd->args[0];
 	setup_red_parsing(s, str_i, &st, &nd);
-	tmp = mod_strdup(&s[*str_i], "\14\15");
+	tmp = mod_strdup(&s[*str_i], "\x0E\x0F");
 	split = ft_split(tmp, "\4");
 	if (st == RED_LEFT && nd == RED_LEFT)
-		cmd->delimiter->add(cmd->delimiter, split[0]);
+		free_and_reassign(cmd, split, HERE, before_cmd);
 	else if (st == RED_LEFT)
-		free_and_reassign(cmd, split, RED, before_cmd);
+		free_and_reassign(cmd, split, IN, before_cmd);
 	else if (st == RED_RIGHT && nd == RED_RIGHT)
 		free_and_reassign(cmd, split, APP, before_cmd);
 	else if (st == RED_RIGHT)
 		free_and_reassign(cmd, split, OVE, before_cmd);
-	if (before_cmd || (st == RED_LEFT && nd == RED_LEFT))
+	if (before_cmd)
 		(*str_i) += ft_strlen(split[0]);
 	else
 		(*str_i) += ft_strlen(tmp);
@@ -55,7 +57,7 @@ static int	manage_redirections(char *s, t_cmd *cmd, int *str_i)
 
 static int	create_arg(t_cmd *cmd, char *s, int *i, int j)
 {
-	cmd->args[j] = mod_strdup(s, "\4\14\15");
+	cmd->args[j] = mod_strdup(s, "\4\x0E\x0F");
 	if (!cmd->args[j])
 		return (-1);
 	(*i) += ft_strlen(cmd->args[j]);
@@ -77,9 +79,9 @@ char	**split_args(char *cmd, t_enviroment *enviroment, int struct_i)
 			if (manage_redirections(cmd, enviroment->cmd[struct_i], &i) == -1)
 				return (NULL);
 		}
-		else if ((i == 0 && !ft_isinstr("\4\14\15", cmd[i]))
-			|| (!ft_isinstr("\4\14\15", cmd[i])
-				&& ft_isinstr("\4\14\15", cmd[i - 1])))
+		else if ((i == 0 && !ft_isinstr("\4\x0E\x0F", cmd[i]))
+			|| (!ft_isinstr("\4\x0E\x0F", cmd[i])
+				&& ft_isinstr("\4\x0E\x0F", cmd[i - 1])))
 		{
 			if (create_arg(enviroment->cmd[struct_i], &cmd[i], &i, j) == -1)
 				return (NULL);
