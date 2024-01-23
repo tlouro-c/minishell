@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 00:33:14 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:11:56 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(void)
 		free(enviroment.prompt);
 		if (!user_input)
 			free_exit(&enviroment, 2);
-		if (user_input[0] == '\0')
+		if (user_input[0] == '\0' || ft_isonlythis(user_input, " "))
 		{
 			free(user_input);
 			continue ;

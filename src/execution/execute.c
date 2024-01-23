@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 16:21:14 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:14:26 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	redirect_io(t_cmd **cmd, t_pipe *pipes, int i,
 		ft_close(&pipes->input_for_next);
 		dup2andclose(&pipes->input_pipe[READ_END], STDIN_FILENO);
 	}
-	else if (i != 0 && next_cmd_is_pipe && !ft_isbuiltin(cmd[i]))
+	else if (i != 0 && cmd[i]->priorities == PIPE && !ft_isbuiltin(cmd[i]))
 		dup2andclose(&pipes->input_for_next, STDIN_FILENO);
 	else
 		ft_close(&pipes->input_for_next);
