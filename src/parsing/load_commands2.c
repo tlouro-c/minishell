@@ -6,50 +6,44 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:23:28 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 16:01:11 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 23:57:32 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	free_and_reassign(t_cmd *cmd, char **split, int prio,
-	int before_cmd)
+static void	free_and_reassign(t_cmd *cmd, char **split, int prio)
 {
 	if (prio == IN)
-		input_file(cmd, split, before_cmd);
+		input_file(cmd, split);
 	else if (prio == APP)
-		append_file(cmd, split, before_cmd);
+		append_file(cmd, split);
 	else if (prio == OVE)
-		output_file(cmd, split, before_cmd);
+		output_file(cmd, split);
 	else if (prio == HERE)
-		here_doc(cmd, split, before_cmd);
+		here_doc(cmd, split);
 }
 
 static int	manage_redirections(char *s, t_cmd *cmd, int *str_i)
 {
 	int		st;
 	int		nd;
-	int		before_cmd;
 	char	*tmp;
 	char	**split;
 
-	before_cmd = !cmd->args[0];
 	setup_red_parsing(s, str_i, &st, &nd);
 	tmp = mod_strdup(&s[*str_i], "\x0E\x0F");
 	split = ft_split(tmp, "\4");
 	if (st == RED_LEFT && nd == RED_LEFT)
-		free_and_reassign(cmd, split, HERE, before_cmd);
+		free_and_reassign(cmd, split, HERE);
 	else if (st == RED_LEFT)
-		free_and_reassign(cmd, split, IN, before_cmd);
+		free_and_reassign(cmd, split, IN);
 	else if (st == RED_RIGHT && nd == RED_RIGHT)
-		free_and_reassign(cmd, split, APP, before_cmd);
+		free_and_reassign(cmd, split, APP);
 	else if (st == RED_RIGHT)
-		free_and_reassign(cmd, split, OVE, before_cmd);
-	if (before_cmd)
-		(*str_i) += ft_strlen(split[0]);
-	else
-		(*str_i) += ft_strlen(tmp);
+		free_and_reassign(cmd, split, OVE);
+	(*str_i) += ft_strlen(split[0]);
 	free(tmp);
 	ft_free_arr((void **)split);
 	return (1);
