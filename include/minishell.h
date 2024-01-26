@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:39:42 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 16:10:32 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 23:56:41 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,10 +210,10 @@ void		execute_cmds(t_cmd **cmd, t_enviroment *enviroment);
 int			ft_parsing_error(char *s);
 void		swap_input_for_next(t_pipe *pipes);
 char		*set_env_on_input(char *in, t_enviroment *enviroment, int *i);
-int			input_file(t_cmd *cmd, char **split, int before_cmd);
-int			append_file(t_cmd *cmd, char **split, int before_cmd);
-int			output_file(t_cmd *cmd, char **split, int before_cmd);
-int			here_doc(t_cmd *cmd, char **split, int before_cmd);
+int			input_file(t_cmd *cmd, char **split);
+int			append_file(t_cmd *cmd, char **split);
+int			output_file(t_cmd *cmd, char **split);
+int			here_doc(t_cmd *cmd, char **split);
 void		setup_red_parsing(char *s, int *str_i, int *st, int *nd);
 
 //? ------------------------------------------------------------------------ */

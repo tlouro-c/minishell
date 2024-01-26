@@ -6,14 +6,14 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 02:07:39 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 11:17:09 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/23 23:56:04 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-int	input_file(t_cmd *cmd, char **split, int before_cmd)
+int	input_file(t_cmd *cmd, char **split)
 {
 	char	*tmp;
 	int		i;
@@ -26,15 +26,14 @@ int	input_file(t_cmd *cmd, char **split, int before_cmd)
 			return (-1);
 		cmd->input_file->add(cmd->input_file, ft_strdup(tmp));
 		free(tmp);
-		if (before_cmd)
-			break ;
+		break ;
 		i++;
 	}
 	cmd->prio_in = IN;
 	return (0);
 }
 
-int	append_file(t_cmd *cmd, char **split, int before_cmd)
+int	append_file(t_cmd *cmd, char **split)
 {
 	char	*tmp;
 	int		i;
@@ -47,15 +46,14 @@ int	append_file(t_cmd *cmd, char **split, int before_cmd)
 			return (-1);
 		cmd->append_file->add(cmd->append_file, ft_strdup(tmp));
 		free(tmp);
-		if (before_cmd)
-			break ;
+		break ;
 		i++;
 	}
 	cmd->prio_out = APP;
 	return (0);
 }
 
-int	output_file(t_cmd *cmd, char **split, int before_cmd)
+int	output_file(t_cmd *cmd, char **split)
 {
 	char	*tmp;
 	int		i;
@@ -68,15 +66,14 @@ int	output_file(t_cmd *cmd, char **split, int before_cmd)
 			return (-1);
 		cmd->output_file->add(cmd->output_file, ft_strdup(tmp));
 		free(tmp);
-		if (before_cmd)
-			break ;
+		break ;
 		i++;
 	}
 	cmd->prio_out = OVE;
 	return (0);
 }
 
-int	here_doc(t_cmd *cmd, char **split, int before_cmd)
+int	here_doc(t_cmd *cmd, char **split)
 {
 	int		i;
 
@@ -84,9 +81,8 @@ int	here_doc(t_cmd *cmd, char **split, int before_cmd)
 	while (split[i])
 	{
 		cmd->delimiter->add(cmd->delimiter, ft_strdup(split[i]));
-		if (before_cmd)
-			break ;
 		i++;
+		break ;
 	}
 	cmd->prio_in = HERE;
 	return (0);
