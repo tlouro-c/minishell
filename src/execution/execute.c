@@ -6,7 +6,7 @@
 /*   By: tlouro-c <tlouro-c@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:48:08 by tlouro-c          #+#    #+#             */
-/*   Updated: 2024/01/23 19:14:26 by tlouro-c         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:17:10 by tlouro-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	launch_cmd(t_cmd **cmd, t_enviroment *enviroment, t_pipe *pipes,
 	{
 		setup_signals(IGN);
 		enviroment->status = run_builtin(cmd[i], enviroment, pipes);
-		ft_close(&pipes->pipes[WRITE_END]);
 	}
 	else
 	{
