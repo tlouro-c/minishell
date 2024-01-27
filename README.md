@@ -4,7 +4,7 @@
 
 ## Overview
 
-In our project, we adopt a flexible approach to manage environment variables, combining the efficiency of linked lists for dynamic updates and the simplicity of arrays for seamless integration with the `execve()` function.
+In our project, we adopt a flexible approach to managing environment variables, combining the efficiency of linked lists for dynamic updates and the simplicity of arrays for seamless integration with the `execve()` function.
 
 ## Key Features
 
@@ -14,7 +14,7 @@ We leverage linked lists for handling environment variables within our project. 
 
 ### 2. Array Representation for `execve()` Function
 
-When passing environment variables to the `execve()` function, we use an array representation. This enables a straightforward integration with the `execve()` function, streamlining the execve()ution process. To maintain synchronization between the linked list and the array, we update the array each time we pass environment variables to `execve()`.
+When passing environment variables to the `execve()` function, we use an array representation. This enables straightforward integration with the `execve()` function, streamlining the execution process. To maintain synchronization between the linked list and the array, we update the array each time we pass environment variables to `execve()`.
 
 ## Why This Approach?
 
